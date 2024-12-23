@@ -1,0 +1,488 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "'Playfair Display', 'Times New Roman', serif";
+    
+}
+
+body {
+    background-color: #f9f6f2;
+    color: #333;
+}
+.ll{
+    text-decoration: none;
+}
+.container {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    margin-top: -3vh;
+    justify-content: space-between; /* Ensures logo + links stay on the left and buttons go to the right */
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    z-index: 9999999;
+    position: fixed;
+    background-color: #f9f6f2;
+    border-bottom: 1px solid #000000;
+    font-family: "'Playfair Display', 'Times New Roman', serif";
+    font-size:xx-large;
+   
+}
+.header-blur {
+    backdrop-filter: blur(10px);
+    background-color: rgba(249, 246, 242, 0.8); /* Transparent background with slight color */
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease; /* Smooth transition */
+}
+
+.header .logo {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.header nav {
+    display: flex;
+    align-items: center;
+    margin-left: 150px; /* Adds spacing between the logo and the nav links */
+    font-size: large;
+    
+}
+
+.header nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #333;
+    font-family: 'Inter', Arial, sans-serif;
+    transition: box-shadow 0.3s ease;
+    border-radius: 5px;
+    padding: 5px 10px;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    position: relative;
+}
+.header nav a:hover {
+    text-shadow: 2px 2px 5px grey; /* Adds a subtle shadow when hovered */
+}
+
+.left-buttons {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the far right */
+    align-items: center;
+    flex-grow: 1; /* Takes up available space to push buttons to the right */
+    font-size: large;
+}
+
+.header .login-btn,
+.header .signup-btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: 2px solid #333;
+    border-radius: 5px; 
+    cursor: pointer;
+    margin-left: 20px; /* Spacing between buttons */
+    font-size: large;
+}
+
+/* Ensures the last link doesn't push against the buttons */
+.header nav a:last-child {
+    margin-right: 0;
+}
+
+.main-content {
+    margin-top: 200px;
+    font-size:x-large;
+    font-family: "'Playfair Display', 'Times New Roman', serif";
+
+}
+
+/*fonts*/
+.main-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-family: 'Merriweather', Georgia, serif;
+}
+
+.main-content .highlight {
+    color: #28a745;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.main-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size:x-large;
+}
+
+.cta-btn {
+    padding: 15px 30px;
+    background-color: #28a745;
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    border: 2px solid #333;
+    border-radius: 5px; 
+    cursor: pointer;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.login-link {
+    color:black;
+    text-decoration: none;
+    margin-top: -20px;
+    border-bottom: 1px solid #000000; 
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  
+}
+
+.options .option {
+    display: flex;               /* Enable flexbox for aligning content */
+    justify-content: flex-start; /* Horizontally align content (can be adjusted if needed) */
+    align-items: flex-start;   
+    flex-direction: column; 
+    background-color: #f9f6f2;
+    border: 1px solid #ccc;
+    padding: 200px 200px;
+    height: 250px;  
+    margin: 10px;
+    width: 150px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    font-family: 'Inter', Arial, sans-serif;
+    border-radius: 15px;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.options .option:hover {
+    background-color:  #f9f6f2;
+    transform: translateY(-10px); /* Lift effect */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Bigger shadow on hover */
+    border-color: #bbb;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden; /* Hide the overflow to show sliding effect */
+}
+
+.carousel-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #f9f6f2;
+    color: rgb(0, 0, 0);
+    border: 1px solid black;
+   
+    font-size: 2rem;
+    width: 70px;  /* Adjust the width to make it a circle */
+    height: 70px; /* Adjust the height to make it a circle */
+    border-radius: 50%; /* This makes the arrow circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    transform-origin: center;
+}
+
+.left-arrow {
+    left: 10px;
+}
+
+.right-arrow {
+    right: 10px;
+}
+
+.arrow:hover {
+    
+    transform: scale(1.2); /* Increase size by 20% on hover */
+}
+.dropdown {
+    position: relative;
+}
+.dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #f9f6f2;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Similar shadow effect */
+    border-radius: 5px;
+    padding: 20px;
+    width: 400px;
+  
+   
+    z-index: 1;
+}
+
+.dropdown-column {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    font-size: small;
+   padding-bottom: 50px;
+    
+}
+
+
+.dropdown-column span {
+    font-weight: bold;
+    color: #aaa;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    padding-top: 30px;
+}
+
+.dropdown-column a {
+    text-decoration: none;
+    color: #333;
+    margin: 5px 0;
+    justify-content: space-between;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: flex; /* Show dropdown on hover */
+}
+
+.dropdown-toggle:hover {
+    cursor: pointer;
+    color: #000; /* Optional: Change text color on hover */
+}
+/* Features section */
+.features-section {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 60px;
+  margin-left: 30px;
+    background-color:#f9f6f2;
+    padding-top: 100px;
+}
+
+.feature {
+    text-align: center;
+    max-width: 200px;
+    padding: 20px;
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+}
+
+.feature h3 {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.feature p {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+}
+/* Effortless Collaboration Section */
+.collaboration-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 90px;
+    padding: 100px ;
+    margin-left: 90px;
+}
+
+.collaboration-content {
+    flex: 1;
+    max-width: 500px;
+ 
+}
+
+.collaboration-content h2 {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 2rem;
+    margin-bottom: 20px;
+margin-right: 90px;
+}
+
+.collaboration-content p {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size:large;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    
+}
+
+.learn-more-link {
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 800;
+    color: black;
+    margin-right: 10px;
+   
+}
+
+.collaboration-option {
+    display: flex;
+    align-items: center; /* Align the image vertically with the text */
+    margin-bottom: 10px;
+}
+
+.profile-pic {
+    width: 800px; /* Adjust size as needed */
+    height: auto; /* Adjust size as needed */
+    margin-left: 10px; /* Space between the text and the image */
+    border-radius: 50%; /* Make the image circular, if needed */
+}
+
+.whats-new {
+    background-color: #f9f6f2;
+    padding: 4rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 100px;
+    margin-left: 700px;
+}
+
+.whats-new h2 {
+    font-family: 'Georgia', serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    margin-right: -300px;
+}
+
+.whats-new p {
+    font-family: 'Georgia', serif;
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 2rem;
+   margin-right: -300px;
+}
+.read-more-link {
+    margin-right: 1300px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 800;
+    color: black;
+
+}
+.Exciting-improvements {
+    flex: 1; /* The image will take up equal space to the text */
+    display: flex;
+    justify-content: flex-end; /* Align the image to the right */
+ 
+    
+}
+
+.new-content img{
+    margin-right: 1200px;
+}
+
+
+.Exciting-improvements img {
+    /* Limit the height */
+    width: 10px; /* Maintain aspect ratio */
+    height: auto;
+  
+  
+}
+
+/* Media queries for smaller screens */
+@media (max-width: 768px) {
+    .whats-new {
+        flex-direction: column; /* Stack the content vertically on small screens */
+        text-align: center;
+    }
+
+    .new-content, .Exciting-improvements {
+        max-width: 100%;
+        text-align: left; /* Keep text left-aligned even on smaller screens */
+    }
+
+    .Exciting-improvements{
+        margin-top: 1.5rem;
+    }
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -4vh;
+    padding: 20px;
+    width: 100%;
+    background-color:#c0e6a3; /* Background color similar to the image */
+    border-top: 1px solid #c0e6a3; /* Thin border at the top */
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    font-size:x-large
+}
+
+.footer-logo {
+    width: 30px; /* Adjust the size of the logo */
+    margin-right: 10px;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+}
+
+.language-selection {
+    margin-right: 500px;
+}
+
+.language-selection select {
+    border: none;
+    background: none;
+    font-family: 'Inter', sans-serif; /* Use the same font */
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.social-icons a {
+    margin-right: 10px;
+}
+
+.social-icons img {
+    width: 20px; /* Adjust the size of the icons */
+    height: 20px;
+}
+
+.social-icons a:hover img {
+    opacity: 0.7; /* Slight fade effect on hover */
+}
+.option img {
+    width: 330px; /* Set the width you want */
+    height: auto;
+    margin-left: -180px; /* Space between the text and the image */
+    margin-top: -210px;
+}
+/***********************************************************************************************************************/

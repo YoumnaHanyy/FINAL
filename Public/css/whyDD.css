@@ -1,0 +1,461 @@
+* {
+
+    box-sizing: border-box;
+    font-family: "'Playfair Display', 'Times New Roman', serif";
+    
+}
+
+body {
+    color: #333;
+    font-family: 'Inter', sans-serif; /* Sans-serif for regular text */
+    background-color:#f9f6f2 ; /* Light beige background */
+    
+ 
+ 
+}
+
+.container {
+    width: 100%;
+    text-align: center;
+    padding-top: 70px;
+   
+    
+    
+}
+.shape2{
+    width: 400px;
+    margin-left: 800px;
+  margin-bottom: -350px;
+}
+
+.header {
+    display: flex;
+    margin-top: -14vh;
+    justify-content: space-between; /* Ensures logo + links stay on the left and buttons go to the right */
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    z-index: 9999999;
+    position: fixed;
+    background-color: #f9f6f2;
+    border-bottom: 1px solid #000000;
+    font-family: "'Playfair Display', 'Times New Roman', serif";
+    font-size:xx-large;
+   
+}
+.header-blur {
+    backdrop-filter: blur(10px);
+    background-color: rgba(249, 246, 242, 0.8); /* Transparent background with slight color */
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease; /* Smooth transition */
+}
+
+
+.header .logo {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.header nav {
+    display: flex;
+    align-items: center;
+    margin-left: 150px; /* Adds spacing between the logo and the nav links */
+    font-size: large;
+    padding-top: 0px;/*******************/
+    
+}
+
+.header nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #333;
+    font-family: 'Inter', Arial, sans-serif;
+    transition: box-shadow 0.3s ease;
+    border-radius: 5px;
+    padding: 5px 10px;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    position: relative;
+}
+.header nav a:hover {
+    text-shadow: 2px 2px 5px grey; /* Adds a subtle shadow when hovered */
+}
+
+.left-buttons {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the far right */
+    align-items: center;
+    flex-grow: 1; /* Takes up available space to push buttons to the right */
+    font-size: large;
+}
+
+.header .login-btn,
+.header .signup-btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: 2px solid #333;
+    border-radius: 5px; 
+    cursor: pointer;
+    margin-left: 20px; /* Spacing between buttons */
+    font-size: large;
+}
+
+/* Ensures the last link doesn't push against the buttons */
+.header nav a:last-child {
+    margin-right: 0;
+}
+.dropdown {
+    position: relative;
+}
+.dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #f9f6f2;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Similar shadow effect */
+    border-radius: 5px;
+    padding: 20px;
+    width: 400px;
+  
+   
+    z-index: 1;
+}
+
+.dropdown-column {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    font-size: small;
+   padding-bottom: 50px;
+    
+}
+
+
+.dropdown-column span {
+    font-weight: bold;
+    color: #aaa;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    padding-top: 30px;
+}
+
+.dropdown-column a {
+    text-decoration: none;
+    color: #333;
+    margin: 5px 0;
+    justify-content: space-between;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: flex; /* Show dropdown on hover */
+}
+
+.dropdown-toggle:hover {
+    cursor: pointer;
+    color: #000; /* Optional: Change text color on hover */
+}
+
+
+
+/* General body styles */
+
+
+/* Main container */
+.shape1{
+    max-width: 80%;
+    margin-top: -1100px;
+    margin-right: 1400px;
+}
+
+
+/* Heading (why choose?) */
+.container h1 {
+    font-family: 'Playfair Display', serif; /* Serif font for heading */
+    font-size: 4.5em;
+    font-weight: 700;
+    color: #222; /* Dark gray/black color */
+   padding-top: -250px;
+}
+
+
+/* Paragraph text */
+.container p {
+    font-size: 1.9em;
+    line-height: 1.6;
+    color: #333; /* Darker shade of gray for readability */
+    margin-bottom: 40px;
+}
+
+/* Call to action button */
+.btn{
+    background-color: #00a82d; /* Green button */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+  
+    border: 2px solid #333;
+    border-radius: 5px; 
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #008b25; /* Darker green on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Link for logging in */
+.login-link {
+    font-size: 1em;
+    color: #00a82d; /* Green color for the login link */
+    margin-bottom: 100px;
+    text-decoration: none;
+    
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+.testimonial-container {
+    display: flex;
+    align-items: center; /* Aligns image and text vertically */
+    justify-content: flex-start; /* Ensures the image stays to the left */
+    background-color: #f9f6f2; /* Light beige background */
+    border-radius: 10px; /* Rounded corners */
+    max-width: 100%; /* Expand the width as needed */
+    margin-left: 100px;
+    padding-bottom: -100px; /* Add some padding inside the container */
+}
+
+.profile-pic {
+    width: 300px; /* Adjust the size of the image */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 50%; /* Make the image circular */
+    margin-right: 100px; /* Add space between the image and text */
+}
+
+.testimonial-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2em;
+    color: #333;
+    text-align: left; /* Aligns text to the left */
+    max-width:950px; /* Set a max-width to force line breaks */
+    line-height: 1.4em; /* Increase line height for readability */
+    font-size: large;
+    padding-top: -100px;
+    white-space: nowrap;
+   
+
+    
+}
+.testimonial-text p{
+    margin-top: 190px;
+    
+}
+
+.author-container {
+    text-align: left; /* Align the author text to the right */
+    margin-bottom: 100px;/* Add space above the author text */
+    margin-right: 10px;
+    font-size: xx-small;
+    margin-top: -170px;
+   
+
+}
+
+.author {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #555;
+    letter-spacing: 0.5px;
+    margin-top: 50px;
+    padding-top: -70px;
+
+   
+}
+/* Add these styles to your existing CSS file (../Styles/whyDD.css) */
+
+.deadline-container {
+    display: flex;
+    align-items: center;
+    background-color: #f9f6f2;
+    border-radius: 10px;
+    width: 100vw;
+    justify-content: flex-start;
+    margin-bottom: -1500px;
+    text-align: left; 
+    margin-left: -1100px;
+    margin-top: -400px;
+}
+
+.deadline-content {
+    padding-right: 20px;
+    text-align: left; /* Ensures the text is aligned to the left */
+    order: 1; /* Ensures this content appears first */
+}
+
+.deadline-image {
+    max-width: 80%;
+    order: 2; /* Ensures the image appears second */
+    padding-left: 200px; /* Adds space between image and content */
+}
+
+.deadline-content h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    max-width: 900px;
+    text-align: left; /* Align the heading to the left */
+}
+
+.deadline-content p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: x-large;
+    margin-bottom: 20px;
+    max-width: 800px;
+    text-align: left; /* Align paragraph text to the left */
+}
+
+
+.deadline-image img {
+    max-width: 100%;
+    border-radius: 5px;
+   
+}
+
+/* Adjust for mobile view */
+@media (max-width: 768px) {
+    .deadline-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .deadline-content, .deadline-image {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .deadline-image {
+        margin-top: 20px;
+    }
+}
+
+.findfast-container {
+    display: flex;
+    align-items: center;
+    background-color: #f9f6f2;
+    border-radius: 10px;
+    width: 100vw;
+    justify-content: flex-start;
+    margin-bottom: -1500px;
+    text-align: left; 
+    margin-left: -1300px;
+    margin-top: 800px;
+}
+
+.findfast-content {
+    padding-right: 20px;
+    text-align: left; /* Ensures the text is aligned to the left */
+    order: 1; /* Ensures this content appears first */
+}
+
+.findfast-image {
+    max-width: 80%;
+    order: 2; /* Ensures the image appears second */
+    padding-left: 100px; /* Adds space between image and content */
+}
+
+.findfast-content h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    max-width: 900px;
+    text-align: left; /* Align the heading to the left */
+}
+
+.findfast-content p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: x-large;
+    margin-bottom: 20px;
+    max-width: 800px;
+    text-align: left; /* Align paragraph text to the left */
+}
+
+
+.findfast-image img {
+    max-width: 100%;
+    border-radius: 5px;
+   
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -4vh;
+    padding: 20px;
+    width: 100%;
+    background-color:#c0e6a3; /* Background color similar to the image */
+    border-top: 1px solid #c0e6a3; /* Thin border at the top */
+}
+
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    font-size:x-large
+}
+
+.footer-logo {
+    width: 30px; /* Adjust the size of the logo */
+    margin-right: 10px;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+}
+
+.language-selection {
+    margin-right: 500px;
+}
+
+.language-selection select {
+    border: none;
+    background: none;
+    font-family: 'Inter', sans-serif; /* Use the same font */
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.social-icons a {
+    margin-right: 10px;
+}
+
+.social-icons img {
+    width: 20px; /* Adjust the size of the icons */
+    height: 20px;
+}
+
+.social-icons a:hover img {
+    opacity: 0.7; /* Slight fade effect on hover */
+}
+.option img {
+    width: 330px; /* Set the width you want */
+    height: auto;
+    margin-left: -180px; /* Space between the text and the image */
+    margin-top: -210px;
+}

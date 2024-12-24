@@ -1,6 +1,6 @@
 <?php
 // Include the User class
-include('userclass.php');
+include('loginClass.php');
 include_once('config/db.php');  // Database connection
 include_once('views/login.php');  // View file to render the page
 

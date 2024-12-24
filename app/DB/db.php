@@ -30,9 +30,7 @@ class Database {
     }
 }
 
-// Debugging (remove this in production)
-$db = new Database();
-echo "Connected successfully"; // Optional: Only for testing purposes
+
 
 
 

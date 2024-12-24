@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../Public/css/users.css">
+
+    <!-- Linking to your CSS file -->
+    <link rel="stylesheet" href="../css/users.css">
 </head>
 <body>
     <div class="sidebar-menu">
@@ -289,46 +291,8 @@
 
 
 
-<script src="../../Public/js/users.js"></script>
+<script src="../js/users.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 </body>
-<script>
-document.querySelector('.create-btn').addEventListener('click', function () {
-    const dueDate = document.getElementById('customDateInput').value;
-    const reminder = document.getElementById('customReminderInput').value;
-
-    console.log("Due Date:", dueDate);
-    console.log("Reminder:", reminder);
-
-    const taskData = {
-        title: document.querySelector('.des').value || "",
-        due_date: dueDate || null,
-        reminder: reminder || null,
-        assigned_to: document.querySelector('input[placeholder="Assign"]').value || "",
-        priority: document.querySelector('.task-priority-options .selected')?.innerText || "Low",
-        category: document.getElementById('taskCategory').value || "",
-        flag: document.querySelector('input[type="checkbox"]').checked ? 1 : 0
-    };
-
-    console.log("Task Data Being Sent:", taskData);
-
-    fetch('../Controllers/taskcontroller.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(taskData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Server Response:", data);
-        alert(data.message);
-    })
-    .catch(error => console.error("Error:", error));
-});
-
-
-
-</script>
 </html>
-
-

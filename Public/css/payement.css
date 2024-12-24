@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f9f6f2;
+}
+
+.payment-container {
+    background-color: #f9f6f2;
+    padding: 20px;
+    border-radius: 15px;
+    width: 700px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    color: #4CAF50;
+    position: relative;
+    text-align: left;
+    font-size: 14px;
+}
+
+.visa-logo {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: #f9bc00;
+}
+
+.chip {
+    width: 40px;
+    height: 30px;
+    background-color: #d4af37;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.payment-container label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-left: 30px;
+}
+
+.payment-container input[type="text"], 
+.payment-container input[type="number"], 
+.payment-container select {
+    width: 70%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-left: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.payment-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.payment-container button:hover {
+    background-color: #e0a800;
+}
+
+input.invalid, select.invalid {
+    border: 2px solid red;
+    background-color: #fdd;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.85rem;
+    margin-left: 30px;
+    display: none;
+}
+
+.error-message.active {
+    display: block;
+}

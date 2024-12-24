@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Why DoneDeal?</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../STYLE/whyDD.css"> <!-- Assuming you're using the same stylesheet -->
+    <link rel="stylesheet" href="../css/whyDD.css"> <!-- Assuming you're using the same stylesheet -->
 </head>
 <body>
 <div class="container">

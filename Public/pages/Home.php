@@ -7,7 +7,7 @@
     <title>DoneDeal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../STYLE/Home.css">
+    <link rel="stylesheet" href="..\css\Home.css">
     
 </head>
 <body>
@@ -167,7 +167,7 @@
             </select>
         </div>
         <div class="social-icons">
-            <a href="#"><img src="../Images/face.jpg" alt="Facebook"></a>
+            <a href="#"><img src="../Images/face.png" alt="Facebook"></a>
             <a href="#"><img src="../Images/twitter2.png" alt="Twitter"></a>
             <a href="#"><img src="../Images/instgram.png" alt="Instagram"></a>
         </div>

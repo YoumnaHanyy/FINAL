@@ -13,6 +13,8 @@ body {
     position: fixed; /* Ensures the sidebar stays fixed on the left side */
     top: 5px;
     left: 10px;
+
+    
     flex-direction: column;
     width: 220px; /* Sidebar width */
     background-color: #1a1a1a;

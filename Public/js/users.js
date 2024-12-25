@@ -183,31 +183,77 @@ window.onload = function() {
     }
     
     // Function to update the task with the modified data
-    function updateTask(taskIndex) {
-        // Update task with new data from modal
-        tasks[taskIndex].description = taskDescriptionInput.value;
-        tasks[taskIndex].assignedTo = taskAssignedInput.value;
-        tasks[taskIndex].dueDate = Array.from(taskDateButtons).find(button => button.classList.contains('selected'))?.textContent || '-';
-        tasks[taskIndex].reminder = Array.from(taskReminderButtons).find(button => button.classList.contains('selected'))?.textContent || '-';
-        tasks[taskIndex].priority = Array.from(taskPriorityButtons).find(button => button.classList.contains('selected'))?.textContent || '-';
-        tasks[taskIndex].flag = taskFlagInput.checked ? 'Flagged' : 'Not Flagged';
-    
-        // Close the modal
-        clearTaskModal();
-    
-        // Re-display tasks to reflect the changes
-        displayTasks();
-    }
-    
-    // Function to delete the task
-    function deleteTask(taskIndex) {
-        // Remove task from tasks array
-        tasks.splice(taskIndex, 1);
-    
-        // Close the modal and update the task list
-        clearTaskModal();
-        displayTasks();
-    }
+   // Function to update the task in the database and array
+   function updateTask(taskIndex) {
+    // Update task with new data from modal
+    const description = taskDescriptionInput.value;
+    const assignedTo = taskAssignedInput.value;
+    const dueDate = Array.from(taskDateButtons).find(button => button.classList.contains('selected'))?.textContent || '-';
+    const reminder = Array.from(taskReminderButtons).find(button => button.classList.contains('selected'))?.textContent || '-';
+    const priority = Array.from(taskPriorityButtons).find(button => button.classList.contains('selected'))?.textContent || '-';
+    const flag = taskFlagInput.checked ? 'Flagged' : 'Not Flagged';
+
+    const task = {
+        id: tasks[taskIndex].id, // Keep the task's ID to update the correct task
+        description: description,
+        assignedTo: assignedTo,
+        dueDate: dueDate,
+        reminder: reminder,
+        priority: priority,
+        flag: flag
+    };
+
+    // Send the updated task to the server to update it in the database
+    fetch('../Controllers/taskcontroller.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            action: 'update', // Action is "update"
+            task: task
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            tasks[taskIndex] = task; // Update the task in the array
+            clearTaskModal();
+            displayTasks(); // Re-display tasks
+        } else {
+            alert('Error updating task: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+// Function to delete the task from the database and array
+function deleteTask(taskIndex) {
+    // Send a request to delete the task from the backend
+    fetch('../Controllers/taskcontroller.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            action: 'delete',
+            taskIndex: taskIndex
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Task deleted successfully!');
+            tasks.splice(taskIndex, 1); // Remove task from the array
+            clearTaskModal();
+            displayTasks(); // Re-display tasks
+        } else {
+            alert('Error deleting task: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
     
     // Attach delete button functionality
     deleteBtn.addEventListener('click', function () {

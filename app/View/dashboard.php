@@ -1,8 +1,5 @@
 <?php
 require_once __DIR__ . '/../Controllers/UserController.php';
-
-
-
 require_once('../Model/UserModel.php');
 require_once __DIR__ . '/../Model/UserModel.php';
 
@@ -10,9 +7,7 @@ require_once __DIR__ . '/../Model/UserModel.php';
 require_once '../Controllers/UserController.php';
 // Database connection parameters
 require_once __DIR__ . '/../DB/config.php';
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,8 +64,6 @@ require_once __DIR__ . '/../DB/config.php';
         <span class="title">Users</span>
     </a>
 </li>
-               
-
                 <li>
                     <a href="#">
                         <span class="icon"><i class="fa-solid fa-question"></i> </span>
@@ -114,8 +107,6 @@ require_once __DIR__ . '/../DB/config.php';
                     <!--//////cards//////-->
                     <div class="contain">
                         <div class="cardK">
-
-                       
                         <div class="card">
                         <div class="iconn" class="icon"><i class="fa-solid fa-comment"></i> </div> 
                         <div id="info">
@@ -123,8 +114,6 @@ require_once __DIR__ . '/../DB/config.php';
                             <p>Comments</p>
                         </div>
                         </div>
-                
-                
                         <div class="card">
                             <div class="iconn" class="icon1"><i class="fa-solid fa-money-bill"></i> </div> 
                             <div id="info">
@@ -151,8 +140,6 @@ require_once __DIR__ . '/../DB/config.php';
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
 <div>
@@ -199,9 +186,6 @@ require_once __DIR__ . '/../DB/config.php';
         </form>
     </div>
 </div>
-
-   
-
         <div id="editModal" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close-button" onclick="closeEditModal()">&times;</span>
@@ -237,7 +221,6 @@ require_once __DIR__ . '/../DB/config.php';
     </div>
 </div>
 <div class="scrollable-div">
-
                 <table>
                     <thead>
                         <tr>
@@ -276,7 +259,6 @@ require_once __DIR__ . '/../DB/config.php';
             </div>
         </div>
     </div>
-
     <div class="usersss" id="aa">
         <div class="recent">
      <div class="title">
@@ -326,7 +308,6 @@ require_once __DIR__ . '/../DB/config.php';
         </table>
     </div>
 </div>
-
 <!-- Modal for Report Generation -->
 <div id="reportModal" class="modal">
     <div class="modal-content">
@@ -351,7 +332,6 @@ require_once __DIR__ . '/../DB/config.php';
 </div>
 </div>
 </div>
-
     <div class="dashboard-card" id="ash">
         <div class="card-headery">
             <h4>Admin Dashboard - Active Users</h4>
@@ -406,6 +386,4 @@ require_once __DIR__ . '/../DB/config.php';
 </body>
 <script src="http://localhost/PROJECTFF/Public/js/dash.js"></script>
 <script src="http://localhost/PROJECTFF/Public/js/main.js"></script>
-
-  
 </html>

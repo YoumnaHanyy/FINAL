@@ -202,7 +202,7 @@ require_once __DIR__ . '/../DB/config.php';
 
    
 
-            <div id="editModal" class="modal" style="display: none;">
+        <div id="editModal" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close-button" onclick="closeEditModal()">&times;</span>
         <h2>Edit User</h2>

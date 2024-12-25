@@ -11,26 +11,31 @@ $messageClass = '';
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['register'])) {
-        // Handle user registration
+        // Registration logic...
+    } elseif (isset($_POST['login'])) {
+        // Handle user login
         $username = $_POST['username'];
-        $email = $_POST['email'];
         $password = $_POST['password'];
 
         // Create an instance of the User class
         $user = new User();
 
-        // Register the user
-        $result = $user->register($username, $email, $password);
+        // Login the user
+        $result = $user->login($username, $password);
         
         // Set the message based on the result
         if ($result === true) {
-            $message = "Registration successful!";
+            $_SESSION['username'] = $username; // Store the logged-in user's username
+            $message = "Login successful!";
             $messageClass = 'success';
         } else {
             $message = $result; // Return error message
             $messageClass = 'error';
         }
-    } elseif (isset($_POST['login'])) {
+    }
+}
+
+    elseif (isset($_POST['login'])) {
         // Handle user login
         $username = $_POST['username'];
         $password = $_POST['password'];

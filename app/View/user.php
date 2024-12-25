@@ -298,20 +298,14 @@ document.querySelector('.create-btn').addEventListener('click', function () {
     const dueDate = document.getElementById('customDateInput').value;
     const reminder = document.getElementById('customReminderInput').value;
 
-    console.log("Due Date:", dueDate);
-    console.log("Reminder:", reminder);
-
     const taskData = {
         title: document.querySelector('.des').value || "",
         due_date: dueDate || null,
         reminder: reminder || null,
-        assigned_to: document.querySelector('input[placeholder="Assign"]').value || "",
         priority: document.querySelector('.task-priority-options .selected')?.innerText || "Low",
         category: document.getElementById('taskCategory').value || "",
         flag: document.querySelector('input[type="checkbox"]').checked ? 1 : 0
     };
-
-    console.log("Task Data Being Sent:", taskData);
 
     fetch('../Controllers/taskcontroller.php', {
         method: 'POST',
@@ -320,7 +314,6 @@ document.querySelector('.create-btn').addEventListener('click', function () {
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Server Response:", data);
         alert(data.message);
     })
     .catch(error => console.error("Error:", error));

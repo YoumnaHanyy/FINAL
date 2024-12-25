@@ -1,7 +1,18 @@
 <?php
 require_once '../DB/db.php';
+
+
+session_start(); // Start the session
+
 class TaskController {
     public function createTask($taskData) {
+        session_start(); // Start the session to access session variables
+        if (!isset($_SESSION['username'])) {
+            return "User is not logged in!";
+        }
+
+        $assignedTo = $_SESSION['username']; // Get the logged-in username
+
         require_once '../DB/db.php';
         $db = new Database();
         $conn = $db->getConnection();
@@ -19,14 +30,14 @@ class TaskController {
             $taskData['title'],
             $due_date,
             $reminder,
-            $taskData['assigned_to'],
+            $assignedTo, // Assign task to the logged-in user
             $taskData['priority'],
             $taskData['category'],
             $taskData['flag']
         );
 
         if ($stmt->execute()) {
-            return "Task created successfully!";
+            return "Task created successfully and assigned to $assignedTo!";
         } else {
             error_log("SQL Error: " . $stmt->error);
             return "Error creating task: " . $stmt->error;
@@ -41,6 +52,7 @@ class TaskController {
         return $value ?: null;
     }
 }
+
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../../Public/css/users.css">
 </head>
 <body>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <div class="sidebar-menu">
         <!-- User Profile -->
         <div class="profile-section">
@@ -42,12 +43,10 @@
 
         <button class="btn" id="tasksBtn"><i class="fas fa-tasks"></i> Tasks</button>
 
-            
-            <button class="btn"><i class="fas fa-file"></i> Files</button>
-            <button class="btn"><i class="fas fa-calendar"></i> Calendar</button>
+        <button class="btn" id="calendarBtn"><i class="fas fa-calendar"></i> Calendar</button>
+        <input type="datetime-local" id="customDateInput" style="display:none;" />
             <button class="btn"><i class="fas fa-book"></i> Notebooks</button>
             <button class="btn"><i class="fas fa-tag"></i> Tags</button>
-            <button class="btn"><i class="fas fa-share-alt"></i> Shared with Me</button>
             <button class="btn"><i class="fas fa-trash"></i> Trash</button>
         </div>
         
@@ -103,7 +102,12 @@
             <button class="open-gallery">Open Gallery</button>
         </div>
     </div>
-
+    <div id="calendarOverlay">
+        <div id="calendarModal">
+            <div id="calendar"></div> <!-- Placeholder for the calendar -->
+            <button onclick="closeCalendar()">Close Calendar</button>
+        </div>
+    </div>
    
 </div>
 
@@ -292,27 +296,25 @@
 <script src="../../Public/js/users.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+<script>
+        // Show the calendar modal when the calendar button is clicked
+        document.getElementById('calendarBtn').addEventListener('click', function() {
+            document.getElementById('calendarOverlay').style.display = 'flex';
+        });
+
+        // Function to close the calendar modal
+        function closeCalendar() {
+            document.getElementById('calendarOverlay').style.display = 'none';
+        }
+
+        // Initialize the calendar using flatpickr
+        flatpickr("#calendar", {
+            inline: true, // Display the calendar inline
+            dateFormat: "Y-m-d", // Date format
+        });
+    </script>
+
 </body>
 </html>
 
-<script>
-document.querySelector('.create-btn').addEventListener('click', function() {
-    const taskData = {
-        title: document.querySelector('.des').value,
-        due_date: document.getElementById('customDateInput').value,
-        reminder: document.getElementById('customReminderInput').value,
-        assigned_to: document.querySelector('input[placeholder="Assign"]').value,
-        priority: document.querySelector('.task-priority-options .selected').innerText,
-        category: document.getElementById('taskCategory').value,
-        flag: document.querySelector('input[type="checkbox"]').checked ? 1 : 0
-    };
 
-    fetch('../Controllers/taskcontroller.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(taskData)
-    })
-    .then(response => response.json())
-    .then(data => alert(data.message));
-});
-</script>

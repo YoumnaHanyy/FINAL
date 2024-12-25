@@ -1375,3 +1375,43 @@ border: none
 .sort-btn.active i {
     transform: rotate(180deg);
 }
+
+/* Styles for the full-screen background */
+#calendarOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: none; /* Initially hidden */
+    justify-content: center;
+    align-items: center;
+
+  }
+  
+  #calendarModal {
+    background-color: #1a1a1a;
+    border: 1px solid #1a1a1a;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  #calendar {
+    /* Add your calendar styles here, for example: */
+    width: 300px; 
+ 
+  }
+  #calendarModal button {
+    background-color:red; /* Change this to your desired color */
+    color:whitesmoke; /* Change this to your desired text color */
+margin: 20px;
+width: 110px;
+height: 35px;
+border-radius: 5px;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+background: linear-gradient(to right, red,#ff6347);
+border: 1px solid #141414;
+
+  }

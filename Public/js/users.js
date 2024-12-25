@@ -253,16 +253,7 @@ window.onload = function() {
     const taskModal = document.getElementById('taskModal');
     taskModal.style.display = 'flex'; // Show the task modal when the button is clicked
     });
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
     
     // Function to hide the homeContent
     function hideHomeContent() {

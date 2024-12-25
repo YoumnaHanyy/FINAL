@@ -279,3 +279,15 @@ function toggleUsersSection3() {
 }
 
 
+if (data.status === 'success') {
+    document.getElementById('add-success-message').style.display = 'block';
+    document.getElementById('add-success-message').textContent = data.message;
+    document.getElementById('add-error-message').style.display = 'none';
+
+    // Delay closing modal to allow success message visibility
+    setTimeout(() => closeAddModal(), 3000); // Adjust the delay as needed
+} else {
+    document.getElementById('add-error-message').style.display = 'block';
+    document.getElementById('add-error-message').textContent = data.message;
+    document.getElementById('add-success-message').style.display = 'none';
+}

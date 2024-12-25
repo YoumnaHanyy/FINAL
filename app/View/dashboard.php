@@ -21,16 +21,34 @@ require_once __DIR__ . '/../DB/config.php';
     href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     
     <style>
-    .password-strength-tray {
-    margin-top: 5px;
-    padding: 5px;
-    color: white;
-    text-align: center;
-    font-size: 14px;
-    border-radius: 3px;
-    display: none; /* Initially hidden */
-}
+    .progress-bar-container {
+        width: 100%;
+        height: 10px;
+        background: #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-top: 5px;
+    }
 
+    .progress-bar {
+        height: 100%;
+        transition: width 0.3s ease;
+    }
+
+    .strength-level {
+        margin-top: 5px;
+        font-size: 14px;
+    }
+
+    .error-message {
+        color: #ff4d4d;
+        font-size: 12px;
+    }
+
+    .success-message {
+        color: #28a745;
+        font-size: 14px;
+    }
     </style>
 </head>
 <body>
@@ -147,9 +165,9 @@ require_once __DIR__ . '/../DB/config.php';
     <div class="usersss"id="sh">
         <div class="recent">
             <div class="title">
-                <h2> Users</h2>
+                <h2> <img width="48px" height="48px" src="https://img.icons8.com/ios-glyphs/30/group.png" alt="group"/></h2>
                 <a href="#" id="view-all-btn" class="view" onclick="showAllUsers()">View All</a>    
-                <a href="#" class="view" onclick="openAddModal()">ADD</a>
+                <a href="#" class="view" onclick="openAddModal()"><img width="50" height="50" src="https://img.icons8.com/ios/50/add-administrator.png" alt="add-administrator"/></a>
                 <a href="#" class="view">Delete</a>
                
             </div>
@@ -158,31 +176,28 @@ require_once __DIR__ . '/../DB/config.php';
     <div class="modal-content">
         <span class="close-button" onclick="closeAddModal()">&times;</span>
         <h2>Add User</h2>
-        <form id="add-form" method="POST" action="/add-user.php">
+        <form id="add-form" method="POST">
             <label for="add_username">Username:</label>
             <input id="add_username" name="username" type="text" required>
-            <p id="add-name-error" class="error-message" style="display: none;">Name must contain only letters and be 3-15 characters long.</p>
+            <p id="add-name-error" class="error-message" style="display: none;"></p>
 
             <label for="add_email">Email:</label>
-            <input id="add_email" name="email" type="email" 
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
-                title="Please enter a valid email address" required>
-            <p id="add-email-error" class="error-message" style="display: none;">Please enter a valid Gmail address (e.g., name@gmail.com).</p>
+            <input id="add_email" name="email" type="email" required>
+            <p id="add-email-error" class="error-message" style="display: none;"></p>
 
             <label for="add_password">Password:</label>
-            <input id="add_password" name="password" type="password" 
-                title="Password must include uppercase, lowercase, a number, a symbol, and be at least 8 characters long" 
-                required>
+            <input id="add_password" name="password" type="password" required>
             <div class="password-strength">
-                <div class="strength-bar" id="add-strength-bar"></div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="add-strength-bar"></div>
+                </div>
                 <span class="strength-level" id="add-strength-level">Password strength</span>
             </div>
+            <p id="add-strength-tip" style="display: none;"></p>
 
             <button type="submit">Add User</button>
-            <p id="add-error-message" class="error-message" style="display: none;">A user with the same email already exists.</p>
-            <p id="add-success-message" class="success-message" style="display: none;">User added successfully!</p>
-            <div class="password-strength-tray" id="add-strength-tray" style="display: none;">Weak Password</div>
-
+            <p id="add-error-message" class="error-message" style="display: none;"></p>
+            <p id="add-success-message" class="success-message" style="display: none;"></p>
         </form>
     </div>
 </div>
@@ -243,9 +258,17 @@ require_once __DIR__ . '/../DB/config.php';
                             echo "<td>" . $row["email"] . "</td>";
                             echo "<td>" . $row["password"] . "</td>";
 
-                            echo "<td><button class='edit-button' onclick='openEditModal(\"" . $row["username"] . "\", \"" . $row["email"] . "\", \"" . $row["password"] . "\")'>Edit</button></td>";
-                            echo "<td><button class='delete-button' onclick='openDeleteConfirmModal(\"" . $row["username"] . "\")'>Delete</button></td>";
-
+                            echo "<td>
+                            <button class='edit-button' onclick='openEditModal(\"" . htmlspecialchars($row["username"], ENT_QUOTES) . "\", \"" . htmlspecialchars($row["email"], ENT_QUOTES) . "\", \"" . htmlspecialchars($row["password"], ENT_QUOTES) . "\")'>
+                                <img width='38' height='38' src='https://img.icons8.com/pulsar-line/48/edit-user.png' alt='Edit User'/>
+                            </button>
+                          </td>";
+                          echo "<td>
+                          <button class='delete-button' onclick='openDeleteConfirmModal(\"" . htmlspecialchars($row["username"], ENT_QUOTES) . "\")'>
+                              <img width='38' height='38' src='https://img.icons8.com/pulsar-line/48/delete-user-male.png' alt='Delete User'/>
+                          </button>
+                        </td>";
+                  
                             echo "</tr>";
                             $count++;
                         }

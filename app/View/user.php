@@ -296,3 +296,25 @@
 
 </body>
 </html>
+
+<script>
+document.querySelector('.create-btn').addEventListener('click', function() {
+    const taskData = {
+        title: document.querySelector('.des').value,
+        due_date: document.getElementById('customDateInput').value,
+        reminder: document.getElementById('customReminderInput').value,
+        assigned_to: document.querySelector('input[placeholder="Assign"]').value,
+        priority: document.querySelector('.task-priority-options .selected').innerText,
+        category: document.getElementById('taskCategory').value,
+        flag: document.querySelector('input[type="checkbox"]').checked ? 1 : 0
+    };
+
+    fetch('../Controllers/taskcontroller.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(taskData)
+    })
+    .then(response => response.json())
+    .then(data => alert(data.message));
+});
+</script>

@@ -1,15 +1,36 @@
 <?php
-$servername = "localhost"; // Host (use the IP address or domain if remote)
-$username = "root";        // Your database username
-$password = "";            // Your database password
-$database = "donedeal"; // Replace with the name of your database
+class Database {
+    private $servername = "localhost";
+    private $username = "root";
+    private $password = "";
+    private $database = "donedeal";
+    public $conn;
 
-// Create a connection
-$conn = new mysqli($servername, $username, $password, $database);
+    public function __construct() {
+        $this->connect();
+    }
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    private function connect() {
+        $this->conn = new mysqli($this->servername, $this->username, $this->password, $this->database);
+
+        // Check connection
+        if ($this->conn->connect_error) {
+            die("Database connection failed: " . $this->conn->connect_error);
+        }
+    }
+
+    public function getConnection() {
+        return $this->conn;
+    }
+
+    public function closeConnection() {
+        if ($this->conn) {
+            $this->conn->close();
+        }
+    }
 }
-echo "Connected successfully";
+
+// Debugging (remove this in production)
+$db = new Database();
+echo "Connected successfully"; // Optional: Only for testing purposes
 ?>

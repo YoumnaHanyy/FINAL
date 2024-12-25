@@ -7,7 +7,7 @@ ini_set('display_errors', 1);
 $servername = "localhost";
 $dbusername = "root"; // Your MySQL username
 $dbpassword = "";     // Your MySQL password
-$dbname = "todo_app"; // Database name
+$dbname = "donedeal"; // Database name
 
 // Create connection to the database
 $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
@@ -137,7 +137,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup & Login</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet"  href="../css/login.css">
    
     
 </head>

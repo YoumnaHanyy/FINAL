@@ -1,33 +1,30 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = ""; // Enter your MySQL password
-$dbname = "user_management";
+// edit-user.php
 
-$conn = new mysqli($servername, $username, $password, $dbname);
 
-if ($conn->connect_error) {
-    die(json_encode(['status' => 'error', 'message' => 'Connection failed']));
-}
+require_once __DIR__ . '/../Controllers/UserController.php';
+require_once __DIR__ . '/../Model/UserModel.php';
+
+// Database connection parameters
+require_once __DIR__ . '/../DB/config.php';
+
+
+// Initialize Model and Controller
+$userModel = new UserModel($servername, $username, $password, $dbname);
+$userController = new UserController($userModel);
 
 // Get data from the AJAX request
-$old_username = $_POST['old_username'];
-$new_username = $_POST['new_username'];
-$email = $_POST['email'];
-$password = $_POST['password'];
+$data = [
+    'old_username' => $_POST['old_username'],
+    'new_username' => $_POST['new_username'],
+    'email' => $_POST['email'],
+    'password' => $_POST['password'],
+];
 
-// SQL Update statement
-$sql = "UPDATE users SET username=?, email=?, password=? WHERE username=?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ssss", $new_username, $email, $password, $old_username);
+// Process update and send response
+echo $userController->updateUser($data);
 
-if ($stmt->execute()) {
-    echo json_encode(['status' => 'success', 'message' => 'User updated successfully']);
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'Failed to update user']);
-}
+// Close the database connection
+$userModel->closeConnection();
 
-$stmt->close();
-$conn->close();
 ?>

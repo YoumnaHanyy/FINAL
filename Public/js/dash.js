@@ -14,19 +14,11 @@ document.getElementById('reportForm').onsubmit = function (e) {
     closeModal();
 }
 
-
 function showAllUsers() {
     const hiddenRows = document.querySelectorAll('.hidden');
     hiddenRows.forEach(row => row.classList.remove('hidden'));
     document.getElementById('view-all-btn').style.display = 'none'; // Hide the 'View All' button after clicking
 }
-
-
-document.querySelector(".toggle").addEventListener("click", function() {
-document.querySelector(".navigation").classList.toggle("hidden");
-document.body.classList.toggle("collapsed");
-});
-
 
 function updateUserRow(formData) {
 const oldUsername = formData.get('old_username');
@@ -67,7 +59,7 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
 event.preventDefault();
 const formData = new FormData(this);
 
-fetch('../php/edit-user.php', {
+fetch('http://localhost/finalproject/Final-1/app/View/edit-user.php', {
     method: 'POST',
     body: formData
 })
@@ -160,7 +152,7 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
 event.preventDefault();
 const formData = new FormData(this);
 
-fetch('../php/edit-user.php', {
+fetch('http://localhost/finalproject/Final-1/app/View/edit-user.php', {
     method: 'POST',
     body: formData
 })
@@ -211,7 +203,7 @@ function closeDeleteConfirmModal() {
 }
 
 function deleteUser(username) {
-    fetch('../php/delete-user.php', {
+    fetch('http://localhost/finalproject/Final-1/app/View/delete-user.php', {
         method: 'POST',
         body: JSON.stringify({ username }),
         headers: {
@@ -232,4 +224,55 @@ function deleteUser(username) {
         }
     })
     .catch(error => console.error('Error:', error));
+}
+
+function toggleUsersSection() {
+    // Get the users section element
+    const usersSection = document.getElementById('sh');
+    const usSection = document.getElementById('aa');
+    const uasSection = document.getElementById('ash');
+    
+  
+    // Show the users section
+    usersSection.style.display = 'grid';
+    usSection.style.display = 'none';
+    uasSection.style.display = 'none';
+
+}
+
+function toggleUsersSection2() {
+    // Get the users section element
+    const usersSection = document.getElementById('sh');
+    const usSection = document.getElementById('aa');
+    const uasSection = document.getElementById('ash');
+    
+     
+   
+    // Show the users section
+    usersSection.style.display = 'none';
+    usSection.style.display = 'none';
+    uasSection.style.display = 'grid';
+    uasSection.style.marginLeft = '450px';
+
+
+}
+
+function toggleUsersSection3() {
+    // Get the users section element
+    const usersSection = document.getElementById('sh');
+    const usSection = document.getElementById('aa');
+    const uasSection = document.getElementById('ash');
+    const toggle1 = document.getElementById('toggleBtn');
+    
+    
+   
+
+    // Show the users section
+    usersSection.style.display = 'none';
+    usSection.style.display = 'grid';
+    uasSection.style.display = 'none';
+    toggle1.style.display='flex';
+    
+
+
 }

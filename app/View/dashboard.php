@@ -1,23 +1,12 @@
 
 <?php
+require_once __DIR__ . '/../Controllers/UserController.php';
+require_once __DIR__ . '/../Model/UserModel.php';
 
 // Database connection parameters
-$servername = "localhost";
-$username = "root";
-$password = ""; // Enter your MySQL password here
-$dbname = "user_management";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Fetch user data
-$sql = "SELECT username, email, password FROM users";
-$result = $conn->query($sql);
+require_once __DIR__ . '/../DB/config.php';
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,80 +14,28 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DashBoard</title>
-    <link rel="stylesheet" href="../css/dashboard.css">
-    <link rel="stylesheet" href="/project/SWEPROJECT/assets/css/edit-product.css">
+    <link rel="stylesheet" href="http://localhost/finalproject/Final-1/Public/css/dashboard.css">
+    <link rel="stylesheet" href="http://localhost/finalproject/Final-1/Public/css//edit-user.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    
     <style>
-      .confirmation-modal {
-    display: none; /* Hidden by default */
-    position: fixed; 
-    z-index: 1000; 
-    left: 0; 
-    top: 0; 
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0, 0, 0, 0.89); /* Black with opacity */
-    justify-content: center; 
-    align-items: center;
-}
-
-.confirmation-content {
-    background-color: #e2ab49;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    .password-strength-tray {
+    margin-top: 5px;
+    padding: 5px;
+    color: white;
     text-align: center;
-    width: 300px;
-}
-
-.confirmation-content h4 {
-    margin-bottom: 15px;
-}
-
-.confirmation-content p {
-    margin-bottom: 20px;
-}
-
-.confirmation-content input {
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 90%;
-    border: 1px solid #000000;
-    border-radius: 4px;
-}
-
-.btn-confirm, .btn-cancel {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 5px;
-}
-
-.btn-confirm {
-    background-color: #ff4444; /* Red */
-    color: white;
-}
-
-.btn-cancel {
-    background-color: #007bff; /* Blue */
-    color: white;
-}
-
-.btn-confirm:hover {
-    background-color: #ff3333;
-}
-
-.btn-cancel:hover {
-    background-color: #0056b3;
+    font-size: 14px;
+    border-radius: 3px;
+    display: none; /* Initially hidden */
 }
 
     </style>
 </head>
 <body>
    
-    <div class="container">
+<div class="container">
         <div class="navigation" id="navigation">
             <ul>
                 <li>
@@ -107,27 +44,26 @@ $result = $conn->query($sql);
                     </a>
                 </li>
 
+            <li>
+                <a href="javascript:void(0)" onclick="toggleUsersSection2()">
+                <span class="icon"><i class="fa-solid fa-house"></i></span>
+                <span class="title">DashBoard</span>
+                 </a>
+            </li>
+            <li>
+    <a href="javascript:void(0)" onclick="toggleUsersSection3()">
+        <span class="icon"><i class='bx bxs-report'></i></span>
+        <span class="title">reporting</span>
+    </a>
+</li>
+               
+                
                 <li>
-                    <a href="#">
-                        <span class="icon"><i class="fa-solid fa-house"></i></span>
-                        <span class="title"> DashBoard</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon"> <i class="fa-solid fa-users"></i></span>
-                        <span class="title"> Customers</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon"><i class="fa-solid fa-message"></i> </span>
-                        <span class="title">orders</span>
-                    </a>
-                </li>
-
+    <a href="javascript:void(0)" onclick="toggleUsersSection()">
+        <span class="icon"><i class="fa-solid fa-users"></i></span>
+        <span class="title">Users</span>
+    </a>
+</li>
                 <li>
                     <a href="#">
                         <span class="icon"><i class="fa-solid fa-question"></i> </span>
@@ -171,8 +107,6 @@ $result = $conn->query($sql);
                     <!--//////cards//////-->
                     <div class="contain">
                         <div class="cardK">
-
-                       
                         <div class="card">
                         <div class="iconn" class="icon"><i class="fa-solid fa-comment"></i> </div> 
                         <div id="info">
@@ -180,8 +114,6 @@ $result = $conn->query($sql);
                             <p>Comments</p>
                         </div>
                         </div>
-                
-                
                         <div class="card">
                             <div class="iconn" class="icon1"><i class="fa-solid fa-money-bill"></i> </div> 
                             <div id="info">
@@ -208,26 +140,57 @@ $result = $conn->query($sql);
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
 <div>
     
-    <div class="usersss">
+    <div class="usersss"id="sh">
         <div class="recent">
             <div class="title">
                 <h2> Users</h2>
                 <a href="#" id="view-all-btn" class="view" onclick="showAllUsers()">View All</a>    
-                <a href="/project/SWEPROJECT/html/add-user.html" class="view">ADD</a>  
+                <a href="#" class="view" onclick="openAddModal()">ADD</a>
                 <a href="#" class="view">Delete</a>
                
             </div>
-            <div id="editModal" class="modal" style="display: none;">
+        
+            <div id="addModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-button" onclick="closeAddModal()">&times;</span>
+        <h2>Add User</h2>
+        <form id="add-form" method="POST" action="/add-user.php">
+            <label for="add_username">Username:</label>
+            <input id="add_username" name="username" type="text" required>
+            <p id="add-name-error" class="error-message" style="display: none;">Name must contain only letters and be 3-15 characters long.</p>
+
+            <label for="add_email">Email:</label>
+            <input id="add_email" name="email" type="email" 
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+                title="Please enter a valid email address" required>
+            <p id="add-email-error" class="error-message" style="display: none;">Please enter a valid Gmail address (e.g., name@gmail.com).</p>
+
+            <label for="add_password">Password:</label>
+            <input id="add_password" name="password" type="password" 
+                title="Password must include uppercase, lowercase, a number, a symbol, and be at least 8 characters long" 
+                required>
+            <div class="password-strength">
+                <div class="strength-bar" id="add-strength-bar"></div>
+                <span class="strength-level" id="add-strength-level">Password strength</span>
+            </div>
+
+            <button type="submit">Add User</button>
+            <p id="add-error-message" class="error-message" style="display: none;">A user with the same email already exists.</p>
+            <p id="add-success-message" class="success-message" style="display: none;">User added successfully!</p>
+            <div class="password-strength-tray" id="add-strength-tray" style="display: none;">Weak Password</div>
+
+        </form>
+    </div>
+</div>
+        <div id="editModal" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close-button" onclick="closeEditModal()">&times;</span>
         <h2>Edit User</h2>
-        <form id="edit-form" method="POST" action="edit-user.php">
+        <form id="edit-form" method="POST" action="/edit-user.php">
             <label for="modal_old_username">Old Username:</label>
             <input type="text" id="modal_old_username" name="old_username" readonly>
 
@@ -246,6 +209,7 @@ $result = $conn->query($sql);
         </form>
     </div>
 </div>
+
 <div id="deleteConfirmPopup" class="confirmation-modal">
     <div class="confirmation-content">
         <h4>Confirm Deletion</h4>
@@ -257,7 +221,6 @@ $result = $conn->query($sql);
     </div>
 </div>
 <div class="scrollable-div">
-
                 <table>
                     <thead>
                         <tr>
@@ -268,6 +231,7 @@ $result = $conn->query($sql);
                     </thead>
                     <tbody id="user-table-body">
                     <?php
+                    
                     $displayLimit = 5; // Number of rows to display initially
                     $count = 0;
 
@@ -278,6 +242,7 @@ $result = $conn->query($sql);
                             echo "<td>" . $row["username"] . "</td>";
                             echo "<td>" . $row["email"] . "</td>";
                             echo "<td>" . $row["password"] . "</td>";
+
                             echo "<td><button class='edit-button' onclick='openEditModal(\"" . $row["username"] . "\", \"" . $row["email"] . "\", \"" . $row["password"] . "\")'>Edit</button></td>";
                             echo "<td><button class='delete-button' onclick='openDeleteConfirmModal(\"" . $row["username"] . "\")'>Delete</button></td>";
 
@@ -294,8 +259,7 @@ $result = $conn->query($sql);
             </div>
         </div>
     </div>
-
-    <div class="usersss">
+    <div class="usersss" id="aa">
         <div class="recent">
      <div class="title">
          <a id="generateReportBtn">Generate Report</a>
@@ -313,28 +277,28 @@ $result = $conn->query($sql);
             </thead>
             <tbody>
                 <tr>
-                    <td><img src="..//assets/images/man.png" class="user-img" alt="User Image"> Alice Johnson</td>
+                    <td><img src="http://localhost/PROJECTFF/public/images/man.png" class="user-img" alt="User Image"> Alice Johnson</td>
                     <td>34 / 40</td>
                     <td>85%</td>
                     <td>27 Oct 2024</td>
                     <td><span class="status-badge status-completed">Active</span></td>
                 </tr>
                 <tr>
-                    <td><img src="..//assets/images/man.png" class="user-img" alt="User Image"> Bob Smith</td>
+                    <td><img src="http://localhost/PROJECTFF/public/images/man.png" class="user-img" alt="User Image"> Bob Smith</td>
                     <td>10 / 50</td>
                     <td>20%</td>
                     <td>25 Oct 2024</td>
                     <td><span class="status-badge status-pending">Inactive</span></td>
                 </tr>
                 <tr>
-                    <td><img src="..//assets/images/man.png" class="user-img" alt="User Image"> Carol Davis</td>
+                    <td><img src="http://localhost/PROJECTFF/public/images/man.png" class="user-img" alt="User Image"> Carol Davis</td>
                     <td>48 / 50</td>
                     <td>96%</td>
                     <td>27 Oct 2024</td>
                     <td><span class="status-badge status-completed">Active</span></td>
                 </tr>
                 <tr>
-                    <td><img src="..//assets/images/man.png" class="user-img" alt="User Image"> Dan Lee</td>
+                    <td><img src="http://localhost/PROJECTFF/public/images/man.png" class="user-img" alt="User Image"> Dan Lee</td>
                     <td>35 / 70</td>
                     <td>50%</td>
                     <td>24 Oct 2024</td>
@@ -344,7 +308,6 @@ $result = $conn->query($sql);
         </table>
     </div>
 </div>
-
 <!-- Modal for Report Generation -->
 <div id="reportModal" class="modal">
     <div class="modal-content">
@@ -369,14 +332,13 @@ $result = $conn->query($sql);
 </div>
 </div>
 </div>
-
-    <div class="dashboard-card">
+    <div class="dashboard-card" id="ash">
         <div class="card-headery">
             <h4>Admin Dashboard - Active Users</h4>
             <a href="#" class="view-more">View All Users</a>
         </div>
         <div class="task-item">
-            <img src="..//assets/images/face3.jpg" alt="profile image" class="profile-img">
+            <img src="http://localhost/PROJECTFF/public/images/face3.jpg" alt="profile image" class="profile-img">
             <div class="task-details">
                 <p>Task: Complete Mobile App UI</p>
                 <small>Assigned by: John Doe</small>
@@ -385,7 +347,7 @@ $result = $conn->query($sql);
             <small class="task-time">Due: 10:07PM</small>
         </div>
         <div class="task-item">
-            <img src="..//assets/images/face4.jpg" alt="profile image" class="profile-img">
+            <img src="http://localhost/PROJECTFF/public/images/face4.jpg" alt="profile image" class="profile-img">
             <div class="task-details">
                 <p>Task: Backend API Development</p>
                 <small>Assigned by: Jane Smith</small>
@@ -394,7 +356,7 @@ $result = $conn->query($sql);
             <small class="task-time">Due: 01:07AM</small>
         </div>
         <div class="task-item">
-            <img src="..//assets/images/face3.jpg" alt="profile image" class="profile-img">
+            <img src="http://localhost/PROJECTFF/public/images/face3.jpg" alt="profile image" class="profile-img">
             <div class="task-details">
                 <p>Task: Redesign Website</p>
                 <small>Assigned by: Michael Lee</small>
@@ -403,7 +365,7 @@ $result = $conn->query($sql);
             <small class="task-time">Due: 04:42AM</small>
         </div>
         <div class="task-item">
-            <img src="..//assets/images/face2.jpg" alt="profile image" class="profile-img">
+            <img src="http://localhost/PROJECTFF/public/images/face2.jpg" alt="profile image" class="profile-img">
             <div class="task-details">
                 <p>Task: Set Up Analytics Dashboard</p>
                 <small>Assigned by: Sarah Brown</small>
@@ -412,7 +374,7 @@ $result = $conn->query($sql);
             <small class="task-time">Due: 07:44PM</small>
         </div>
         <div class="task-item">
-            <img src="..//assets/images/face1.jpg" alt="profile image" class="profile-img">
+            <img src="http://localhost/PROJECTFF/public/images/face1.jpg" alt="profile image" class="profile-img">
             <div class="task-details">
                 <p>Task: Design New Logo</p>
                 <small>Assigned by: Alex Green</small>
@@ -422,7 +384,6 @@ $result = $conn->query($sql);
         </div>
     </div>
 </body>
-<script src="..//assets/js/dash.js">
- 
-  </script>
+<script src="http://localhost/finalproject/Final-1/Public/js/dash.js"></script>
+<script src="http://localhost/finalproject/Final-1/Public/js/main.js"></script>
 </html>

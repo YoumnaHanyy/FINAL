@@ -1,68 +1,3 @@
-.confirmation-modal {
-    display: none; /* Hidden by default */
-    position: fixed; 
-    z-index: 1000; 
-    left: 0; 
-    top: 0; 
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0, 0, 0, 0.89); /* Black with opacity */
-    justify-content: center; 
-    align-items: center;
-}
-
-.confirmation-content {
-    background-color: #e2ab49;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    width: 300px;
-}
-
-.confirmation-content h4 {
-    margin-bottom: 15px;
-}
-
-.confirmation-content p {
-    margin-bottom: 20px;
-}
-
-.confirmation-content input {
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 90%;
-    border: 1px solid #000000;
-    border-radius: 4px;
-}
-
-.btn-confirm, .btn-cancel {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 5px;
-}
-
-.btn-confirm {
-    background-color: #ff4444; /* Red */
-    color: white;
-}
-
-.btn-cancel {
-    background-color: #007bff; /* Blue */
-    color: white;
-}
-
-.btn-confirm:hover {
-    background-color: #ff3333;
-}
-
-.btn-cancel:hover {
-    background-color: #0056b3;
-}
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 *{
@@ -76,7 +11,7 @@ scroll-behavior: smooth;
 body{
 min-height: 100vh;
 overflow-x: hidden;
-background-color: #ba947b; 
+background-color: #ffffff; 
 }
 .container{
     position: relative;
@@ -91,7 +26,7 @@ background-color: #ba947b;
     width: 250px;
     height: 100%;
     position: fixed;
-    background-color: #1e1e1e;
+    background-color: #28a745;
     border-left: 10px  white;
     transition: 0.5s;
     overflow: hidden;
@@ -168,7 +103,7 @@ width: 100%;
     width:calc(100%-250px) ;
     left: 250px;
     min-height: 100vh;
-    background-color: #ba947b;
+    background-color: #ffffff;
 }
 .top{
     width: 100%;
@@ -183,7 +118,6 @@ width: 100%;
     top: 0;
     width: 50px;
     height: 50px;
-    background-color: #ba947b;
     justify-content: center;
     display: flex;
     font-size: 2rem;
@@ -242,7 +176,7 @@ width: 100%;
   }
   .card{
       position: relative;
-      background-color: #1e1e1e;
+      background-color: #008e21;
       padding: 25px;
       box-shadow: 0 5px 25px #1e1e1e;
       border-radius: 10px;
@@ -270,7 +204,7 @@ width: 100%;
       justify-content: center;
   }
   .card p{
-      color: white;
+      color: rgb(255, 255, 255);
       font-size: 1.5rem;
       text-align: center;
       }
@@ -330,7 +264,7 @@ overflow-y: scroll; }
     position: relative;
     display: grid;
     min-height: 500px;
-    background: #1e1e1e;
+    background: #0aff3f;
     padding: 20px;
     box-shadow: 0 7px 25px #1e1e1e;
     border-radius: 50px;
@@ -613,7 +547,6 @@ body.collapsed .usersss
 .status-pending { background-color: #dc3545; }
 
 
- /* Popup Modal */
  .modal {
     display: none;
     position: fixed;
@@ -621,7 +554,7 @@ body.collapsed .usersss
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.89);
     justify-content: center;
     align-items: center;
     z-index: 999;
@@ -911,3 +844,129 @@ border-radius: 5px;
         transform: translateY(0);
     }
 }
+
+
+li a {
+    display: flex;
+    align-items: center;
+    padding: 0px 16px;
+    color: #fff; /* Initial text color */
+    text-decoration: none;
+    transition: all 0.3s ease; /* Smooth transition */
+    border-radius: 8px;
+}
+
+li a:hover {
+    background-color: #52ff71; /* Gold background for luxury feel */
+    color: #000; /* Darker text for contrast */
+    box-shadow: 0 4px 15px #30ff5e; /* Gold shadow */
+    transform: scale(1.05); /* Slight scaling effect */
+}
+
+li a .icon i {
+    font-size: 0.8rem;
+    margin-right: 8px;
+    transition: transform 0.3s ease; /* Smooth icon transformation */
+}
+
+li a:hover .icon i {
+    transform: rotate(20deg); /* Adds a subtle rotation for flair */
+}
+#sh,#aa,#ash {
+    display: none; /* Hidden by default */
+    
+}
+#generateReportBtn {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #ebb24c, #ffd700);
+    color: #1e1e1e;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    transition: background 0.4s ease, transform 0.3s ease;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Hover effect for button */
+#generateReportBtn:hover {
+    background: linear-gradient(135deg, #ffd700, #ebb24c);
+    transform: scale(1.05);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Active state for button */
+#generateReportBtn:active {
+    transform: scale(0.98);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+      .confirmation-modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 1000; 
+    left: 0; 
+    top: 0; 
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.89); /* Black with opacity */
+    justify-content: center; 
+    align-items: center;
+}
+
+.confirmation-content {
+    background-color: #e2ab49;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 300px;
+}
+
+.confirmation-content h4 {
+    margin-bottom: 15px;
+}
+
+.confirmation-content p {
+    margin-bottom: 20px;
+}
+
+.confirmation-content input {
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 90%;
+    border: 1px solid #000000;
+    border-radius: 4px;
+}
+
+.btn-confirm, .btn-cancel {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.btn-confirm {
+    background-color: #ff4444; /* Red */
+    color: white;
+}
+
+.btn-cancel {
+    background-color: #007bff; /* Blue */
+    color: white;
+}
+
+.btn-confirm:hover {
+    background-color: #ff3333;
+}
+
+.btn-cancel:hover {
+    background-color: #0056b3;
+}
+

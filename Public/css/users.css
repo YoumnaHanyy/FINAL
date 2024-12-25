@@ -721,64 +721,174 @@ input:checked + .slider:before {
     opacity: 0.9;
 }
 
-.event-modal-content h2 {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .event-fields label {
-    display: block;
-    margin-top: 10px;
-    font-weight: bold;
-  }
-
-  .event-fields input {
-    width: 100%;
-    margin-top: 5px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-
-  .event-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-  }
-
-  .cancel-event-btn, .create-event-btn {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  .cancel-event-btn {
-    background-color: #f44336;
-    color: white;
-  }
-
-  .create-event-btn {
-    background-color: #4caf50;
-    color: white;
-  }
-
-  .event-modal {
+.event-modal {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
+    background-color: #2d2d2d;
+    padding: 20px; /* Reduced padding for smaller size */
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-shadow:
-0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     z-index: 999;
-
+    width: 250px; /* Reduced width */
   }
+  
+  .event-modal-content {
+    text-align: center;
+  }
+  
+  .event-modal-content h2 {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-right: 20px; /* Added right margin for space */
+  }
+  
+  .event-fields {
+    display: flex;
+    flex-direction: column; /* Stack fields vertically */
+  }
+  
+  .event-fields label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #fff; /* Light text color for better contrast */
+  }
+  
+  .event-fields input {
+    width: 100%;
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid #ccc; /* Lighter border */
+    border-radius: 4px;
+    background-color: #393939; /* Darker background for input fields */
+    color: #fff; /* Light text color for input fields */
+  }
+  
+  .event-actions {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    margin-top: 20px;
+  }
+  
+  .cancel-event-btn, .create-event-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .cancel-event-btn {
+    background-color: #f44336; /* Red */
+    color: white;
+  }
+  
+  .create-event-btn {
+    background-color: #4caf50; /* Green */
+    color: white;
+    margin-left: 10px; /* Space between buttons */
+  }.event-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2d2d2d;
+    padding: 25px; /* Slightly increased for better spacing */
+    border: 1px solid #444; /* Subtle contrast for a professional look */
+    border-radius: 10px; /* Smooth rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Enhanced shadow for depth */
+    z-index: 9999;
+    width: 280px; /* Slightly larger for comfort */
+}
+
+.event-modal-content {
+    text-align: center;
+}
+
+.event-modal-content h2 {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #fff; /* Ensure header text stands out */
+    font-size: 18px; /* Slightly larger font for readability */
+}
+
+.event-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Uniform spacing between fields */
+    margin-top: 10px; /* Add spacing above fields */
+}
+
+.event-fields label {
+    font-weight: 600; /* Slightly bolder for better visibility */
+    color: #e0e0e0; /* Softer white for better contrast */
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.event-fields input {
+    width: 100%;
+    padding: 12px; /* More padding for better interaction */
+    border: 1px solid #555; /* Slightly darker border */
+    border-radius: 6px; /* Refined rounding */
+    background-color: #393939;
+    color: #fff;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-fields input:focus {
+    border-color: #4caf50; /* Green highlight on focus */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Subtle glow */
+    outline: none; /* Remove default outline */
+}
+
+.event-actions {
+    display: flex;
+    justify-content: space-between; /* Space buttons evenly */
+    gap: 10px; /* Uniform spacing between buttons */
+    margin-top: 25px; /* Spacing above buttons */
+}
+
+.cancel-event-btn,
+.create-event-btn {
+    padding: 12px 24px; /* Increased for better click targets */
+    border: none;
+    border-radius: 6px; /* Smooth button corners */
+    cursor: pointer;
+    font-size: 15px; /* Slightly larger text for emphasis */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cancel-event-btn {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.cancel-event-btn:hover {
+    background-color: #e53935; /* Slightly darker on hover */
+    transform: scale(1.05); /* Subtle scale effect */
+}
+
+.create-event-btn {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.create-event-btn:hover {
+    background-color: #43a047; /* Slightly darker on hover */
+    transform: scale(1.05); /* Subtle scale effect */
+}
+
   /* Home Section */
 .home-content {
     margin-left: 300px;

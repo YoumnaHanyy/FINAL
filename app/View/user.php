@@ -98,10 +98,14 @@
                 <button class="template-button">Meeting note</button>
                 <button class="template-button">Project plan</button>
                 <button class="template-button">Add more</button>
+                <button class="open-gallery">Open Gallery</button>
             </div>
-            <button class="open-gallery">Open Gallery</button>
+            <button id="saveBtn" class="btn1">Save</button>
         </div>
+         
+            
     </div>
+    
     <div id="calendarOverlay">
         <div id="calendarModal">
             <div id="calendar"></div> <!-- Placeholder for the calendar -->
@@ -313,7 +317,12 @@
             dateFormat: "Y-m-d", // Date format
         });
     </script>
-
+<script>
+    document.getElementById('saveBtn').addEventListener('click', function() {
+        // Add your save functionality here
+        alert('Save button clicked!');
+    });
+</script>
 </body>
 </html>
 

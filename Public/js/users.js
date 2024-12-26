@@ -577,3 +577,35 @@ window.onload = function() {
             document.getElementById('customReminderBtn').textContent = dateStr;
         }
     });
+
+    document.getElementById('saveBtn').addEventListener('click', function () {
+        const task = document.getElementById('taskInput').value;
+
+        if (task.trim() === "") {
+            alert("Please enter a task before saving.");
+            return;
+        }
+
+        // Send the task to the server
+        fetch('save_task.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ task: task }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    alert("Task saved successfully!");
+                    document.getElementById('taskInput').value = ""; // Clear input field
+                } else {
+                    alert("Error saving task: " + data.error);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("An error occurred while saving the task.");
+            });
+    });
+

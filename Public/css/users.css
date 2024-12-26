@@ -1415,3 +1415,41 @@ background: linear-gradient(to right, red,#ff6347);
 border: 1px solid #141414;
 
   }
+  /* General button styling */
+  .btn1 {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #4CAF50, #3e8e41); /* Gradient background */
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase; /* Uppercase text for a professional touch */
+    letter-spacing: 1px;
+    margin-top: 50px; /* Add margin-top to move the button down */
+    margin-left: 30px;
+  }
+
+/* Hover effect */
+.btn1:hover {
+    background: linear-gradient(135deg, #5bd75d, #4CAF50); /* Lighter gradient on hover */
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+    transform: translateY(-2px); /* Lift the button slightly */
+}
+
+/* Active state */
+.btn1:active {
+    background: linear-gradient(135deg, #3e8e41, #2d6e30); /* Darker gradient on press */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Reduce shadow */
+    transform: translateY(1px); /* Simulate button press */
+}
+
+/* Additional focus state for accessibility */
+.btn1:focus {
+    outline: 3px solid rgba(72, 239, 128, 0.5); /* Highlight for accessibility */
+    outline-offset: 3px;
+}

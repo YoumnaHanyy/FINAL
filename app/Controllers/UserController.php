@@ -5,7 +5,6 @@ class UserController {
     public function __construct($model) {
         $this->model = $model;
     }
-
     public function addUser($data) {
     if (empty($data['username']) || empty($data['email']) || empty($data['password'])) {
         return json_encode(['status' => 'error', 'message' => 'All fields are required.']);

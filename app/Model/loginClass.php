@@ -1,117 +1,120 @@
+
 <?php
-session_start(); 
-include 'db.php';
 
-// Initialize messages
-$message = '';
-$messageClass = '';
+class LoginClass {
+    private $conn;
+    private $adminUsername = "admin";
+    private $adminPassword = "admin123"; // Change this to a more secure password
 
-// Define admin credentials
-$admin_username = "admin";
-$admin_password = "admin123"; // Change this to a more secure password
+    public $message = '';
+    public $messageClass = '';
 
-// Check if form data has been submitted for signup
-if (isset($_POST['signup'])) {
-    $username = $_POST["signup_username"];
-    $email = $_POST["signup_email"];
-    $password = $_POST["signup_password"];
+    
+    public function __construct($dbConnection) {
+        $this->conn = $dbConnection;
+    }
+    public function signUp($username, $email, $password) {
+        if (empty($username) || empty($email) || empty($password)) {
+            $this->setMessage("All fields are required!", "error");
+            return;
+        }
 
-    // Basic input validation
-    if (empty($username) || empty($email) || empty($password)) {
-        $message = "All fields are required!";
-        $messageClass = "error";
-    } else {
-        // Check if the username is taken
-        $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
+        if ($this->isUsernameTaken($username)) {
+            $this->setMessage("Username is already taken!", "error");
+            return;
+        }
+
+        if ($this->isEmailTaken($email)) {
+            $this->setMessage("Email is already registered!", "error");
+            return;
+        }
+
+        if (!$this->isPasswordValid($password)) {
+            $this->setMessage("Password must be at least 8 characters long, contain at least one uppercase letter, and one special character.", "error");
+            return;
+        }
+
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt = $this->conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $username, $email, $hashedPassword);
+
+        if ($stmt->execute()) {
+            $this->setMessage("Signup successful! Welcome, " . htmlspecialchars($username) . ".", "success");
+            header('Location: user_dashboard.php'); // Redirect to another page
+            exit;
+        } else {
+            $this->setMessage("Error: " . $stmt->error, "error");
+        }
+
+        $stmt->close();
+    }
+
+    public function login($username, $password) {
+        if (empty($username) || empty($password)) {
+            $this->setMessage("All fields are required!", "error");
+            return;
+        }
+
+        if ($username === $this->adminUsername && $password === $this->adminPassword) {
+            $this->setMessage("Admin Login successful! Welcome, " . htmlspecialchars($username) . ".", "success");
+            // Redirect to admin dashboard or another page here
+            return;
+        }
+
+        $stmt = $this->conn->prepare("SELECT password FROM users WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
-            $message = "Username is already taken!";
-            $messageClass = "error";
-        } else {
-            // Check if the email is taken
-            $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $stmt->store_result();
+            $stmt->bind_result($hashedPassword);
+            $stmt->fetch();
 
-            if ($stmt->num_rows > 0) {
-                $message = "Email is already registered!";
-                $messageClass = "error";
+            if (password_verify($password, $hashedPassword)) {
+                $this->setMessage("Login successful! Welcome back, " . htmlspecialchars($username) . ".", "success");
+                // Redirect to user dashboard or another page here
             } else {
-                // Password validation
-                if (!preg_match('/^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/', $password)) {
-                    $message = "Password must be at least 8 characters long, contain at least one uppercase letter, and one special character.";
-                    $messageClass = "error";
-                } else {
-                    // Hash the password
-                    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-                    // Insert user data into the database
-                    $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-                    $stmt->bind_param("sss", $username, $email, $hashed_password);
-
-                    if ($stmt->execute()) {
-                        $message = "Signup successful! Welcome, " . htmlspecialchars($username) . ".";
-                        $messageClass = "success";
-                        header('Location: user_dashboard.php');  // Redirect to another page
-
-                    } else {
-                        $message = "Error: " . $stmt->error;
-                        $messageClass = "error";
-                    }
-                }
+                $this->setMessage("Invalid password!", "error");
             }
+        } else {
+            $this->setMessage("Username not found!", "error");
         }
+
         $stmt->close();
     }
-}
 
-// Check if form data has been submitted for login
-if (isset($_POST['login'])) {
-    $username = $_POST["login_username"];
-    $password = $_POST["login_password"];
+    private function isUsernameTaken($username) {
+        $stmt = $this->conn->prepare("SELECT id FROM users WHERE username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $stmt->store_result();
+        $isTaken = $stmt->num_rows > 0;
+        $stmt->close();
+        return $isTaken;
+    }
 
-    // Basic input validation
-    if (empty($username) || empty($password)) {
-        $message = "All fields are required!";
-        $messageClass = "error";
-    } else {
-        // Check if the username is admin
-        if ($username === $admin_username && $password === $admin_password) {
-            $message = "Admin Login successful! Welcome, " . htmlspecialchars($username) . ".";
-            $messageClass = "success";
-            // Redirect to admin dashboard or another page here
-        } else {
-            // Prepare a statement to check if the user exists
-            $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
-            $stmt->bind_param("s", $username);
-            $stmt->execute();
-            $stmt->store_result();
+    private function isEmailTaken($email) {
+        $stmt = $this->conn->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+        $isTaken = $stmt->num_rows > 0;
+        $stmt->close();
+        return $isTaken;
+    }
 
-            // If the user exists, verify the password
-            if ($stmt->num_rows > 0) {
-                $stmt->bind_result($hashed_password);
-                $stmt->fetch();
+    private function isPasswordValid($password) {
+        return preg_match('/^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/', $password);
+    }
 
-                if (password_verify($password, $hashed_password)) {
-                    $message = "Login successful! Welcome back, " . htmlspecialchars($username) . ".";
-                    $messageClass = "success";
-                    // Redirect to user dashboard or another page here
-                } else {
-                    $message = "Invalid password!";
-                    $messageClass = "error";
-                }
-            } else {
-                $message = "Username not found!";
-                $messageClass = "error";
-            }
-            $stmt->close();
-        }
+    private function setMessage($message, $messageClass) {
+        $this->message = $message;
+        $this->messageClass = $messageClass;
+    }
+
+    public function getMessage() {
+        return ["message" => $this->message, "messageClass" => $this->messageClass];
     }
 }
-
-$conn->close();
 ?>

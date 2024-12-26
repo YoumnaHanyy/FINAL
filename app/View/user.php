@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="sidebar-menu">
-        <!-- User Profile -->
+       
         <div class="profile-section">
             <div class="profile-avatar">Y</div>
             <div class="profile-info">
@@ -291,6 +291,7 @@
 
 <script src="../../Public/js/users.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 </body>
 <script>
@@ -298,32 +299,35 @@ document.querySelector('.create-btn').addEventListener('click', function () {
     const dueDate = document.getElementById('customDateInput').value;
     const reminder = document.getElementById('customReminderInput').value;
 
-    const taskData = {
-        title: document.querySelector('.des').value || "",
-        due_date: dueDate || null,
-        reminder: reminder || null,
-        priority: document.querySelector('.task-priority-options .selected')?.innerText || "Low",
-        category: document.getElementById('taskCategory').value || "",
-        flag: document.querySelector('input[type="checkbox"]').checked ? 1 : 0
-    };
+    const taskData = new URLSearchParams();
+    taskData.append('action', 'create'); // Action type
+    taskData.append('title', document.querySelector('.des').value || "");
+    taskData.append('due_date', dueDate || "");
+    taskData.append('reminder', reminder || "");
+    taskData.append(
+        'priority',
+        document.querySelector('.task-priority-options .selected')?.innerText || "Low"
+    );
+    taskData.append('category', document.getElementById('taskCategory').value || "");
+    taskData.append(
+        'flag',
+        document.querySelector('input[type="checkbox"]').checked ? 1 : 0
+    );
 
     fetch('../Controllers/taskcontroller.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(taskData)
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: taskData.toString(), // Send data as a URL-encoded string
     })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-    })
-    .catch(error => console.error("Error:", error));
+        .then(response => response.text()) // Read the response as plain text
+        .then(text => {
+            console.log(text); // Log raw response for debugging
+            alert(text); // Display the response message directly
+        })
+        .catch(error => console.error("Error:", error)); // Log network errors
 });
 
-
-
-
-
-
+}
 </script>
 </html>
 

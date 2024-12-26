@@ -40,10 +40,5 @@ require_once 'db.php';
 $db = new Database();
 $conn = $db->getConnection();
 
-if ($conn) {
-    echo "Database connection is successful.";
-} else {
-    echo "Database connection failed.";
-}
 
 ?>

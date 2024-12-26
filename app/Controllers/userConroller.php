@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST['password'];
 
         // Create an instance of the User class
-        $user = new User();
+        $user = new LoginClass();
 
         // Login the user
         $result = $user->login($username, $password);
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST['password'];
 
         // Create an instance of the User class
-        $user = new User();
+        $user = new LoginClass();
 
         // Login the user
         $result = $user->login($username, $password);

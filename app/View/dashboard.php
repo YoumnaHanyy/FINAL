@@ -7,6 +7,9 @@ require_once __DIR__ . '/../Model/UserModel.php';
 require_once '../Controllers/UserController.php';
 // Database connection parameters
 require_once __DIR__ . '/../DB/config.php';
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -257,7 +260,7 @@ require_once __DIR__ . '/../DB/config.php';
                             echo "<td>" . $row["username"] . "</td>";
                             echo "<td>" . $row["email"] . "</td>";
                             echo "<td>" . $row["password"] . "</td>";
-
+                           
                             echo "<td>
                             <button class='edit-button' onclick='openEditModal(\"" . htmlspecialchars($row["username"], ENT_QUOTES) . "\", \"" . htmlspecialchars($row["email"], ENT_QUOTES) . "\", \"" . htmlspecialchars($row["password"], ENT_QUOTES) . "\")'>
                                 <img width='38' height='38' src='https://img.icons8.com/pulsar-line/48/edit-user.png' alt='Edit User'/>
@@ -280,8 +283,10 @@ require_once __DIR__ . '/../DB/config.php';
                     </tbody>
                 </table>
             </div>
+            
         </div>
     </div>
+ 
     <div class="usersss" id="aa">
         <div class="recent">
      <div class="title">

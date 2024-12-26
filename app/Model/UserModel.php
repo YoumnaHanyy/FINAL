@@ -70,7 +70,42 @@ class UserModel {
             return ["status" => "error", "message" => "Failed to delete user. Error: " . $stmt->error];
         }
     }
-
+    
+    // public function getAllUsersWithTasks() {
+    //     $sql = "
+    //     SELECT 
+    //         users.id AS user_id,
+    //         users.username,
+    //         users.email,
+    //         tasks.id AS task_id,
+    //         tasks.title,
+    //         tasks.due_date,
+    //         tasks.reminder,
+    //         tasks.priority,
+    //         tasks.category,
+    //         tasks.flag,
+    //         tasks.created_at AS task_created_at,
+    //         tasks.updated_at AS task_updated_at
+    //     FROM 
+    //         users
+    //     INNER JOIN 
+    //         tasks 
+    //     ON 
+    //         users.id = tasks.id
+    //     ";
+    
+    //     $result = $this->conn->query($sql);
+    
+    //     $data = [];
+    //     if ($result && $result->num_rows > 0) {
+    //         while ($row = $result->fetch_assoc()) {
+    //             $data[] = $row;
+    //         }
+    //     }
+    //     return $data;
+    // }
+    
+    
     public function closeConnection() {
         $this->conn->close();
     }

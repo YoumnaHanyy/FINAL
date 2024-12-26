@@ -31,4 +31,7 @@ if ($conn->connect_error) {
 $sql = "SELECT username, email, password FROM users";
 $result = $conn->query($sql);
 
+
+
+
 ?>

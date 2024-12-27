@@ -33,8 +33,6 @@ class Database {
 
 
 
-
-
 require_once 'db.php';
 
 $db = new Database();

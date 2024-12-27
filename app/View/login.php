@@ -76,8 +76,9 @@ if (isset($_POST['signup'])) {
                     $stmt->bind_param("sss", $username, $email, $hashed_password);
 
                     if ($stmt->execute()) {
-                        $message = "Signup successful! Welcome, " . htmlspecialchars($username) . ".";
-                        $messageClass = "success";
+                        $_SESSION['username'] = $username; // Store the username in session for future use
+                        header("Location: plan.php"); // Redirect to the plan page
+                        exit(); // Ensure no further code is executed
                     } else {
                         $message = "Error: " . $stmt->error;
                         $messageClass = "error";
@@ -88,6 +89,7 @@ if (isset($_POST['signup'])) {
         $stmt->close();
     }
 }
+
 
 // Handle Login
 if (isset($_POST['login'])) {

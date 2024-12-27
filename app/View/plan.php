@@ -1,11 +1,23 @@
+<?php
+session_start(); // Start the session
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php"); // Redirect to login if the user is not logged in
+    exit();
+}
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing Plans</title>
-    <link rel="stylesheet" href="../css/plan.css">
-</head>
+    <link rel="stylesheet" href="../../Public/css/plan.css">
+    </head>
 <body>
 <div class="container">
     <header class="header">

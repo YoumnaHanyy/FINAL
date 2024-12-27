@@ -1,6 +1,6 @@
 <?php
 // Include the User class
-include('loginClass.php');
+include('userclass.php');
 include_once('config/db.php');  // Database connection
 include_once('views/login.php');  // View file to render the page
 
@@ -11,31 +11,26 @@ $messageClass = '';
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['register'])) {
-        // Registration logic...
-    } elseif (isset($_POST['login'])) {
-        // Handle user login
+        // Handle user registration
         $username = $_POST['username'];
+        $email = $_POST['email'];
         $password = $_POST['password'];
 
         // Create an instance of the User class
         $user = new User();
 
-        // Login the user
-        $result = $user->login($username, $password);
+        // Register the user
+        $result = $user->register($username, $email, $password);
         
         // Set the message based on the result
         if ($result === true) {
-            $_SESSION['username'] = $username; // Store the logged-in user's username
-            $message = "Login successful!";
+            $message = "Registration successful!";
             $messageClass = 'success';
         } else {
             $message = $result; // Return error message
             $messageClass = 'error';
         }
-    }
-}
-
-    elseif (isset($_POST['login'])) {
+    } elseif (isset($_POST['login'])) {
         // Handle user login
         $username = $_POST['username'];
         $password = $_POST['password'];

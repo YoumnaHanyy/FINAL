@@ -17,41 +17,14 @@ require_once __DIR__ . '/../DB/config.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DashBoard</title>
-    <link rel="stylesheet" href="http://localhost/PROJECTFF/public/css/dashboard.css">
-    <link rel="stylesheet" href="http://localhost/PROJECTFF/public/css/edit-user.css">
+    <link rel="stylesheet" href="http://localhost/PROJECTFF/Public/Css/dashboard.css">
+    <link rel="stylesheet" href="http://localhost/PROJECTFF/Public/css/edit-user.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     
     <style>
-    .progress-bar-container {
-        width: 100%;
-        height: 10px;
-        background: #ddd;
-        border-radius: 5px;
-        overflow: hidden;
-        margin-top: 5px;
-    }
-
-    .progress-bar {
-        height: 100%;
-        transition: width 0.3s ease;
-    }
-
-    .strength-level {
-        margin-top: 5px;
-        font-size: 14px;
-    }
-
-    .error-message {
-        color: #ff4d4d;
-        font-size: 12px;
-    }
-
-    .success-message {
-        color: #28a745;
-        font-size: 14px;
-    }
+       
     </style>
 </head>
 <body>
@@ -263,7 +236,7 @@ require_once __DIR__ . '/../DB/config.php';
                            
                             echo "<td>
                             <button class='edit-button' onclick='openEditModal(\"" . htmlspecialchars($row["username"], ENT_QUOTES) . "\", \"" . htmlspecialchars($row["email"], ENT_QUOTES) . "\", \"" . htmlspecialchars($row["password"], ENT_QUOTES) . "\")'>
-                                <img width='38' height='38' src='https://img.icons8.com/pulsar-line/48/edit-user.png' alt='Edit User'/>
+                                <img width='28' height='28' src='https://img.icons8.com/pulsar-line/48/edit-user.png' alt='Edit User'/>
                             </button>
                           </td>";
                           echo "<td>
@@ -359,58 +332,69 @@ require_once __DIR__ . '/../DB/config.php';
     </div>
 </div>
 </div>
-</div>
-    <div class="dashboard-card" id="ash">
-        <div class="card-headery">
-            <h4>Admin Dashboard - Active Users</h4>
-            <a href="#" class="view-more">View All Users</a>
+</div>     
+<div class="card5" id="ash">
+    <div class="metrics">
+        <div class="metric-card">
+            <h3>Total Users</h3>
+            <p><?php echo htmlspecialchars($totalUsers ?? 0); ?></p>
         </div>
-        <div class="task-item">
-            <img src="http://localhost/PROJECTFF/public/images/face3.jpg" alt="profile image" class="profile-img">
-            <div class="task-details">
-                <p>Task: Complete Mobile App UI</p>
-                <small>Assigned by: John Doe</small>
-                <small class="activity-info">Last active: 5 mins ago</small>
-            </div>
-            <small class="task-time">Due: 10:07PM</small>
+        <div class="metric-card">
+            <h3>Total Tasks</h3>
+            <p><?php echo htmlspecialchars($totalTasks ?? 0); ?></p>
         </div>
-        <div class="task-item">
-            <img src="http://localhost/PROJECTFF/public/images/face4.jpg" alt="profile image" class="profile-img">
-            <div class="task-details">
-                <p>Task: Backend API Development</p>
-                <small>Assigned by: Jane Smith</small>
-                <small class="activity-info">Last active: 1 hr ago</small>
-            </div>
-            <small class="task-time">Due: 01:07AM</small>
-        </div>
-        <div class="task-item">
-            <img src="http://localhost/PROJECTFF/public/images/face3.jpg" alt="profile image" class="profile-img">
-            <div class="task-details">
-                <p>Task: Redesign Website</p>
-                <small>Assigned by: Michael Lee</small>
-                <small class="activity-info">Last active: 3 hrs ago</small>
-            </div>
-            <small class="task-time">Due: 04:42AM</small>
-        </div>
-        <div class="task-item">
-            <img src="http://localhost/PROJECTFF/public/images/face2.jpg" alt="profile image" class="profile-img">
-            <div class="task-details">
-                <p>Task: Set Up Analytics Dashboard</p>
-                <small>Assigned by: Sarah Brown</small>
-                <small class="activity-info">Last active: 1 day ago</small>
-            </div>
-            <small class="task-time">Due: 07:44PM</small>
-        </div>
-        <div class="task-item">
-            <img src="http://localhost/PROJECTFF/public/images/face1.jpg" alt="profile image" class="profile-img">
-            <div class="task-details">
-                <p>Task: Design New Logo</p>
-                <small>Assigned by: Alex Green</small>
-                <small class="activity-info">Last active: 2 days ago</small>
-            </div>
-            <small class="task-time">Due: 10:49AM</small>
+        <div class="metric-card">
+            <h3>High Priority Tasks</h3>
+            <p><?php echo htmlspecialchars($highPriorityTasks ?? 0); ?></p>
         </div>
     </div>
+<div class="tablee">
+
+    <table id="users2">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Task ID</th>
+                <th>Title</th>
+                <th>Due Date</th>
+                <th>Reminder</th>
+                <th>Priority</th>
+                <th>Category</th>
+                <th>Flag</th>
+                <th>Task Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+        </div>
+
+            <?php
+            if (!empty($usersWithTasks)) {
+                foreach ($usersWithTasks as $row) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["email"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["task_id"] ?? 'No tasks assigned') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["title"] ?? 'No tasks assigned') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["due_date"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["reminder"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["priority"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["category"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["flag"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["task_created_at"] ?? '') . "</td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='10'>No users found</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+    </div>
+    
+</body>
+</html>
+
 </body>
 <script src="http://localhost/PROJECTFF/Public/js/dash.js"></script>
 <script src="http://localhost/PROJECTFF/Public/js/main.js"></script>

@@ -5,8 +5,24 @@ require_once __DIR__ . '/../Model/UserModel.php';
 
 class DashboardController {
     private $db;
+    private $userModel;
+    private $taskModel;
 
-    public function __construct($dbConnection) {
+    public function __construct() {
+        $this->userModel = new UserModel();
+        $this->taskModel = new TaskModel();
+    }
+
+    public function getDashboardMetrics() {
+        $data = [
+            "totalUsers" => $this->userModel->countUsers(),
+            "totalTasks" => $this->taskModel->countTasks(),
+            "highPriorityTasks" => $this->taskModel->countHighPriorityTasks()
+        ];
+
+        require_once 'app/View/dashboard.php';
+    }
+    public function __construct2($dbConnection) {
         $this->db = $dbConnection;
     }
 
@@ -33,5 +49,15 @@ class DashboardController {
             return []; // Return an empty array on error
         }
     }
+
+
+
+
+
+
+
+
+
+    
 }
 ?>

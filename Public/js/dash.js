@@ -253,7 +253,9 @@ function toggleUsersSection2() {
     usersSection.style.display = 'none';
     usSection.style.display = 'none';
     uasSection.style.display = 'grid';
-    uasSection.style.marginLeft = '450px';
+    uasSection.style.marginLeft = '275px';
+    uasSection.style.marginBottom = '50px';
+
 
 
 }
@@ -291,3 +293,13 @@ if (data.status === 'success') {
     document.getElementById('add-error-message').textContent = data.message;
     document.getElementById('add-success-message').style.display = 'none';
 }
+
+
+
+
+
+
+
+
+
+

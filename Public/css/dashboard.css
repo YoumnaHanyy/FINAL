@@ -226,6 +226,19 @@ width: 100%;
     margin-left: 240px; /* Adjust this value as needed */
     float: left; /* Add this line */
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
 .usersss{
     position: relative;
     width: 125%;
@@ -236,7 +249,10 @@ width: 100%;
     margin-top: 5px;
     margin-left: 240px; /* Adjust this value as needed */
     float: left; /* Add this line */
+    animation: fadeIn 0.7s ease-in-out;
 }
+
+
 .Products{
     position: relative;
     width: 125%;
@@ -742,97 +758,7 @@ border-radius: 5px;
 
 
 /***/
-
-.dashboard-card {
-    position: relative;
-    left: 340px;
-    margin-bottom: 40px;
-    width: 350px;
-    background-color: #1e1e1e;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-.card-headery {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    border-bottom: 1px solid #eee;
-}
-
-.card-headery h4 {
-    font-size: 18px;
-    color: #ebb24c;
-
-}
-
-.view-more {
-    color: #eee;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-    transition: color 0.3s;
-}
-
-.view-more:hover {
-    color: #1a73e8;
-}
-
-.task-item {
-    display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.3s;
-}
-
-.task-item:hover {
-    background-color: #f9f9f9;
-}
-
-.profile-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 12px;
-    transition: transform 0.3s;
-}
-
-.task-item:hover .profile-img {
-    transform: scale(1.05);
-}
-
-.task-details {
-    flex: 1;
-}
-
-.task-details p {
-    font-size: 15px;
-    font-weight: 600;
-    color: #ebb24c;
-
-    margin-bottom: 4px;
-}
-
-.task-details small {
-    display: block;
-    color: #767676;
-    font-size: 13px;
-}
-
-.activity-info {
-    color: #999;
-    font-style: italic;
-}
-
-.task-time {
-    font-size: 13px; 
-    color: #ff4b4b;
-
-}
+ 
 
 @keyframes fadeIn {
     from {
@@ -968,4 +894,103 @@ li a:hover .icon i {
 
 .btn-cancel:hover {
     background-color: #0056b3;
+}
+
+
+
+
+
+
+
+
+
+.tablee{
+    position: relative; /* Or absolute, fixed, sticky */
+    z-index: 10;
+    
+}
+.progress-bar-container {
+width: 100%;
+height: 10px;
+background: #ddd;
+border-radius: 5px;
+overflow: hidden;
+margin-top: 5px;
+}
+
+.progress-bar {
+height: 100%;
+transition: width 0.3s ease;
+}
+
+.strength-level {
+margin-top: 5px;
+font-size: 14px;
+}
+
+.error-message {
+color: #ff4d4d;
+font-size: 12px;
+}
+
+.success-message {
+color: #28a745;
+font-size: 14px;
+}
+
+
+
+.card5{
+animation: fadeIn 0.7s ease-in-out;
+}
+#users2 {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#users2 th,         #users2 td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+#users2 th {
+    background-color: #333;
+    color: #fff;
+}
+
+       #users2 tr:nth-child(even) {
+    background-color: #2e2e2e;
+}  
+
+#users2 tr:hover {
+    background-color: #444;
+}
+
+.metrics {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.metric-card {
+    z-index: 99;
+    flex: 1;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.metric-card h3 {
+    color: #ebb24c;
+    margin-bottom: 10px;
+}
+
+.metric-card p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
 }

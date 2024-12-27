@@ -47,6 +47,9 @@ class UserController {
     // public function getAllUsersWithTasks() {
     //     return json_encode($this->model->getAllUsersWithTasks());
     // }
-    
+    public function displayUsersWithTasks() {
+        $usersWithTasks = $this->model->getUsersWithTasks();
+        return json_encode($usersWithTasks);
+    }
 }
 ?>

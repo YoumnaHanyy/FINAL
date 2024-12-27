@@ -13,13 +13,6 @@ function getConnection() {
     return $conn;
 }
 
-
-
-$servername = "localhost";
-$username = "root";
-$password = ""; // Enter your MySQL password here
-$dbname = "user_management";
-
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection

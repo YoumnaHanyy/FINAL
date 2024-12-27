@@ -14,7 +14,7 @@ require_once __DIR__ . '/../DB/config.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DashBoard</title>
-    <link rel="stylesheet" href="http://localhost/finalproject/Final-1/Public/css/dashboard.css">
+    <link rel="stylesheet" href="http://localhost/finalproject/Final-1/Public/Css/dashboard.css">
     <link rel="stylesheet" href="http://localhost/finalproject/Final-1/Public/css//edit-user.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet"
@@ -90,17 +90,15 @@ require_once __DIR__ . '/../DB/config.php';
           <div class="main">
             <div class="top">
                 <div class="toggle" id="toggleBtn"><i class="fa-solid fa-bars"></i></div>
-                <div class="search">
-                    <label>
-                        <input type="text" placeholder="search here">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </label>
-                </div>
-            </div>
-            <!-- Main content goes here -->
-        </div>
-
-
+                <div class="search" id="SN">
+    <label>
+        <input type="text" id="searchBar" placeholder="search here" oninput="filterUsers()">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </label>
+</div>
+<div id="userList">
+    <!-- User list dynamically populated here -->
+</div>
 
     </div>
             <div>
@@ -220,7 +218,7 @@ require_once __DIR__ . '/../DB/config.php';
         <p id="deletion-message" style="display:none; margin-top: 20px;"></p> <!-- Message display -->
     </div>
 </div>
-<div class="scrollable-div">
+<div class="scrollable-div" id="userList">
                 <table>
                     <thead>
                         <tr>
@@ -384,6 +382,6 @@ require_once __DIR__ . '/../DB/config.php';
         </div>
     </div>
 </body>
-<script src="http://localhost/finalproject/Final-1/Public/js/dash.js"></script>
+<script src="http://localhost/finalproject/Final-1/Public/Js/dash.js"></script>
 <script src="http://localhost/finalproject/Final-1/Public/js/main.js"></script>
 </html>

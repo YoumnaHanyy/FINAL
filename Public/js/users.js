@@ -256,14 +256,6 @@ window.onload = function() {
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
     // Function to hide the homeContent
     function hideHomeContent() {
     document.getElementById('homeContent').style.display = 'none';

@@ -40,6 +40,13 @@ class TaskController {
         }
         return $value ?: null;
     }
+    public function fetchTasks() {
+        require_once '../Model/taskModel.php'; // Include the model
+        $taskModel = new TaskModel();
+        $tasks = $taskModel->getAllTasks(); // Fetch tasks from the model
+        require_once '../View/dashboard.php'; // Load the view and pass tasks
+    }
+
 }
 
 
@@ -64,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-
+?>
 
 
 

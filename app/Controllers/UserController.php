@@ -1,6 +1,11 @@
 <?php
+require_once '../DB/config.php';
+
+
 class UserController {
-    private $model;
+   
+   
+private $model;
 
     public function __construct($model) {
         $this->model = $model;
@@ -30,9 +35,6 @@ class UserController {
     public function checkEmail($email) {
         return json_encode(['exists' => $this->model->doesEmailExist($email)]);
     }
-    
-    
-    
 
     public function getAllUsers() {
         return json_encode($this->model->getAllUsers());
@@ -45,5 +47,8 @@ class UserController {
     public function deleteUser($username) {
         return json_encode($this->model->deleteUser($username));
     }
+
 }
+
+
 ?>

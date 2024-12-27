@@ -11,7 +11,7 @@ scroll-behavior: smooth;
 body{
 min-height: 100vh;
 overflow-x: hidden;
-background-color: #ffffff; 
+background-color: #000000; 
 }
 .container{
     position: relative;
@@ -26,7 +26,7 @@ background-color: #ffffff;
     width: 250px;
     height: 100%;
     position: fixed;
-    background-color: #28a745;
+    background-color:rgb(236 194 80);
     border-left: 10px  white;
     transition: 0.5s;
     overflow: hidden;
@@ -103,7 +103,7 @@ width: 100%;
     width:calc(100%-250px) ;
     left: 250px;
     min-height: 100vh;
-    background-color: #ffffff;
+    background-color: #000000;
 }
 .top{
     width: 100%;
@@ -123,12 +123,18 @@ width: 100%;
     font-size: 2rem;
     cursor: pointer;
     margin-right: 350px;
+    color: burlywood;
 }
+
+
+
 .search{
     position: relative;
     width: 400px;
     margin-right: 370px;
     top: 10px;
+    display: none;
+
 }
 .search label{
     width: 100%;
@@ -176,7 +182,7 @@ width: 100%;
   }
   .card{
       position: relative;
-      background-color: #008e21;
+      background-color: rgb(236 194 80);
       padding: 25px;
       box-shadow: 0 5px 25px #1e1e1e;
       border-radius: 10px;
@@ -280,7 +286,7 @@ overflow-y: scroll; }
     position: relative;
     display: grid;
     min-height: 500px;
-    background: #0aff3f;
+    background: rgb(236 194 80);
     padding: 20px;
     box-shadow: 0 7px 25px #1e1e1e;
     border-radius: 50px;
@@ -304,7 +310,7 @@ overflow-y: scroll; }
     color: #1e1e1e;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-view:hover{
+.view:hover{
     transform: translateY(-10px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);}
  table{
@@ -856,6 +862,9 @@ li a:hover .icon i {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     width: 300px;
+    transform: translateY(50px);
+    transition: transform 0.3s ease;
+    animation: slide-up 0.5s ease forwards;
 }
 
 .confirmation-content h4 {
@@ -911,6 +920,7 @@ li a:hover .icon i {
 .tablee{
     position: relative; /* Or absolute, fixed, sticky */
     z-index: 10;
+    color: #ffffff;
     
 }
 .progress-bar-container {

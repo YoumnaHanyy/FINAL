@@ -17,7 +17,7 @@ require_once __DIR__ . '/../DB/config.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DashBoard</title>
-    <link rel="stylesheet" href="http://localhost/PROJECTFF/Public/Css/dashboard.css">
+    <link rel="stylesheet" href="http://localhost/PROJECTFF/Public/css/dashboard.css">
     <link rel="stylesheet" href="http://localhost/PROJECTFF/Public/css/edit-user.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet"
@@ -84,7 +84,7 @@ require_once __DIR__ . '/../DB/config.php';
           <div class="main">
             <div class="top">
                 <div class="toggle" id="toggleBtn"><i class="fa-solid fa-bars"></i></div>
-                <div class="search">
+                <div class="search" id="SN">
                     <label>
                         <input type="text" placeholder="search here">
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -141,10 +141,10 @@ require_once __DIR__ . '/../DB/config.php';
     <div class="usersss"id="sh">
         <div class="recent">
             <div class="title">
-                <h2> <img width="48px" height="48px" src="https://img.icons8.com/ios-glyphs/30/group.png" alt="group"/></h2>
-                <a href="#" id="view-all-btn" class="view" onclick="showAllUsers()">View All</a>    
-                <a href="#" class="view" onclick="openAddModal()"><img width="50" height="50" src="https://img.icons8.com/ios/50/add--v1.png" alt="add-administrator"/></a>
-                <a href="#" class="view">Delete</a>
+                <h2><img width="100" height="100" src="https://img.icons8.com/clouds/100/group.png" alt="group"/></h2>
+                <a href="#" id="view-all-btn" class="view" onclick="showAllUsers()" > <img width="48px" height="48px" src="https://img.icons8.com/ios-filled/50/show-all-views.png" alt="group"/></a>    
+                <a href="#" class="view" onclick="openAddModal()"><img width="50px" height="50px" src="http://localhost/PROJECTFF/public/images/icons8-add-100.png" alt="add-administrator"/></a>
+                 
                
             </div>
         
@@ -236,12 +236,14 @@ require_once __DIR__ . '/../DB/config.php';
                            
                             echo "<td>
                             <button class='edit-button' onclick='openEditModal(\"" . htmlspecialchars($row["username"], ENT_QUOTES) . "\", \"" . htmlspecialchars($row["email"], ENT_QUOTES) . "\", \"" . htmlspecialchars($row["password"], ENT_QUOTES) . "\")'>
-                                <img width='32' height='32' src='https://img.icons8.com/pulsar-line/48/edit-user.png' alt='Edit User'/>
+                            <img width='34' height='34' src='https://img.icons8.com/glyph-neue/64/edit-administrator.png' alt='edit-administrator'/>   
+                       
                             </button>
                           </td>";
                           echo "<td>
                           <button class='delete-button' onclick='openDeleteConfirmModal(\"" . htmlspecialchars($row["username"], ENT_QUOTES) . "\")'>
-                              <img width='32' height='32' src='https://img.icons8.com/pulsar-line/48/delete-user-male.png' alt='Delete User'/>
+                              
+                          <img width='32' height='32' src='https://img.icons8.com/ios-glyphs/30/remove-user-male.png' alt='Delete User'/>
                           </button>
                         </td>";
                   
@@ -269,42 +271,29 @@ require_once __DIR__ . '/../DB/config.php';
         <table>
             <thead>
                 <tr>
-                    <th>User</th>
-                    <th>Tasks Completed</th>
+                    <th>username</th>
+                    <th>completed_task</th>
                     <th>Completion Rate</th>
-                    <th>Last Active</th>
-                    <th>Status</th>
+                    <th>Due-date</th>
+                    <th>reminder</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><img src="http://localhost/PROJECTFF/public/images/man.png" class="user-img" alt="User Image"> Alice Johnson</td>
-                    <td>34 / 40</td>
-                    <td>85%</td>
-                    <td>27 Oct 2024</td>
-                    <td><span class="status-badge status-completed">Active</span></td>
-                </tr>
-                <tr>
-                    <td><img src="http://localhost/PROJECTFF/public/images/man.png" class="user-img" alt="User Image"> Bob Smith</td>
-                    <td>10 / 50</td>
-                    <td>20%</td>
-                    <td>25 Oct 2024</td>
-                    <td><span class="status-badge status-pending">Inactive</span></td>
-                </tr>
-                <tr>
-                    <td><img src="http://localhost/PROJECTFF/public/images/man.png" class="user-img" alt="User Image"> Carol Davis</td>
-                    <td>48 / 50</td>
-                    <td>96%</td>
-                    <td>27 Oct 2024</td>
-                    <td><span class="status-badge status-completed">Active</span></td>
-                </tr>
-                <tr>
-                    <td><img src="http://localhost/PROJECTFF/public/images/man.png" class="user-img" alt="User Image"> Dan Lee</td>
-                    <td>35 / 70</td>
-                    <td>50%</td>
-                    <td>24 Oct 2024</td>
-                    <td><span class="status-badge status-in-progress">In Progress</span></td>
-                </tr>
+            <?php
+            if (!empty($usersWithTasks)) {
+                foreach ($usersWithTasks as $row) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["completed_task"] ?? '') . "</td>";
+
+                    echo "<td>" . htmlspecialchars($row["due_date"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["reminder"] ?? '') . "</td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='10'>No users found</td></tr>";
+            }
+            ?>
             </tbody>
         </table>
     </div>
@@ -360,7 +349,8 @@ require_once __DIR__ . '/../DB/config.php';
                 <th>Due Date</th>
                 <th>Reminder</th>
                 <th>Priority</th>
-                <th>Category</th>
+                <th>category</th>
+                <th>completed_task</th>
                 <th>Flag</th>
                 <th>Task Created At</th>
             </tr>
@@ -380,6 +370,8 @@ require_once __DIR__ . '/../DB/config.php';
                     echo "<td>" . htmlspecialchars($row["reminder"] ?? '') . "</td>";
                     echo "<td>" . htmlspecialchars($row["priority"] ?? '') . "</td>";
                     echo "<td>" . htmlspecialchars($row["category"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["completed_task"] ?? '') . "</td>";
+                     
                     echo "<td>" . htmlspecialchars($row["flag"] ?? '') . "</td>";
                     echo "<td>" . htmlspecialchars($row["task_created_at"] ?? '') . "</td>";
                     echo "</tr>";
@@ -396,6 +388,6 @@ require_once __DIR__ . '/../DB/config.php';
 </html>
 
 </body>
-<script src="http://localhost/PROJECTFF/Public/js/dash.js"></script>
+<script src="http://localhost/PROJECTFF/Public/Js/dash.js"></script>
 <script src="http://localhost/PROJECTFF/Public/js/main.js"></script>
 </html>

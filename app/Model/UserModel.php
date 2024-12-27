@@ -116,6 +116,7 @@ class UserModel {
             tasks.priority,
             tasks.category,
             tasks.flag,
+            tasks.completed_task
             tasks.created_at AS task_created_at
         FROM 
             users
@@ -155,8 +156,7 @@ class UserModel {
     }
     
 
-
-
+ 
 
 
 

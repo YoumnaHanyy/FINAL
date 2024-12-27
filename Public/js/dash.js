@@ -232,13 +232,14 @@ function toggleUsersSection() {
     const usersSection = document.getElementById('sh');
     const usSection = document.getElementById('aa');
     const uasSection = document.getElementById('ash');
+    const SNSection = document.getElementById('SN');
     
   
     // Show the users section
     usersSection.style.display = 'grid';
     usSection.style.display = 'none';
     uasSection.style.display = 'none';
-
+    SNSection.style.display='grid';
 }
 
 function toggleUsersSection2() {
@@ -246,7 +247,7 @@ function toggleUsersSection2() {
     const usersSection = document.getElementById('sh');
     const usSection = document.getElementById('aa');
     const uasSection = document.getElementById('ash');
-    
+    const SNSection = document.getElementById('SN');
      
    
     // Show the users section
@@ -255,7 +256,7 @@ function toggleUsersSection2() {
     uasSection.style.display = 'grid';
     uasSection.style.marginLeft = '275px';
     uasSection.style.marginBottom = '50px';
-
+    SNSection.style.display='none';
 
 
 }
@@ -266,7 +267,7 @@ function toggleUsersSection3() {
     const usSection = document.getElementById('aa');
     const uasSection = document.getElementById('ash');
     const toggle1 = document.getElementById('toggleBtn');
-    
+    const SNSection = document.getElementById('SN');
     
    
 
@@ -275,7 +276,7 @@ function toggleUsersSection3() {
     usSection.style.display = 'grid';
     uasSection.style.display = 'none';
     toggle1.style.display='flex';
-    
+    SNSection.style.display='none';
 
 
 }

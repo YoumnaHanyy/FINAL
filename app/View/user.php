@@ -295,39 +295,121 @@
 
 </body>
 <script>
-document.querySelector('.create-btn').addEventListener('click', function () {
-    const dueDate = document.getElementById('customDateInput').value;
-    const reminder = document.getElementById('customReminderInput').value;
+document.addEventListener("DOMContentLoaded", function () {
+    const createTaskBtn = document.querySelector('.create-btn');
+    const taskPriorityOptions = document.querySelectorAll('.task-priority-options button');
+    const taskModal = document.getElementById('taskModal');
 
-    const taskData = new URLSearchParams();
-    taskData.append('action', 'create'); // Action type
-    taskData.append('title', document.querySelector('.des').value || "");
-    taskData.append('due_date', dueDate || "");
-    taskData.append('reminder', reminder || "");
-    taskData.append(
-        'priority',
-        document.querySelector('.task-priority-options .selected')?.innerText || "Low"
-    );
-    taskData.append('category', document.getElementById('taskCategory').value || "");
-    taskData.append(
-        'flag',
-        document.querySelector('input[type="checkbox"]').checked ? 1 : 0
-    );
+    // Highlight the selected priority option
+    taskPriorityOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            taskPriorityOptions.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+        });
+    });
 
-    fetch('../Controllers/taskcontroller.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: taskData.toString(), // Send data as a URL-encoded string
-    })
-        .then(response => response.text()) // Read the response as plain text
-        .then(text => {
-            console.log(text); // Log raw response for debugging
-            alert(text); // Display the response message directly
+    // Handle task creation
+    createTaskBtn.addEventListener('click', function () {
+        const dueDate = document.getElementById('customDateInput').value;
+        const reminder = document.getElementById('customReminderInput').value;
+
+        const taskData = new URLSearchParams();
+        taskData.append('action', 'create'); // Action type
+        taskData.append('title', document.querySelector('.des').value || "");
+        taskData.append('due_date', dueDate || "");
+        taskData.append('reminder', reminder || "");
+        taskData.append(
+            'priority',
+            document.querySelector('.task-priority-options .selected')?.innerText || "Low"
+        );
+        taskData.append('category', document.getElementById('taskCategory').value || "");
+        taskData.append(
+            'flag',
+            document.querySelector('input[type="checkbox"]').checked ? 1 : 0
+        );
+
+        fetch('../Controllers/taskcontroller.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: taskData.toString(), // Send data as a URL-encoded string
         })
-        .catch(error => console.error("Error:", error)); // Log network errors
-});
+            .then(response => response.json()) // Expect JSON response
+            .then(data => {
+                if (data.success) {
+                    alert("Task created successfully!");
+                    taskModal.style.display = 'none'; // Hide modal after task creation
+                    fetchTasks(); // Refresh the task list
+                } else {
+                    alert(data.message || "Failed to create task.");
+                }
+            })
+            .catch(error => console.error("Error:", error)); // Log network errors
+    });
 
-}
+    // Fetch tasks dynamically (Example function)
+    function fetchTasks() {
+        fetch('../Controllers/taskcontroller.php?action=fetch')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    renderTasks(data.tasks); // Render fetched tasks
+                } else {
+                    console.error("Failed to fetch tasks:", data.message);
+                }
+            })
+            .catch(error => console.error("Error fetching tasks:", error));
+    }
+
+    // Render tasks dynamically (Example implementation)
+    function renderTasks(tasks) {
+        const taskDisplay = document.getElementById('taskDisplay');
+        taskDisplay.innerHTML = ''; // Clear the current task list
+
+        tasks.forEach(task => {
+            const taskElement = document.createElement('div');
+            taskElement.className = 'task';
+            taskElement.innerHTML = `
+                <span class="task-title">${task.title}</span>
+                <span class="task-due">${task.due_date}</span>
+                <span class="task-priority">${task.priority}</span>
+                <button class="task-delete-btn" data-id="${task.id}">Delete</button>
+            `;
+
+            // Add delete functionality to each task
+            taskElement.querySelector('.task-delete-btn').addEventListener('click', function () {
+                deleteTask(task.id);
+            });
+
+            taskDisplay.appendChild(taskElement);
+        });
+    }
+
+    // Delete task function (Example implementation)
+    function deleteTask(taskId) {
+        const deleteData = new URLSearchParams();
+        deleteData.append('action', 'delete');
+        deleteData.append('id', taskId);
+
+        fetch('../Controllers/taskcontroller.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: deleteData.toString(),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Task deleted successfully!");
+                    fetchTasks(); // Refresh the task list
+                } else {
+                    alert(data.message || "Failed to delete task.");
+                }
+            })
+            .catch(error => console.error("Error deleting task:", error));
+    }
+
+    // Initialize tasks on page load
+    fetchTasks();
+});
 </script>
 </html>
 

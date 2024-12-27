@@ -302,5 +302,35 @@ if (data.status === 'success') {
 
 
 
+function filterTable() {
+    // Get the search input value
+    const searchInput = document.getElementById("searchInput").value.toLowerCase();
 
+    // Get all table rows
+    const table = document.getElementById("users2");
+    const rows = table.getElementsByTagName("tr");
+
+    // Loop through all rows, excluding the header row
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName("td");
+        let match = false;
+
+        // Check each cell in the row for a match
+        for (let j = 0; j < cells.length; j++) {
+            if (cells[j] && cells[j].innerText.toLowerCase().includes(searchInput)) {
+                match = true;
+                break;
+            }
+        }
+
+         // Show or hide the row based on the match, and apply gradient color if matched
+         if (match) {
+            rows[i].style.display = "";
+            rows[i].style.background = "linear-gradient(to right,rgb(105, 72, 72),rgb(70, 178, 193))";
+        } else {
+            rows[i].style.display = "none";
+            rows[i].style.background = ""; // Reset background
+        }
+    }
+}
 

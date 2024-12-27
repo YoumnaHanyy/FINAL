@@ -24,7 +24,17 @@ require_once __DIR__ . '/../DB/config.php';
     href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     
     <style>
-       
+       #searchInput{
+       color:burlywood;
+        background-color:#000;
+        width: 100%;
+    height: 40px;
+    border-radius: 90px;
+    padding: 5px,18px;
+    padding-left: 35px;
+    border: 2.5px solid #1e1e1e;
+    outline: none;
+       }
     </style>
 </head>
 <body>
@@ -84,7 +94,7 @@ require_once __DIR__ . '/../DB/config.php';
           <div class="main">
             <div class="top">
                 <div class="toggle" id="toggleBtn"><i class="fa-solid fa-bars"></i></div>
-                <div class="search" id="SN">
+                <div class="search" id="SN" >
                     <label>
                         <input type="text" placeholder="search here">
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -212,7 +222,10 @@ require_once __DIR__ . '/../DB/config.php';
     </div>
 </div>
 <div class="scrollable-div">
-                <table>
+<div>
+    <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterTable()" />
+</div>
+                <table id="users2">
                     <thead>
                         <tr>
                             <td>UserName</td>
@@ -280,8 +293,8 @@ require_once __DIR__ . '/../DB/config.php';
             </thead>
             <tbody>
             <?php
-            if (!empty($usersWithTasks)) {
-                foreach ($usersWithTasks as $row) {
+            if (!empty($usertaskstswithtasks)) {
+                foreach ($usertaskstswithtasks as $row) {
                     echo "<tr>";
                     echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
                     echo "<td>" . htmlspecialchars($row["completed_task"] ?? '') . "</td>";
@@ -388,6 +401,6 @@ require_once __DIR__ . '/../DB/config.php';
 </html>
 
 </body>
-<script src="http://localhost/PROJECTFF/Public/Js/dash.js"></script>
+<script src="http://localhost/PROJECTFF/Public/js/dash.js"></script>
 <script src="http://localhost/PROJECTFF/Public/js/main.js"></script>
 </html>

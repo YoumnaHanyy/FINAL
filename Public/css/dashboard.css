@@ -11,7 +11,7 @@ scroll-behavior: smooth;
 body{
 min-height: 100vh;
 overflow-x: hidden;
-background-color: #000000; 
+background-color: #6e6e6e; 
 }
 .container{
     position: relative;
@@ -103,7 +103,7 @@ width: 100%;
     width:calc(100%-250px) ;
     left: 250px;
     min-height: 100vh;
-    background-color: #000000;
+    background-color: #6e6e6e;
 }
 .top{
     width: 100%;

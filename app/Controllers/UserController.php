@@ -44,18 +44,8 @@ class UserController {
     public function deleteUser($username) {
         return json_encode($this->model->deleteUser($username));
     }
-    // public function getAllUsersWithTasks() {
-    //     return json_encode($this->model->getAllUsersWithTasks());
-    // }
-    public function displayUsersWithTasks() {
-        $usersWithTasks = $this->model->getUsersWithTasks();
-        return json_encode($usersWithTasks);
-    }
-
-   
-
-
-
+  
+    
 
 }
 ?>

@@ -20,6 +20,10 @@ if ($_GET['action'] === 'check-username') {
     $userController = new UserController();
     echo $userController->checkEmail($_GET['email']);
 }
+require_once __DIR__ . '/controllers/DashboardController.php';
+
+$dashboardController = new DashboardController();
+$dashboardController->renderDashboard();
 
 
 ?>

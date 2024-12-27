@@ -1,4 +1,6 @@
 <?php
+session_start(); // Start session for user login management
+
 // Enable error reporting
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -23,20 +25,25 @@ $messageClass = '';
 
 // Define admin credentials
 $admin_username = "admin";
-$admin_password = "admin123"; // Change this to a more secure password
+$admin_password = "admin123"; // Change this to a secure password
 
-// Check if form data has been submitted for signup
+// Function to sanitize inputs
+function sanitizeInput($data) {
+    return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
+}
+
+// Handle Signup
 if (isset($_POST['signup'])) {
-    $username = $_POST["signup_username"];
-    $email = $_POST["signup_email"];
-    $password = $_POST["signup_password"];
+    $username = sanitizeInput($_POST["signup_username"]);
+    $email = sanitizeInput($_POST["signup_email"]);
+    $password = sanitizeInput($_POST["signup_password"]);
 
-    // Basic input validation
+    // Basic validation
     if (empty($username) || empty($email) || empty($password)) {
         $message = "All fields are required!";
         $messageClass = "error";
     } else {
-        // Check if the username is taken
+        // Check if the username already exists
         $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
@@ -46,7 +53,7 @@ if (isset($_POST['signup'])) {
             $message = "Username is already taken!";
             $messageClass = "error";
         } else {
-            // Check if the email is taken
+            // Check if the email already exists
             $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
@@ -56,7 +63,7 @@ if (isset($_POST['signup'])) {
                 $message = "Email is already registered!";
                 $messageClass = "error";
             } else {
-                // Password validation
+                // Validate password strength
                 if (!preg_match('/^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/', $password)) {
                     $message = "Password must be at least 8 characters long, contain at least one uppercase letter, and one special character.";
                     $messageClass = "error";
@@ -64,13 +71,14 @@ if (isset($_POST['signup'])) {
                     // Hash the password
                     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-                    // Insert user data into the database
+                    // Insert the user into the database
                     $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
                     $stmt->bind_param("sss", $username, $email, $hashed_password);
 
                     if ($stmt->execute()) {
-                        $message = "Signup successful! Welcome, " . htmlspecialchars($username) . ".";
-                        $messageClass = "success";
+                        $_SESSION['username'] = $username; // Store the username in session for future use
+                        header("Location: plan.php"); // Redirect to the plan page
+                        exit(); // Ensure no further code is executed
                     } else {
                         $message = "Error: " . $stmt->error;
                         $messageClass = "error";
@@ -82,37 +90,41 @@ if (isset($_POST['signup'])) {
     }
 }
 
-// Check if form data has been submitted for login
-if (isset($_POST['login'])) {
-    $username = $_POST["login_username"];
-    $password = $_POST["login_password"];
 
-    // Basic input validation
+// Handle Login
+if (isset($_POST['login'])) {
+    $username = sanitizeInput($_POST["login_username"]);
+    $password = sanitizeInput($_POST["login_password"]);
+
+    // Basic validation
     if (empty($username) || empty($password)) {
         $message = "All fields are required!";
         $messageClass = "error";
     } else {
-        // Check if the username is admin
+        // Check if the user is admin
         if ($username === $admin_username && $password === $admin_password) {
+            $_SESSION['username'] = $username; // Store admin username in session
             $message = "Admin Login successful! Welcome, " . htmlspecialchars($username) . ".";
             $messageClass = "success";
-            // Redirect to admin dashboard or another page here
+            header("Location: admin_dashboard.php"); // Redirect to admin dashboard
+            exit();
         } else {
-            // Prepare a statement to check if the user exists
+            // Check user credentials
             $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
             $stmt->bind_param("s", $username);
             $stmt->execute();
             $stmt->store_result();
 
-            // If the user exists, verify the password
             if ($stmt->num_rows > 0) {
                 $stmt->bind_result($hashed_password);
                 $stmt->fetch();
 
                 if (password_verify($password, $hashed_password)) {
+                    $_SESSION['username'] = $username; // Store username in session
                     $message = "Login successful! Welcome back, " . htmlspecialchars($username) . ".";
                     $messageClass = "success";
-                    // Redirect to user dashboard or another page here
+                    header("Location: user.php"); // Redirect to user dashboard
+                    exit();
                 } else {
                     $message = "Invalid password!";
                     $messageClass = "error";

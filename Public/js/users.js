@@ -9,13 +9,10 @@ window.onload = function() {
     // Show the home content by default
     document.getElementById('homeContent').style.display = 'block';
     };
-    // Store tasks in an array to be displayed later
-    
-    // Store tasks in an array
-    
+      
     // Store tasks in an array
     let tasks = [];
-    let isEditing = false; // Flag to track if we're editing an existing task
+    let isEditing = false; // lag to track if we're editing an existing task
     let taskIndexToEdit = null;
     
     // Get references to the task fields

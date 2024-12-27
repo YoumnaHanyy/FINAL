@@ -82,7 +82,6 @@ fetch('http://localhost/finalproject/Final-1/app/View/edit-user.php', {
 }); 
 
 
-
 document.getElementById('generateReportBtn').onclick = function () {
     document.getElementById('reportModal').style.display = 'flex';
 }
@@ -257,7 +256,6 @@ function toggleUsersSection2() {
     uasSection.style.marginBottom = '50px';
     SNSection.style.display='none';
 
-
 }
 
 function toggleUsersSection3() {
@@ -267,7 +265,6 @@ function toggleUsersSection3() {
     const uasSection = document.getElementById('ash');
     const toggle1 = document.getElementById('toggleBtn');
     const SNSection = document.getElementById('SN');
-
 
 
     // Show the users section

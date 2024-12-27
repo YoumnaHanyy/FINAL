@@ -143,7 +143,7 @@ require_once __DIR__ . '/../DB/config.php';
             <div class="title">
                 <h2> <img width="48px" height="48px" src="https://img.icons8.com/ios-glyphs/30/group.png" alt="group"/></h2>
                 <a href="#" id="view-all-btn" class="view" onclick="showAllUsers()">View All</a>    
-                <a href="#" class="view" onclick="openAddModal()"><img width="50" height="50" src="https://img.icons8.com/ios/50/add-administrator.png" alt="add-administrator"/></a>
+                <a href="#" class="view" onclick="openAddModal()"><img width="50" height="50" src="https://img.icons8.com/ios/50/add--v1.png" alt="add-administrator"/></a>
                 <a href="#" class="view">Delete</a>
                
             </div>
@@ -236,12 +236,12 @@ require_once __DIR__ . '/../DB/config.php';
                            
                             echo "<td>
                             <button class='edit-button' onclick='openEditModal(\"" . htmlspecialchars($row["username"], ENT_QUOTES) . "\", \"" . htmlspecialchars($row["email"], ENT_QUOTES) . "\", \"" . htmlspecialchars($row["password"], ENT_QUOTES) . "\")'>
-                                <img width='28' height='28' src='https://img.icons8.com/pulsar-line/48/edit-user.png' alt='Edit User'/>
+                                <img width='32' height='32' src='https://img.icons8.com/pulsar-line/48/edit-user.png' alt='Edit User'/>
                             </button>
                           </td>";
                           echo "<td>
                           <button class='delete-button' onclick='openDeleteConfirmModal(\"" . htmlspecialchars($row["username"], ENT_QUOTES) . "\")'>
-                              <img width='38' height='38' src='https://img.icons8.com/pulsar-line/48/delete-user-male.png' alt='Delete User'/>
+                              <img width='32' height='32' src='https://img.icons8.com/pulsar-line/48/delete-user-male.png' alt='Delete User'/>
                           </button>
                         </td>";
                   

@@ -299,10 +299,14 @@ overflow-y: scroll; }
     position: relative;
     padding: 5px 10px;
     text-decoration: none;
-    background-color: white;
+   
     border-radius: 6px;
     color: #1e1e1e;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+view:hover{
+    transform: translateY(-10px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);}
  table{
 width: 100%;
 border-collapse: collapse;

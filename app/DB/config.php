@@ -110,6 +110,4 @@ while ($row = $result1->fetch_assoc()) {
     $userTaskCounts[] = $row;
 }
 
-
-
 ?>

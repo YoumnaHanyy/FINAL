@@ -551,7 +551,6 @@ body.collapsed .usersss
 }
 /**************shadyyyyyyy*******************/
 
-
         .user-img {
             
             border-radius: 50%;
@@ -908,14 +907,6 @@ li a:hover .icon i {
 .btn-cancel:hover {
     background-color: #0056b3;
 }
-
-
-
-
-
-
-
-
 
 .tablee{
     position: relative; /* Or absolute, fixed, sticky */

@@ -49,11 +49,7 @@ class DashboardController {
             return []; // Return an empty array on error
         }
     }
-
-
     ////////////////////
-    
-
     public function getDashboardMetrics2() {
         $data = [
             "totalUsers" => $this->userModel->countUsers(),
@@ -64,9 +60,5 @@ class DashboardController {
     
         require_once 'app/View/dashboard.php';
     }
-    
-
-
-    
 }
 ?>

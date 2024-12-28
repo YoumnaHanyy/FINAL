@@ -353,6 +353,7 @@ require_once __DIR__ . '/../DB/config.php';
             <p><?php echo htmlspecialchars($highPriorityTasks ?? 0); ?></p>
         </div>
     </div>
+    
 <div class="tablee">
 
     <table id="users2">

@@ -14,9 +14,7 @@ window.onload = function() {
     // Store tasks in an array
     
     // Store tasks in an array
-    let tasks = [];
-    let isEditing = false; // Flag to track if we're editing an existing task
-    let taskIndexToEdit = null;
+   
     
     // Get references to the task fields
     const taskDescriptionInput = document.querySelector('textarea');
@@ -28,13 +26,7 @@ window.onload = function() {
     const deleteBtn = document.querySelector('.delete-btn'); // Reference to the delete button
     
     // Attach a single event listener for the "Create Task" button
-    document.querySelector('.create-btn').addEventListener('click', function () {
-        if (isEditing) {
-            updateTask(taskIndexToEdit); // Update the existing task
-        } else {
-            saveTask(); // Create a new task
-        }
-    });
+   
     
     // Function to toggle selection for buttons
     // Function to toggle selection and highlight the chosen button
@@ -58,112 +50,8 @@ window.onload = function() {
     toggleSelection(taskPriorityButtons);
     
     
-    // Function to save the task
-    function saveTask() {
-        const description = taskDescriptionInput.value;
-        const assignedTo = taskAssignedInput.value;
-        let dueDate = '';
-        let reminder = '';
-        let priority = '';
-        const isFlagged = taskFlagInput.checked ? 'Flagged' : 'Not Flagged';
-    
-        // Get selected values
-        dueDate = Array.from(taskDateButtons).find(button => button.classList.contains('selected'))?.textContent || '-';
-        reminder = Array.from(taskReminderButtons).find(button => button.classList.contains('selected'))?.textContent || '-';
-        priority = Array.from(taskPriorityButtons).find(button => button.classList.contains('selected'))?.textContent || '-';
-    
-        const task = {
-            description: description || 'No Description',
-            assignedTo: assignedTo || 'Unassigned',
-            dueDate: dueDate,
-            reminder: reminder,
-            priority: priority,
-            flag: isFlagged
-        };
-    
-        tasks.push(task);
-        clearTaskModal();
-       
-    }
-    
-    // Function to clear the task modal after saving
-    function clearTaskModal() {
-        taskDescriptionInput.value = '';
-        taskAssignedInput.value = '';
-        taskFlagInput.checked = false;
-        taskDateButtons.forEach(button => button.classList.remove('selected'));
-        taskReminderButtons.forEach(button => button.classList.remove('selected'));
-        taskPriorityButtons.forEach(button => button.classList.remove('selected'));
-        document.getElementById('taskModal').style.display = 'none';
-        isEditing = false;
-        taskIndexToEdit = null;
-        document.querySelector('.create-btn').textContent = 'Create Task'; // Reset button text
-        deleteBtn.style.display = 'none'; // Hide delete button after closing modal
-    }
-    
-    // Function to display tasks in the right-hand side
   
-    
-    // Function to open the task modal for editing
-    function openTaskModalForEdit(taskIndex) {
-        const task = tasks[taskIndex]; // Get the selected task
-    
-        // Populate modal fields with task data
-        taskDescriptionInput.value = task.description;
-        taskAssignedInput.value = task.assignedTo;
-        document.getElementById('taskCategory').value = task.category;
-        taskDateButtons.forEach(button => {
-            if (button.textContent === task.dueDate) {
-                button.classList.add('selected');
-            } else {
-                button.classList.remove('selected');
-            }
-        });
-        taskReminderButtons.forEach(button => {
-            if (button.textContent === task.reminder) {
-                button.classList.add('selected');
-            } else {
-                button.classList.remove('selected');
-            }
-        });
-        taskPriorityButtons.forEach(button => {
-            if (button.textContent === task.priority) {
-                button.classList.add('selected');
-            } else {
-                button.classList.remove('selected');
-            }
-        });
-        taskFlagInput.checked = task.flag === 'Flagged';
-    
-        // Show the modal
-        document.getElementById('taskModal').style.display = 'flex';
-        isEditing = true;
-        taskIndexToEdit = taskIndex;
-    
-        // Show delete button
-        deleteBtn.style.display = 'block';
-    
-        // Change the button text to "Update Task"
-        document.querySelector('.create-btn').textContent = 'Update Task';
-    }
-    
-    // Function to update the task with the modified data
-   // Function to update the task in the database and array
-   function updateTask(taskIndex) {
-    
-    };
-
-    // Send the updated task to the server to update it in the database
- 
-
-// Function to delete the task from the database and array
-function deleteTask(taskIndex) {
-   
-}
-
-    
-   
-    
+  
     
     
     function toggleTaskCompletion(index) {
@@ -201,13 +89,6 @@ function deleteTask(taskIndex) {
     const taskModal = document.getElementById('taskModal');
     taskModal.style.display = 'flex'; // Show the task modal when the button is clicked
     });
-    
-    
-    
-    
-    
-    
-    
     
     
     

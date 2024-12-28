@@ -7,14 +7,14 @@
     <title>DoneDeal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="..\css\Home.css">
+    <link rel="stylesheet" href="../../Public/css/Home.css">
     
 </head>
 <body>
 <div class="container">
     <header class="header">
             <div class="logo">
-                <img src="../Images/logoo.jpg" alt="DoneDeal Logo">
+                <img src="../../Public/Images/logoo.jpg" alt="DoneDeal Logo">
                 <a href="Home.php" >
                 <span class="ll">DoneDeal</span>
     </a>
@@ -68,36 +68,36 @@
         <div class="options">
     <div class="option">
         Wiki
-        <img src="../Images/wikii.png" alt="Wiki Image" />
+        <img src="../../Public/Images/wikii.png" alt="Wiki Image" />
     </div>
     <div class="option">
         Planner
-        <img src="../Images/planner.png" alt="Planner Image" />
+        <img src="../../Public/Images/planner.png" alt="Planner Image" />
     </div>
 
     <div class="option">
         Class notes
-        <img src="../Images/class note.png" alt="Class Notes Image" />
+        <img src="../../Public/Images/class note.png" alt="Class Notes Image" />
     </div>
     <div class="option">
         Research
-        <img src="../Images/research.png" alt="Research Image" />
+        <img src="../../Public/Images/research.png" alt="Research Image" />
     </div>
     <div class="option">
         Task List
-        <img src="../Images/tasklist.png" alt="Task List Image" />
+        <img src="../../Public/Images/tasklist.png" alt="Task List Image" />
     </div>
     <div class="option">
         Thought
-        <img src="../Images/thoughts.png" alt="Thought Image" />
+        <img src="../../Public/Images/thoughts.png" alt="Thought Image" />
     </div>
     <div class="option">
         Meeting notes
-        <img src="../Images/meetingnotes.png" alt="Meeting Notes Image" />
+        <img src="../../Public/Images/meetingnotes.png" alt="Meeting Notes Image" />
     </div>
     <div class="option">
         Journal
-        <img src="../Images/journal.png" alt="Journal Image" />
+        <img src="../../Public/Images/journal.png" alt="Journal Image" />
     </div>
 </div>
 </div>
@@ -107,22 +107,22 @@
 
         <section class="features-section">
         <div class="feature">
-            <img src="../Images/work.png" alt="Work Anywhere Icon" class="feature-icon">
+            <img src="../../Public/Images/work.png" alt="Work Anywhere Icon" class="feature-icon">
             <h3>Work anywhere</h3>
             <p>Keep important info handy—your notes sync automatically to all your devices.</p>
         </div>
         <div class="feature">
-            <img src="../Images/pin.png" alt="Remember Everything Icon" class="feature-icon">
+            <img src="../../Public/Images/pin.png" alt="Remember Everything Icon" class="feature-icon">
             <h3>Remember everything</h3>
             <p>Make notes more useful by adding text, images, audio, scans, PDFs, and documents.</p>
         </div>
         <div class="feature">
-            <img src="../Images/right.png" alt="Turn to-do into done Icon" class="feature-icon">
+            <img src="../../Public/Images/right.png" alt="Turn to-do into done Icon" class="feature-icon">
             <h3>Turn to-do into done</h3>
             <p>Bring your notes, tasks, and schedules together to get things done more easily.</p>
         </div>
         <div class="feature">
-            <img src="../Images/search.png" alt="Find things fast Icon" class="feature-icon">
+            <img src="../../Public/Images/search.png" alt="Find things fast Icon" class="feature-icon">
             <h3>Find things fast</h3>
             <p>Get what you need, when you need it with powerful and flexible search capabilities.</p>
         </div>
@@ -136,7 +136,7 @@
     </div>
     <div class="collaboration-images">
     <div class="collaboration-option">
-        <img src="../Images/collab.png" alt="collab" class="profile-pic">
+        <img src="../../Public/Images/collab.png" alt="collab" class="profile-pic">
     </div>
 </div>
 
@@ -148,12 +148,12 @@
         <a href="#" class="read-more-link">Read more</a>
     </div>
     <div class="new-content">
-        <img src="../Images/30more.png" alt="Exciting improvements" />
+        <img src="../../Public/Images/30more.png" alt="Exciting improvements" />
     </div>
 </section>
 <footer class="footer">
     <div class="footer-left">
-        <img src="../Images/logoo.jpg" alt="DoneDeal Logo" class="footer-logo">
+        <img src="../../Public/Images/logoo.jpg" alt="DoneDeal Logo" class="footer-logo">
         <span>DoneDeal</span>
     </div>
     <div class="footer-right">

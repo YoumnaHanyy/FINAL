@@ -1,5 +1,5 @@
 body {
-    background-color: #1a1a1a;
+    background-color: #d4d4d4;
     /* Gradient from top-left to bottom-right */
     font-family: Arial, sans-serif;
     color: white;
@@ -17,7 +17,7 @@ body {
     
     flex-direction: column;
     width: 220px; /* Sidebar width */
-    background-color: #1a1a1a;
+    background-color: #d4d4d4;
     padding: 10px;
     border: 1px solid rgb(72, 72, 72); /* Thin white border (2px) */
     border-radius: 10px;

@@ -6,14 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Why DoneDeal?</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/whyDD.css"> <!-- Assuming you're using the same stylesheet -->
+    <link rel="stylesheet" href="../../Public/css/whyDD.css"> <!-- Assuming you're using the same stylesheet -->
 </head>
 <body>
 <div class="container">
 <img src="../Images/shape2.png" alt="shape2" class="shape2">
 <header class="header">
         <div class="logo">
-            <img src="../Images/logoo.jpg" alt="DoneDeal Logo">
+            <img src="../../Public/Images/logoo.jpg" alt="DoneDeal Logo">
             <a href="Home.php" >
                 <span class="ll">DoneDeal</span>
     </a>
@@ -57,12 +57,12 @@
         when you need it.</p>
         <a href="#" class="btn">Get DoneDeal free</a>
         <p class="login">Already have an account? <a href="#">Log in now</a></p>
-        <img src="../Images/shape1.png" alt="shape1" class="shape1">
+        <img src="../../Public/Images/shape1.png" alt="shape1" class="shape1">
       
     </div>
     <div class="testimonial-container">
     <div class="testimonial-image">
-        <img src="../Images/person.png" alt="Person's name" class="profile-pic">
+        <img src="../../Public/Images/person.png" alt="Person's name" class="profile-pic">
     </div>
     <div class="testimonial-text">
         <p>
@@ -80,7 +80,7 @@
     
     </div>
     <div class="deadline-image">
-        <img src="../Images/hit.png" alt="hit">
+        <img src="../../Public/Images/hit.png" alt="hit">
     </div>
 </div>
 <div class="findfast-container">
@@ -90,14 +90,14 @@
     
     </div>
     <div class="findfast-image">
-        <img src="../Images/find.png" alt="find">
+        <img src="../../Public/Images/find.png" alt="find">
     </div>
 </div>
 
 </div>
 <footer class="footer">
     <div class="footer-left">
-        <img src="../Images/logoo.jpg" alt="DoneDeal Logo" class="footer-logo">
+        <img src="../../Public/Images/logoo.jpg" alt="DoneDeal Logo" class="footer-logo">
         <span>DoneDeal</span>
     </div>
     <div class="footer-right">
@@ -111,9 +111,9 @@
             </select>
         </div>
         <div class="social-icons">
-            <a href="#"><img src="../Images/face.jpg" alt="Facebook"></a>
-            <a href="#"><img src="../Images/twitter2.png" alt="Twitter"></a>
-            <a href="#"><img src="../Images/instgram.png" alt="Instagram"></a>
+            <a href="#"><img src="../../Public/Images/face.jpg" alt="Facebook"></a>
+            <a href="#"><img src="../../Public/Images/twitter2.png" alt="Twitter"></a>
+            <a href="#"><img src="../../Public/Images/instgram.png" alt="Instagram"></a>
         </div>
     </div>
 </footer>

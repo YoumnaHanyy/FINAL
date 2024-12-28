@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing Plans</title>
-    <link rel="stylesheet" href="../css/plan.css">
+    <link rel="stylesheet" href="../../Public/css/plan.css">
 </head>
 <body>
 <div class="container">
     <header class="header">
             <div class="logo">
-                <img src="../Images/logoo.jpg" alt="DoneDeal Logo">
+                <img src="../../Public/Images/logoo.jpg" alt="DoneDeal Logo">
                 <a href="Home.php" >
                 <span class="ll">DoneDeal</span>
     </a>

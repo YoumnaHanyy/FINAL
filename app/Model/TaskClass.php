@@ -74,19 +74,9 @@ class TaskClass extends LoginClass {
             return "User is not logged in!";
         }
     
-        // Validate required fields
-        $requiredFields = ['id', 'title', 'due_date', 'reminder', 'priority', 'category', 'flag'];
-        foreach ($requiredFields as $field) {
-            if (empty($taskData[$field])) {
-                return "$field is required for update!";
-            }
-        }
-    
-        // Validate datetime fields
         $due_date = $this->validateDateTime($taskData['due_date']);
         $reminder = $this->validateDateTime($taskData['reminder']);
     
-        // Prepare SQL statement
         $sql = "UPDATE tasks 
                 SET title = ?, due_date = ?, reminder = ?, priority = ?, category = ?, flag = ?
                 WHERE id = ? AND assigned_to = ?";
@@ -98,14 +88,14 @@ class TaskClass extends LoginClass {
         }
     
         $stmt->bind_param(
-            "ssssssis", // Parameter types: s = string, i = integer
+            "ssssssis",
             $taskData['title'],
             $due_date,
             $reminder,
             $taskData['priority'],
             $taskData['category'],
             $taskData['flag'],
-            $taskData['id'],
+            intval($taskData['id']),
             $assignedTo
         );
     
@@ -113,14 +103,14 @@ class TaskClass extends LoginClass {
             if ($stmt->affected_rows > 0) {
                 return "Task updated successfully!";
             } else {
-                return "No changes made to the task or task not found.";
+                return "No changes made to the task, or task not found.";
             }
         } else {
             error_log("SQL Execution Error in updateTask: " . $stmt->error);
             return "Error updating task. Please try again.";
         }
     }
-
+    
     public function deleteTask($taskId) {
         $assignedTo = $this->getLoggedInUser();
         if (!$assignedTo) {

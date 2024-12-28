@@ -71,40 +71,6 @@ class UserModel {
         }
     }
     
-    // public function getAllUsersWithTasks() {
-    //     $sql = "
-    //     SELECT 
-    //         users.id AS user_id,
-    //         users.username,
-    //         users.email,
-    //         tasks.id AS task_id,
-    //         tasks.title,
-    //         tasks.due_date,
-    //         tasks.reminder,
-    //         tasks.priority,
-    //         tasks.category,
-    //         tasks.flag,
-    //         tasks.created_at AS task_created_at,
-    //         tasks.updated_at AS task_updated_at
-    //     FROM 
-    //         users
-    //     INNER JOIN 
-    //         tasks 
-    //     ON 
-    //         users.id = tasks.id
-    //     ";
-    
-    //     $result = $this->conn->query($sql);
-    
-    //     $data = [];
-    //     if ($result && $result->num_rows > 0) {
-    //         while ($row = $result->fetch_assoc()) {
-    //             $data[] = $row;
-    //         }
-    //     }
-    //     return $data;
-    // }
-    
     public function getUsersWithTasks() {
         $sql = "
         SELECT 
@@ -161,6 +127,32 @@ class UserModel {
 
 
 
+public function getUserTaskStatistics() {
+    $sql = "
+    SELECT 
+        users.username,
+        COUNT(tasks.id) AS total_tasks,
+        SUM(tasks.completed_task) AS completed_tasks
+    FROM 
+        users
+    LEFT JOIN 
+        tasks 
+    ON 
+        users.username = tasks.assigned_to
+    GROUP BY 
+        users.username
+    ";
+    
+    $result = $this->conn->query($sql);
+    $data = [];
+    
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+    }
+    return $data;
+}
 
 
     public function closeConnection() {

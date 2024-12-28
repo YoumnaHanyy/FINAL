@@ -305,41 +305,6 @@
 
 </body>
 <script>
-
-
-
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Fetch the logged-in user information from the userController.php
-    fetch('../Controllers/userController.php') // Adjust path as needed
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                console.error(data.error);
-                alert("User not logged in.");
-            } else {
-                // Display the username
-                const usernameElement = document.querySelector('.username');
-                if (usernameElement) {
-                    usernameElement.textContent = data.username;  // Display username
-                }
-
-                // Set the avatar to the first letter of the username
-                const avatarElement = document.querySelector('.profile-avatar');
-                if (avatarElement) {
-                    avatarElement.textContent = data.username[0].toUpperCase();  // Set avatar as first letter
-                }
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching user info:", error);
-            alert("Unable to fetch user information.");
-        });
-});
-
-
-
-
 document.querySelector('.create-btn').addEventListener('click', function () {
     const dueDate = document.getElementById('customDateInput').value;
     const reminder = document.getElementById('customReminderInput').value;
@@ -533,6 +498,27 @@ document.querySelector('.cancel-btn').addEventListener('click', function () {
 
 
 
+    document.addEventListener('DOMContentLoaded', function () {
+        // Fetch the logged-in user information
+        fetch('../Controllers/userConroller.php') // Adjust path as needed
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error(data.error);
+                    alert("User not logged in.");
+                } else {
+                    // Display the username
+                    document.querySelector('.username').textContent = data.username;
+
+                    // Set the avatar to the first letter of the username
+                    document.querySelector('.profile-avatar').textContent = data.username[0].toUpperCase();
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching user info:", error);
+                alert("Unable to fetch user information.");
+            });
+    });
 </script>
 
 

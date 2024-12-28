@@ -1,10 +1,8 @@
 <?php
-// Start the session to access session variables
-session_start();
-
 // Include the User class
 include('loginClass.php');
 include_once('config/db.php');  // Database connection
+include_once('views/login.php');  // View file to render the page
 
 // Define an empty message variable
 $message = '';
@@ -24,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Login the user
         $result = $user->login($username, $password);
-
+        
         // Set the message based on the result
         if ($result === true) {
             $_SESSION['username'] = $username; // Store the logged-in user's username
@@ -37,17 +35,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Check if the user is logged in
-if (isset($_SESSION['username'])) {
-    // If logged in, send the username in the response
-    $response = ['username' => $_SESSION['username']];
-} else {
-    // If not logged in, send an error message
-    $response = ['error' => 'User not logged in'];
+    elseif (isset($_POST['login'])) {
+        // Handle user login
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        // Create an instance of the User class
+        $user = new LoginClass();
+
+        // Login the user
+        $result = $user->login($username, $password);
+        
+        // Set the message based on the result
+        if ($result === true) {
+            $message = "Login successful!";
+            $messageClass = 'success';
+        } else {
+            $message = $result; // Return error message
+            $messageClass = 'error';
+        }
+    }
 }
 
-// Return the response as JSON
-echo json_encode($response);
-exit;
-
+// Include the view to show the result
+include('view.php');
 ?>

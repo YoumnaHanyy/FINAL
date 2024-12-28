@@ -26,8 +26,7 @@
         <span>&#128276;</span>
     </div>
 </div>
-
-        
+    
         <div class="search-bar">
             <input type="text" placeholder="Search">
         </div>
@@ -299,12 +298,9 @@
     <div id="taskListContainer"></div>
 </div>
 
-
-
-
-
 </body>
 <script>
+
 document.querySelector('.create-btn').addEventListener('click', function () {
     const dueDate = document.getElementById('customDateInput').value;
     const reminder = document.getElementById('customReminderInput').value;
@@ -327,7 +323,7 @@ document.querySelector('.create-btn').addEventListener('click', function () {
         document.querySelector('input[type="checkbox"]').checked ? 1 : 0
     );
 
-    fetch('../Controllers/taskcontroller.php', {
+    fetch('../../app/Controllers/taskcontroller.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: taskData.toString(), // Send data as a URL-encoded string
@@ -343,10 +339,121 @@ document.querySelector('.create-btn').addEventListener('click', function () {
 
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    function openTaskModal(task) {
+        // Populate the modal fields with task data
+        document.getElementById('des').value = task.title || '';
+        document.getElementById('customDateInput').value = task.due_date || '';
+        document.getElementById('customReminderInput').value = task.reminder || '';
+        document.getElementById('taskCategory').value = task.category || '';
+        document.querySelector('input[type="checkbox"]').checked = task.flag === 1;
 
+        // Highlight the priority button
+        document.querySelectorAll('.task-priority-options button').forEach(btn => {
+            if (btn.innerText === task.priority) {
+                btn.classList.add('selected');
+            } else {
+                btn.classList.remove('selected');
+            }
+        });
+
+        // Show the modal
+        document.getElementById('taskModal').style.display = 'block';
+
+        // Update buttons visibility
+        const createBtn = document.querySelector('.create-btn');
+        const deleteBtn = document.querySelector('.delete-btn');
+        createBtn.style.display = 'none';
+        deleteBtn.style.display = 'inline-block';
+
+        // Remove existing update button if any
+        const existingUpdateBtn = document.querySelector('.update-btn');
+        if (existingUpdateBtn) {
+            existingUpdateBtn.remove();
+        }
+
+        // Add update button
+        const updateBtn = document.createElement('button');
+        updateBtn.textContent = 'Update Task';
+        updateBtn.classList.add('update-btn');
+        deleteBtn.insertAdjacentElement('beforebegin', updateBtn);
+
+        // Update button click handler
+        updateBtn.addEventListener('click', function() {
+            const updatedTaskData = new URLSearchParams();
+            updatedTaskData.append('action', 'update');
+            updatedTaskData.append('id', task.id);
+            updatedTaskData.append('title', document.getElementById('des').value || '');
+            updatedTaskData.append('due_date', document.getElementById('customDateInput').value || '');
+            updatedTaskData.append('reminder', document.getElementById('customReminderInput').value || '');
+            updatedTaskData.append(
+                'priority',
+                document.querySelector('.task-priority-options .selected')?.innerText || 'Low'
+            );
+            updatedTaskData.append('category', document.getElementById('taskCategory').value || '');
+            updatedTaskData.append(
+                'flag',
+                document.querySelector('input[type="checkbox"]').checked ? 1 : 0
+            );
+
+            // Send update request with correct path
+            fetch('../../app/Controllers/taskcontroller.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: updatedTaskData.toString()
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(text => {
+                console.log('Update response:', text);
+                alert('Task updated successfully!');
+                document.getElementById('taskModal').style.display = 'none';
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error updating task:', error);
+                alert('Failed to update task: ' + error.message);
+            });
+        });
+
+        // Delete button click handler
+        deleteBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to delete this task?')) {
+                fetch('../../app/Controllers/taskcontroller.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ action: 'delete', id: task.id })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    console.log('Delete response:', text);
+                    alert('Task deleted successfully!');
+                    document.getElementById('taskModal').style.display = 'none';
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error deleting task:', error);
+                    alert('Failed to delete task: ' + error.message);
+                });
+            }
+        });
+    }
+
+    // Expose openTaskModal to global scope if needed
+    window.openTaskModal = openTaskModal;
+});
 
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('../Controllers/taskcontroller.php', {
+    fetch('../../app/Controllers/taskcontroller.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ action: 'getTasks' }),
@@ -384,87 +491,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-function openTaskModal(task) {
-    // Populate the modal fields with task data
-    document.getElementById('des').value = task.title || '';
-    document.getElementById('customDateInput').value = task.due_date || '';
-    document.getElementById('customReminderInput').value = task.reminder || '';
-    document.getElementById('taskCategory').value = task.category || '';
-    document.querySelector('input[type="checkbox"]').checked = task.flag === 1;
-
-    // Highlight the priority button
-    document.querySelectorAll('.task-priority-options button').forEach(btn => {
-        if (btn.innerText === task.priority) {
-            btn.classList.add('selected');
-        } else {
-            btn.classList.remove('selected');
-        }
-    });
-
-    // Show the modal
-    document.getElementById('taskModal').style.display = 'block';
-
-    // Update buttons
-    const createBtn = document.querySelector('.create-btn');
-    const deleteBtn = document.querySelector('.delete-btn');
-
-    createBtn.style.display = 'none'; // Hide "Create Task"
-    deleteBtn.style.display = 'inline-block'; // Show "Delete Task"
-
-    // Add event listener for updating the task
-    const updateBtn = document.createElement('button');
-    updateBtn.textContent = 'Update Task';
-    updateBtn.classList.add('update-btn');
-    deleteBtn.insertAdjacentElement('beforebegin', updateBtn);
-
-    updateBtn.addEventListener('click', function () {
-        const updatedTaskData = new URLSearchParams();
-        updatedTaskData.append('action', 'update');
-        updatedTaskData.append('id', task.id);
-        updatedTaskData.append('title', document.getElementById('des').value || '');
-        updatedTaskData.append('due_date', document.getElementById('customDateInput').value || '');
-        updatedTaskData.append('reminder', document.getElementById('customReminderInput').value || '');
-        updatedTaskData.append(
-            'priority',
-            document.querySelector('.task-priority-options .selected')?.innerText || 'Low'
-        );
-        updatedTaskData.append('category', document.getElementById('taskCategory').value || '');
-        updatedTaskData.append(
-            'flag',
-            document.querySelector('input[type="checkbox"]').checked ? 1 : 0
-        );
-
-        // Send update request
-        fetch('../Controllers/taskcontroller.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: updatedTaskData.toString(),
-        })
-            .then(response => response.text())
-            .then(text => {
-                
-                location.reload(); // Reload the page to reflect changes
-            })
-            .catch(error => console.error('Error updating task:', error));
-    });
-
-    // Add event listener for deleting the task
-    deleteBtn.addEventListener('click', function () {
-        if (confirm('Are you sure you want to delete this task?')) {
-            fetch('../Controllers/taskcontroller.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({ action: 'delete', id: task.id }),
-            })
-                .then(response => response.text())
-                .then(text => {
-                    alert('Task deleted successfully!');
-                    location.reload(); // Reload the page to reflect changes
-                })
-                .catch(error => console.error('Error deleting task:', error));
-        }
-    });
-}
 
 document.querySelector('.cancel-btn').addEventListener('click', function () {
     document.getElementById('taskModal').style.display = 'none';
@@ -519,6 +545,10 @@ document.querySelector('.cancel-btn').addEventListener('click', function () {
                 alert("Unable to fetch user information.");
             });
     });
+
+
+
+
 </script>
 
 

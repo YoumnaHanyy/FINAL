@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../../Public/css/users.css">
 </head>
 <body>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <div class="sidebar-menu">
        
         <div class="profile-section">
@@ -42,12 +43,10 @@
 
         <button class="btn" id="tasksBtn"><i class="fas fa-tasks"></i> Tasks</button>
 
-            
-            <button class="btn"><i class="fas fa-file"></i> Files</button>
-            <button class="btn"><i class="fas fa-calendar"></i> Calendar</button>
+        <button class="btn" id="calendarBtn"><i class="fas fa-calendar"></i> Calendar</button>
+        <input type="datetime-local" id="customDateInput" style="display:none;" />
             <button class="btn"><i class="fas fa-book"></i> Notebooks</button>
             <button class="btn"><i class="fas fa-tag"></i> Tags</button>
-            <button class="btn"><i class="fas fa-share-alt"></i> Shared with Me</button>
             <button class="btn"><i class="fas fa-trash"></i> Trash</button>
         </div>
         
@@ -99,11 +98,20 @@
                 <button class="template-button">Meeting note</button>
                 <button class="template-button">Project plan</button>
                 <button class="template-button">Add more</button>
+                <button class="open-gallery">Open Gallery</button>
             </div>
-            <button class="open-gallery">Open Gallery</button>
+            <button id="saveBtn" class="btn1">Save</button>
+        </div>
+         
+            
+    </div>
+    
+    <div id="calendarOverlay">
+        <div id="calendarModal">
+            <div id="calendar"></div> <!-- Placeholder for the calendar -->
+            <button onclick="closeCalendar()">Close Calendar</button>
         </div>
     </div>
-
    
 </div>
 
@@ -293,124 +301,50 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-</body>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const createTaskBtn = document.querySelector('.create-btn');
-    const taskPriorityOptions = document.querySelectorAll('.task-priority-options button');
-    const taskModal = document.getElementById('taskModal');
-
-    // Highlight the selected priority option
-    taskPriorityOptions.forEach(option => {
-        option.addEventListener('click', function () {
-            taskPriorityOptions.forEach(opt => opt.classList.remove('selected'));
-            option.classList.add('selected');
+        // Show the calendar modal when the calendar button is clicked
+        document.getElementById('calendarBtn').addEventListener('click', function() {
+            document.getElementById('calendarOverlay').style.display = 'flex';
         });
-    });
 
-    // Handle task creation
-    createTaskBtn.addEventListener('click', function () {
-        const dueDate = document.getElementById('customDateInput').value;
-        const reminder = document.getElementById('customReminderInput').value;
+        // Function to close the calendar modal
+        function closeCalendar() {
+            document.getElementById('calendarOverlay').style.display = 'none';
+        }
 
-        const taskData = new URLSearchParams();
-        taskData.append('action', 'create'); // Action type
-        taskData.append('title', document.querySelector('.des').value || "");
-        taskData.append('due_date', dueDate || "");
-        taskData.append('reminder', reminder || "");
-        taskData.append(
-            'priority',
-            document.querySelector('.task-priority-options .selected')?.innerText || "Low"
-        );
-        taskData.append('category', document.getElementById('taskCategory').value || "");
-        taskData.append(
-            'flag',
-            document.querySelector('input[type="checkbox"]').checked ? 1 : 0
-        );
-
-        fetch('../Controllers/taskcontroller.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: taskData.toString(), // Send data as a URL-encoded string
-        })
-            .then(response => response.json()) // Expect JSON response
-            .then(data => {
-                if (data.success) {
-                    alert("Task created successfully!");
-                    taskModal.style.display = 'none'; // Hide modal after task creation
-                    fetchTasks(); // Refresh the task list
-                } else {
-                    alert(data.message || "Failed to create task.");
-                }
-            })
-            .catch(error => console.error("Error:", error)); // Log network errors
-    });
-
-    // Fetch tasks dynamically (Example function)
-    function fetchTasks() {
-        fetch('../Controllers/taskcontroller.php?action=fetch')
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    renderTasks(data.tasks); // Render fetched tasks
-                } else {
-                    console.error("Failed to fetch tasks:", data.message);
-                }
-            })
-            .catch(error => console.error("Error fetching tasks:", error));
-    }
-
-    // Render tasks dynamically (Example implementation)
-    function renderTasks(tasks) {
-        const taskDisplay = document.getElementById('taskDisplay');
-        taskDisplay.innerHTML = ''; // Clear the current task list
-
-        tasks.forEach(task => {
-            const taskElement = document.createElement('div');
-            taskElement.className = 'task';
-            taskElement.innerHTML = `
-                <span class="task-title">${task.title}</span>
-                <span class="task-due">${task.due_date}</span>
-                <span class="task-priority">${task.priority}</span>
-                <button class="task-delete-btn" data-id="${task.id}">Delete</button>
-            `;
-
-            // Add delete functionality to each task
-            taskElement.querySelector('.task-delete-btn').addEventListener('click', function () {
-                deleteTask(task.id);
-            });
-
-            taskDisplay.appendChild(taskElement);
+        // Initialize the calendar using flatpickr
+        flatpickr("#calendar", {
+            inline: true, // Display the calendar inline
+            dateFormat: "Y-m-d", // Date format
         });
-    }
-
-    // Delete task function (Example implementation)
-    function deleteTask(taskId) {
-        const deleteData = new URLSearchParams();
-        deleteData.append('action', 'delete');
-        deleteData.append('id', taskId);
-
-        fetch('../Controllers/taskcontroller.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: deleteData.toString(),
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Task deleted successfully!");
-                    fetchTasks(); // Refresh the task list
-                } else {
-                    alert(data.message || "Failed to delete task.");
-                }
-            })
-            .catch(error => console.error("Error deleting task:", error));
-    }
-
-    // Initialize tasks on page load
-    fetchTasks();
-});
+    </script>
+<script>
+    document.getElementById('saveBtn').addEventListener('click', function() {
+        // Add your save functionality here
+        alert('Save button clicked!');
+    });
 </script>
+</body>
 </html>
 
+<script>
+document.querySelector('.create-btn').addEventListener('click', function() {
+    const taskData = {
+        title: document.querySelector('.des').value,
+        due_date: document.getElementById('customDateInput').value,
+        reminder: document.getElementById('customReminderInput').value,
+        assigned_to: document.querySelector('input[placeholder="Assign"]').value,
+        priority: document.querySelector('.task-priority-options .selected').innerText,
+        category: document.getElementById('taskCategory').value,
+        flag: document.querySelector('input[type="checkbox"]').checked ? 1 : 0
+    };
 
+    fetch('../Controllers/taskcontroller.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(taskData)
+    })
+    .then(response => response.json())
+    .then(data => alert(data.message));
+});
+</script>

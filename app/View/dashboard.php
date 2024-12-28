@@ -28,6 +28,12 @@ $result = $conn->query($sql);
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="/project/SWEPROJECT/assets/css/edit-product.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <a href="../path-to-calendar/calendar.php">Calendar</a>
+    <li>
+    <a href="calendar.php">Calendar</a>
+</li>
+
+
     <style>
       .confirmation-modal {
     display: none; /* Hidden by default */
@@ -120,7 +126,18 @@ $result = $conn->query($sql);
                         <span class="title"> Customers</span>
                     </a>
                 </li>
-
+                <li>
+                    <a href="dashboard.php">
+                        <span class="icon"><i class="fa-solid fa-house"></i></span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="calendar.php"> <!-- Link to Calendar -->
+                        <span class="icon"><i class="fa-solid fa-calendar"></i></span>
+                        <span class="title">Calendar</span>
+                    </a>
+                </li>
                 <li>
                     <a href="#">
                         <span class="icon"><i class="fa-solid fa-message"></i> </span>

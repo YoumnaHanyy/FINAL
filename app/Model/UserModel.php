@@ -70,8 +70,67 @@ class UserModel {
             return ["status" => "error", "message" => "Failed to delete user. Error: " . $stmt->error];
         }
     }
+    
+    public function getUsersWithTasks() {
+        $sql = "
+        SELECT 
+            users.username,
+            tasks.id AS task_id,
+            tasks.title,
+            tasks.due_date,
+            tasks.reminder,
+            tasks.priority,
+            tasks.category,
+            tasks.flag,
+            tasks.completed_task
+            tasks.created_at AS task_created_at
+        FROM 
+            users
+        LEFT JOIN 
+            tasks 
+        ON 
+            users.username = tasks.assigned_to
+        ";
+    
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+
+    public function countUsers() {
+        $sql = "SELECT COUNT(*) AS total_users FROM users";
+        $result = $this->conn->query($sql);
+        return $result->fetch_assoc()["total_users"] ?? 0;
+    }
+    
+
+
+
+
+    public function countTasks() {
+        $sql = "SELECT COUNT(*) AS total_tasks FROM tasks";
+        $result = $this->conn->query($sql);
+        return $result->fetch_assoc()["total_tasks"] ?? 0;
+    }
+    
+    public function countHighPriorityTasks() {
+        $sql = "SELECT COUNT(*) AS high_priority_tasks FROM tasks WHERE priority = 'High'";
+        $result = $this->conn->query($sql);
+        return $result->fetch_assoc()["high_priority_tasks"] ?? 0;
+    }
+    
+
+ 
+/////////////////////////////////////////////////
+
+
+
+
 
     public function closeConnection() {
         $this->conn->close();
     }
+
 }

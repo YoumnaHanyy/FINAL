@@ -14,23 +14,24 @@ require_once __DIR__ . '/../DB/config.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DashBoard</title>
-    <link rel="stylesheet" href="http://localhost/finalproject/Final-1/Public/Css/dashboard.css">
+    <link rel="stylesheet" href="http://localhost/finalproject/Final-1/Public/css/dashboard.css">
     <link rel="stylesheet" href="http://localhost/finalproject/Final-1/Public/css//edit-user.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     
     <style>
-    .password-strength-tray {
-    margin-top: 5px;
-    padding: 5px;
-    color: white;
-    text-align: center;
-    font-size: 14px;
-    border-radius: 3px;
-    display: none; /* Initially hidden */
-}
-
+       #searchInput{
+       color:burlywood;
+        background-color:#000;
+        width: 100%;
+    height: 40px;
+    border-radius: 90px;
+    padding: 5px,18px;
+    padding-left: 35px;
+    border: 2.5px solid #1e1e1e;
+    outline: none;
+       }
     </style>
 </head>
 <body>
@@ -90,15 +91,17 @@ require_once __DIR__ . '/../DB/config.php';
           <div class="main">
             <div class="top">
                 <div class="toggle" id="toggleBtn"><i class="fa-solid fa-bars"></i></div>
-                <div class="search" id="SN">
-    <label>
-        <input type="text" id="searchBar" placeholder="search here" oninput="filterUsers()">
-        <i class="fa-solid fa-magnifying-glass"></i>
-    </label>
-</div>
-<div id="userList">
-    <!-- User list dynamically populated here -->
-</div>
+                <div class="search" id="SN" >
+                    <label>
+                        <input type="text" placeholder="search here">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </label>
+                </div>
+            </div>
+            <!-- Main content goes here -->
+        </div>
+
+
 
     </div>
             <div>
@@ -145,10 +148,10 @@ require_once __DIR__ . '/../DB/config.php';
     <div class="usersss"id="sh">
         <div class="recent">
             <div class="title">
-                <h2> Users</h2>
-                <a href="#" id="view-all-btn" class="view" onclick="showAllUsers()">View All</a>    
-                <a href="#" class="view" onclick="openAddModal()">ADD</a>
-                <a href="#" class="view">Delete</a>
+                <h2><img width="100" height="100" src="https://img.icons8.com/clouds/100/group.png" alt="group"/></h2>
+                <a href="#" id="view-all-btn" class="view" onclick="showAllUsers()" > <img width="48px" height="48px" src="https://img.icons8.com/ios-filled/50/show-all-views.png" alt="group"/></a>    
+                <a href="#" class="view" onclick="openAddModal()"><img width="50px" height="50px" src="http://localhost/PROJECTFF/public/images/icons8-add-100.png" alt="add-administrator"/></a>
+                 
                
             </div>
         
@@ -156,31 +159,28 @@ require_once __DIR__ . '/../DB/config.php';
     <div class="modal-content">
         <span class="close-button" onclick="closeAddModal()">&times;</span>
         <h2>Add User</h2>
-        <form id="add-form" method="POST" action="/add-user.php">
+        <form id="add-form" method="POST">
             <label for="add_username">Username:</label>
             <input id="add_username" name="username" type="text" required>
-            <p id="add-name-error" class="error-message" style="display: none;">Name must contain only letters and be 3-15 characters long.</p>
+            <p id="add-name-error" class="error-message" style="display: none;"></p>
 
             <label for="add_email">Email:</label>
-            <input id="add_email" name="email" type="email" 
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
-                title="Please enter a valid email address" required>
-            <p id="add-email-error" class="error-message" style="display: none;">Please enter a valid Gmail address (e.g., name@gmail.com).</p>
+            <input id="add_email" name="email" type="email" required>
+            <p id="add-email-error" class="error-message" style="display: none;"></p>
 
             <label for="add_password">Password:</label>
-            <input id="add_password" name="password" type="password" 
-                title="Password must include uppercase, lowercase, a number, a symbol, and be at least 8 characters long" 
-                required>
+            <input id="add_password" name="password" type="password" required>
             <div class="password-strength">
-                <div class="strength-bar" id="add-strength-bar"></div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="add-strength-bar"></div>
+                </div>
                 <span class="strength-level" id="add-strength-level">Password strength</span>
             </div>
+            <p id="add-strength-tip" style="display: none;"></p>
 
             <button type="submit">Add User</button>
-            <p id="add-error-message" class="error-message" style="display: none;">A user with the same email already exists.</p>
-            <p id="add-success-message" class="success-message" style="display: none;">User added successfully!</p>
-            <div class="password-strength-tray" id="add-strength-tray" style="display: none;">Weak Password</div>
-
+            <p id="add-error-message" class="error-message" style="display: none;"></p>
+            <p id="add-success-message" class="success-message" style="display: none;"></p>
         </form>
     </div>
 </div>
@@ -218,8 +218,11 @@ require_once __DIR__ . '/../DB/config.php';
         <p id="deletion-message" style="display:none; margin-top: 20px;"></p> <!-- Message display -->
     </div>
 </div>
-<div class="scrollable-div" id="userList">
-                <table>
+<div class="scrollable-div">
+<div>
+    <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterTable()" />
+</div>
+                <table id="users2">
                     <thead>
                         <tr>
                             <td>UserName</td>
@@ -240,10 +243,20 @@ require_once __DIR__ . '/../DB/config.php';
                             echo "<td>" . $row["username"] . "</td>";
                             echo "<td>" . $row["email"] . "</td>";
                             echo "<td>" . $row["password"] . "</td>";
-
-                            echo "<td><button class='edit-button' onclick='openEditModal(\"" . $row["username"] . "\", \"" . $row["email"] . "\", \"" . $row["password"] . "\")'>Edit</button></td>";
-                            echo "<td><button class='delete-button' onclick='openDeleteConfirmModal(\"" . $row["username"] . "\")'>Delete</button></td>";
-
+                           
+                            echo "<td>
+                            <button class='edit-button' onclick='openEditModal(\"" . htmlspecialchars($row["username"], ENT_QUOTES) . "\", \"" . htmlspecialchars($row["email"], ENT_QUOTES) . "\", \"" . htmlspecialchars($row["password"], ENT_QUOTES) . "\")'>
+                            <img width='34' height='34' src='https://img.icons8.com/glyph-neue/64/edit-administrator.png' alt='edit-administrator'/>   
+                       
+                            </button>
+                          </td>";
+                          echo "<td>
+                          <button class='delete-button' onclick='openDeleteConfirmModal(\"" . htmlspecialchars($row["username"], ENT_QUOTES) . "\")'>
+                              
+                          <img width='32' height='32' src='https://img.icons8.com/ios-glyphs/30/remove-user-male.png' alt='Delete User'/>
+                          </button>
+                        </td>";
+                  
                             echo "</tr>";
                             $count++;
                         }
@@ -255,8 +268,10 @@ require_once __DIR__ . '/../DB/config.php';
                     </tbody>
                 </table>
             </div>
+            
         </div>
     </div>
+ 
     <div class="usersss" id="aa">
         <div class="recent">
      <div class="title">
@@ -266,42 +281,29 @@ require_once __DIR__ . '/../DB/config.php';
         <table>
             <thead>
                 <tr>
-                    <th>User</th>
-                    <th>Tasks Completed</th>
+                    <th>username</th>
+                    <th>completed_task</th>
                     <th>Completion Rate</th>
-                    <th>Last Active</th>
-                    <th>Status</th>
+                    <th>Due-date</th>
+                    <th>reminder</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><img src="http://localhost/PROJECTFF/public/images/man.png" class="user-img" alt="User Image"> Alice Johnson</td>
-                    <td>34 / 40</td>
-                    <td>85%</td>
-                    <td>27 Oct 2024</td>
-                    <td><span class="status-badge status-completed">Active</span></td>
-                </tr>
-                <tr>
-                    <td><img src="http://localhost/PROJECTFF/public/images/man.png" class="user-img" alt="User Image"> Bob Smith</td>
-                    <td>10 / 50</td>
-                    <td>20%</td>
-                    <td>25 Oct 2024</td>
-                    <td><span class="status-badge status-pending">Inactive</span></td>
-                </tr>
-                <tr>
-                    <td><img src="http://localhost/PROJECTFF/public/images/man.png" class="user-img" alt="User Image"> Carol Davis</td>
-                    <td>48 / 50</td>
-                    <td>96%</td>
-                    <td>27 Oct 2024</td>
-                    <td><span class="status-badge status-completed">Active</span></td>
-                </tr>
-                <tr>
-                    <td><img src="http://localhost/PROJECTFF/public/images/man.png" class="user-img" alt="User Image"> Dan Lee</td>
-                    <td>35 / 70</td>
-                    <td>50%</td>
-                    <td>24 Oct 2024</td>
-                    <td><span class="status-badge status-in-progress">In Progress</span></td>
-                </tr>
+            <?php
+            if (!empty($usertaskstswithtasks)) {
+                foreach ($usertaskstswithtasks as $row) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["completed_task"] ?? '') . "</td>";
+
+                    echo "<td>" . htmlspecialchars($row["due_date"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["reminder"] ?? '') . "</td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='10'>No users found</td></tr>";
+            }
+            ?>
             </tbody>
         </table>
     </div>
@@ -329,59 +331,72 @@ require_once __DIR__ . '/../DB/config.php';
     </div>
 </div>
 </div>
-</div>
-    <div class="dashboard-card" id="ash">
-        <div class="card-headery">
-            <h4>Admin Dashboard - Active Users</h4>
-            <a href="#" class="view-more">View All Users</a>
+</div>     
+<div class="card5" id="ash">
+    <div class="metrics">
+        <div class="metric-card">
+            <h3>Total Users</h3>
+            <p><?php echo htmlspecialchars($totalUsers ?? 0); ?></p>
         </div>
-        <div class="task-item">
-            <img src="http://localhost/PROJECTFF/public/images/face3.jpg" alt="profile image" class="profile-img">
-            <div class="task-details">
-                <p>Task: Complete Mobile App UI</p>
-                <small>Assigned by: John Doe</small>
-                <small class="activity-info">Last active: 5 mins ago</small>
-            </div>
-            <small class="task-time">Due: 10:07PM</small>
+        <div class="metric-card">
+            <h3>Total Tasks</h3>
+            <p><?php echo htmlspecialchars($totalTasks ?? 0); ?></p>
         </div>
-        <div class="task-item">
-            <img src="http://localhost/PROJECTFF/public/images/face4.jpg" alt="profile image" class="profile-img">
-            <div class="task-details">
-                <p>Task: Backend API Development</p>
-                <small>Assigned by: Jane Smith</small>
-                <small class="activity-info">Last active: 1 hr ago</small>
-            </div>
-            <small class="task-time">Due: 01:07AM</small>
-        </div>
-        <div class="task-item">
-            <img src="http://localhost/PROJECTFF/public/images/face3.jpg" alt="profile image" class="profile-img">
-            <div class="task-details">
-                <p>Task: Redesign Website</p>
-                <small>Assigned by: Michael Lee</small>
-                <small class="activity-info">Last active: 3 hrs ago</small>
-            </div>
-            <small class="task-time">Due: 04:42AM</small>
-        </div>
-        <div class="task-item">
-            <img src="http://localhost/PROJECTFF/public/images/face2.jpg" alt="profile image" class="profile-img">
-            <div class="task-details">
-                <p>Task: Set Up Analytics Dashboard</p>
-                <small>Assigned by: Sarah Brown</small>
-                <small class="activity-info">Last active: 1 day ago</small>
-            </div>
-            <small class="task-time">Due: 07:44PM</small>
-        </div>
-        <div class="task-item">
-            <img src="http://localhost/PROJECTFF/public/images/face1.jpg" alt="profile image" class="profile-img">
-            <div class="task-details">
-                <p>Task: Design New Logo</p>
-                <small>Assigned by: Alex Green</small>
-                <small class="activity-info">Last active: 2 days ago</small>
-            </div>
-            <small class="task-time">Due: 10:49AM</small>
+        <div class="metric-card">
+            <h3>High Priority Tasks</h3>
+            <p><?php echo htmlspecialchars($highPriorityTasks ?? 0); ?></p>
         </div>
     </div>
+<div class="tablee">
+
+    <table id="users2">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Task ID</th>
+                <th>Title</th>
+                <th>Due Date</th>
+                <th>Reminder</th>
+                <th>Priority</th>
+                <th>category</th>
+                <th>completed_task</th>
+                <th>Flag</th>
+                <th>Task Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+        </div>
+
+            <?php
+            if (!empty($usersWithTasks)) {
+                foreach ($usersWithTasks as $row) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["email"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["task_id"] ?? 'No tasks assigned') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["title"] ?? 'No tasks assigned') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["due_date"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["reminder"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["priority"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["category"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["completed_task"] ?? '') . "</td>";
+             
+                    echo "<td>" . htmlspecialchars($row["flag"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["task_created_at"] ?? '') . "</td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='10'>No users found</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+    </div>
+    
 </body>
-<script src="http://localhost/finalproject/Final-1/Public/Js/dash.js"></script>
+
+
+<script src="http://localhost/finalproject/Final-1/Public/js/dash.js"></script>
 <script src="http://localhost/finalproject/Final-1/Public/js/main.js"></script>
 </html>

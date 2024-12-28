@@ -64,6 +64,11 @@ $totalTasksQuery = "SELECT COUNT(*) AS total_tasks FROM tasks";
 $totalTasksResult = $conn->query($totalTasksQuery);
 $totalTasks = $totalTasksResult->fetch_assoc()["total_tasks"] ?? 0;
 
+// Count total taskss
+$totalTasksQuery = "SELECT COUNT(*) AS total_taskss FROM tasks";
+$totalTasksResult = $conn->query($totalTasksQuery);
+$totalTasks = $totalTasksResult->fetch_assoc()["total_taskss"] ?? 0;
+
 // Count high-priority tasks
 $highPriorityTasksQuery = "SELECT COUNT(*) AS high_priority_tasks FROM tasks WHERE priority = 'High'";
 $highPriorityTasksResult = $conn->query($highPriorityTasksQuery);
@@ -83,7 +88,7 @@ $result = $conn->query($sql);
 $sql1 = "
 SELECT 
     users.username,
-    COUNT(tasks.id) AS total_tasks,
+    COUNT(tasks.id) AS total_taskss,
     SUM(tasks.completed_task) AS completed_tasks
 FROM 
     users

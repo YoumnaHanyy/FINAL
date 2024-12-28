@@ -53,7 +53,7 @@ class DashboardController {
     public function getDashboardMetrics2() {
         $data = [
             "totalUsers" => $this->userModel->countUsers(),
-            "totalTasks" => $this->taskModel->countTasks(),
+            "totalTaskss" => $this->taskModel->countTaskss(),
             "highPriorityTasks" => $this->taskModel->countHighPriorityTasks(),
             "userTaskStatistics" => $this->userModel->getUserTaskStatistics(), // Add this
         ];

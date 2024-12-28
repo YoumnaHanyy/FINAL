@@ -292,16 +292,16 @@ require_once __DIR__ . '/../DB/config.php';
             <?php foreach ($userTaskCounts as $data): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($data['username']); ?></td>
-                    <td><?php echo htmlspecialchars($data['total_tasks']); ?></td>
+                    <td><?php echo htmlspecialchars($data['total_taskss']); ?></td>
                     <td><?php echo htmlspecialchars($data['completed_tasks'] ?? 0); ?></td>
                     <td>
                         <?php
                         // Ensure valid numbers to prevent division errors
-                        $totalTasks = $data['total_tasks'] ?? 0;
+                        $totalTaskss = $data['total_taskss'] ?? 0;
                         $completedTasks = $data['completed_tasks'] ?? 0;
 
-                        if ($totalTasks > 0) {
-                            echo htmlspecialchars("$completedTasks out of $totalTasks (" . round(($completedTasks / $totalTasks) * 100, 2) . "%)");
+                        if ($totalTaskss > 0) {
+                            echo htmlspecialchars("$completedTasks out of $totalTaskss (" . round(($completedTasks / $totalTaskss) * 100, 2) . "%)");
                         } else {
                             echo "No tasks assigned";
                         }
@@ -390,7 +390,7 @@ require_once __DIR__ . '/../DB/config.php';
                     echo "<td>" . htmlspecialchars($row["completed_task"] ?? '') . "</td>";
                      
                     echo "<td>" . htmlspecialchars($row["flag"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["task_created_at"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars(string: $row["task_created_at"] ?? '') . "</td>";
                     echo "</tr>";
                 }
             } else {

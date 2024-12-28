@@ -1668,3 +1668,15 @@ border: 1px solid #141414;
 .task-row:hover {
     background-color: #464646;
 }
+
+
+.modal-bg {
+    
+    background-color: #0A2E1D;
+}
+.timer-bg {
+    background-color: #1A3F2D;
+}
+.price-text {
+    color: #FFE5C9;
+}

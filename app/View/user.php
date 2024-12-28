@@ -10,6 +10,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+   
     <link rel="stylesheet" href="../../Public/css/Tasks.css">
 </head>
 <body>
@@ -21,9 +29,7 @@
     <div class="profile-info">
         <p class="username">Loading...</p> <!-- Placeholder for username -->
     </div>
-    <div class="notifications">
-        <span>&#128276;</span>
-    </div>
+   
 </div>
     
         <div class="search-bar">
@@ -63,6 +69,9 @@
         </div>
     </div>
     
+
+
+    <div id="notificationRoot"></div>
     <div class="main-content" id="mainContent" style="display: none;">
         <!-- Toolbar at the top of the main content -->
         <div class="toolbar">
@@ -281,6 +290,192 @@
 </div>
 
 </body>
+
+
+<script>
+    function NewYearModal() {
+        // Set initial state to open the modal immediately
+        var isOpenState = React.useState(true);
+        var isOpen = isOpenState[0];
+        var setIsOpen = isOpenState[1];
+
+        var timeLeftState = React.useState({
+            days: 10,
+            hours: 2,
+            minutes: 24,
+            seconds: 44
+        });
+        var timeLeft = timeLeftState[0];
+        var setTimeLeft = timeLeftState[1];
+
+        React.useEffect(function() {
+            if (isOpen) {
+                var timer = setInterval(function() {
+                    setTimeLeft(function(prev) {
+                        var newTime = { ...prev };
+                        newTime.seconds--;
+
+                        if (newTime.seconds < 0) {
+                            newTime.seconds = 59;
+                            newTime.minutes--;
+
+                            if (newTime.minutes < 0) {
+                                newTime.minutes = 59;
+                                newTime.hours--;
+
+                                if (newTime.hours < 0) {
+                                    newTime.hours = 23;
+                                    newTime.days--;
+                                }
+                            }
+                        }
+
+                        return newTime;
+                    });
+                }, 1000);
+
+                return function() {
+                    clearInterval(timer);
+                };
+            }
+        }, [isOpen]);
+
+        function padNumber(num) {
+            return String(num).padStart(2, '0');
+        }
+
+        return React.createElement('div', { className: 'relative' },
+            React.createElement('button', {
+                onClick: function() { setIsOpen(true); },
+                className: 'p-2 rounded-full hover:bg-gray-100 transition-colors'
+            }, '🔔'),
+
+            isOpen && React.createElement('div', {
+                className: 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'
+            },
+                React.createElement('div', {
+                    className: 'modal-bg text-white rounded-lg w-full max-w-lg mx-4 relative overflow-hidden'
+                }, [
+                    React.createElement('button', {
+                        key: 'close',
+                        onClick: function() { setIsOpen(false); },
+                        className: 'absolute right-4 top-4 text-gray-300 hover:text-white'
+                    }, '×'),
+
+                    React.createElement('div', {
+                        key: 'left-ornament',
+                        className: 'absolute left-8 top-16'
+                    }, [
+                        React.createElement('span', { key: 'star1', className: 'text-yellow-400' }, '✨'),
+                        React.createElement('div', { key: 'ornament1', className: 'mt-4' }, '🎈')
+                    ]),
+
+                    React.createElement('div', {
+                        key: 'right-ornament',
+                        className: 'absolute right-8 top-16'
+                    }, [
+                        React.createElement('span', { key: 'star2', className: 'text-yellow-400' }, '✨'),
+                        React.createElement('div', { key: 'ornament2', className: 'mt-4' }, '🎈')
+                    ]),
+
+                    React.createElement('div', {
+                        key: 'content',
+                        className: 'pt-8 pb-6 px-8 text-center'
+                    }, [
+                        React.createElement('div', {
+                            key: 'exclusive',
+                            className: 'inline-block bg-white text-black rounded-full px-4 py-1 text-sm font-semibold mb-4'
+                        }, 'EXCLUSIVE OFFER'),
+
+                        React.createElement('h2', {
+                            key: 'title1',
+                            className: 'text-4xl font-bold mb-2'
+                        }, 'Boost your'),
+
+                        React.createElement('h2', {
+                            key: 'title2',
+                            className: 'text-4xl font-bold mb-8'
+                        }, 'productivity in the new year'),
+
+                        React.createElement('div', {
+                            key: 'discount',
+                            className: 'price-text text-7xl font-bold mb-2'
+                        }, '-40%'),
+
+                        React.createElement('div', {
+                            key: 'offer',
+                            className: 'price-text text-xl mb-8'
+                        }, 'NEW YEAR\'S OFFER'),
+
+                        React.createElement('div', {
+                            key: 'timer',
+                            className: 'flex justify-center gap-4 mb-8'
+                        }, [
+                            createTimerUnit(padNumber(timeLeft.days), 'days'),
+                            React.createElement('div', { key: 'sep1', className: 'text-xl' }, ':'),
+                            createTimerUnit(padNumber(timeLeft.hours), 'hours'),
+                            React.createElement('div', { key: 'sep2', className: 'text-xl' }, ':'),
+                            createTimerUnit(padNumber(timeLeft.minutes), 'minutes'),
+                            React.createElement('div', { key: 'sep3', className: 'text-xl' }, ':'),
+                            createTimerUnit(padNumber(timeLeft.seconds), 'seconds')
+                        ]),
+
+                        React.createElement('button', {
+                            key: 'continue',
+                            onClick: function() { setIsOpen(false); },
+                            className: 'w-full bg-green-500 hover:bg-green-600 text-white rounded-lg py-4 text-xl font-semibold mb-6 transition-colors'
+                        }, 'Continue'),
+
+                        React.createElement('div', {
+                            key: 'pricing',
+                            className: 'text-gray-400'
+                        }, [
+                            React.createElement('span', {
+                                key: 'original',
+                                className: 'line-through'
+                            }, '$129.99'),
+                            React.createElement('span', {
+                                key: 'new',
+                                className: 'text-white font-bold ml-2'
+                            }, '$77.99 / year')
+                        ]),
+
+                        React.createElement('div', {
+                            key: 'monthly',
+                            className: 'text-gray-400 italic mt-1'
+                        }, 'just $6.49 / month')
+                    ])
+                ])
+            )
+        );
+    }
+
+    function createTimerUnit(value, label) {
+        return React.createElement('div', {
+            className: 'timer-bg rounded p-2 w-16',
+            key: label
+        }, [
+            React.createElement('div', {
+                key: 'value',
+                className: 'text-2xl font-bold'
+            }, value),
+            React.createElement('div', {
+                key: 'label',
+                className: 'text-xs text-gray-400'
+            }, label)
+        ]);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var root = document.getElementById('notificationRoot');
+        if (root) {
+            ReactDOM.createRoot(root).render(
+                React.createElement(NewYearModal)
+            );
+        }
+    });
+</script>
+
 <script>
  document.addEventListener("DOMContentLoaded", function () {
     fetch('../../app/Controllers/taskcontroller.php', {

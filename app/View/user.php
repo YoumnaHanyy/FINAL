@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,10 +47,13 @@
 
         <button class="btn" id="tasksBtn"><i class="fas fa-tasks"></i> Tasks</button>
 
-        <button class="btn" id="calendarBtn"><i class="fas fa-calendar"></i> Calendar</button>
-        <input type="datetime-local" id="customDateInput" style="display:none;" />
+            
+            <button class="btn"><i class="fas fa-file"></i> Files</button>
+            <button class="btn"><i class="fas fa-calendar"></i> Calendar</button>
+            <input type="datetime-local" id="customDateInput" style="display:none;" />
             <button class="btn"><i class="fas fa-book"></i> Notebooks</button>
             <button class="btn"><i class="fas fa-tag"></i> Tags</button>
+            <button class="btn"><i class="fas fa-share-alt"></i> Shared with Me</button>
             <button class="btn"><i class="fas fa-trash"></i> Trash</button>
         </div>
         
@@ -102,11 +109,12 @@
             </div>
             <button id="saveBtn" class="btn1">Save</button>
         </div>
-         
-            
-    </div>
-    
-    <div id="calendarOverlay">
+
+   
+</div>
+
+
+<div id="calendarOverlay">
         <div id="calendarModal">
             <div id="calendar"></div> <!-- Placeholder for the calendar -->
             <button onclick="closeCalendar()">Close Calendar</button>
@@ -116,12 +124,13 @@
 </div>
 
 
+
     <div class="task-modal" id="taskModal">
         <div class="task-modal-content">
             <h2><i class="fa fa-check-circle"></i> Enter task</h2>
             <div class="task-fields">
                 <label ><i class="fa fa-pen"></i> Title</label>
-                <textarea class="des" placeholder="What is this task about?"></textarea>
+                <textarea class="des" id="des" placeholder="What is this task about?"></textarea>
 
                 <label><i class="fa fa-calendar"></i> Due date</label>
                 <div class="task-date-options">
@@ -297,13 +306,181 @@
 
 
 
-<script src="../../Public/js/users.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+
+</body>
 <script>
-        // Show the calendar modal when the calendar button is clicked
-        document.getElementById('calendarBtn').addEventListener('click', function() {
+document.querySelector('.create-btn').addEventListener('click', function () {
+    const dueDate = document.getElementById('customDateInput').value;
+    const reminder = document.getElementById('customReminderInput').value;
+    const title=document.getElementById('des').value;
+
+
+    
+    const taskData = new URLSearchParams();
+    taskData.append('action', 'create'); // Action type
+    taskData.append('title', title || "");
+    taskData.append('due_date', dueDate || "");
+    taskData.append('reminder', reminder || "");
+    taskData.append(
+        'priority',
+        document.querySelector('.task-priority-options .selected')?.innerText || "Low"
+    );
+    taskData.append('category', document.getElementById('taskCategory').value || "");
+    taskData.append(
+        'flag',
+        document.querySelector('input[type="checkbox"]').checked ? 1 : 0
+    );
+
+    fetch('../Controllers/taskcontroller.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: taskData.toString(), // Send data as a URL-encoded string
+    })
+        .then(response => response.text()) // Read the response as plain text
+        .then(text => {
+            console.log(text); // Log raw response for debugging
+            alert(text); // Display the response message directly
+        })
+        .catch(error => console.error("Error:", error)); // Log network errors
+});
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('../Controllers/taskcontroller.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ action: 'getTasks' }),
+    })
+        .then(response => response.json())
+        .then(tasks => {
+            const taskDisplay = document.getElementById('taskDisplay');
+            taskDisplay.innerHTML = ''; // Clear the task display area
+
+            if (Array.isArray(tasks) && tasks.length > 0) {
+                tasks.forEach(task => {
+                    const taskRow = document.createElement('div');
+                    taskRow.classList.add('task-row');
+                    taskRow.innerHTML = `
+                        <span class="task-title" data-id="${task.id}">${task.title}</span>
+                        <span>${task.due_date}</span>
+                        <span>${task.reminder}</span>
+                        <span>${task.assigned_to || 'Unassigned'}</span>
+                    `;
+                    taskDisplay.appendChild(taskRow);
+
+                    // Add click event to open the modal
+                    const taskTitle = taskRow.querySelector('.task-title');
+                    taskTitle.addEventListener('click', () => openTaskModal(task));
+                });
+            } else {
+                taskDisplay.innerHTML = '<p>No tasks found.</p>';
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching tasks:", error);
+            document.getElementById('taskDisplay').innerHTML = '<p>Failed to load tasks. Please try again later.</p>';
+        });
+});
+
+
+
+function openTaskModal(task) {
+    // Populate the modal fields with task data
+    document.getElementById('des').value = task.title || '';
+    document.getElementById('customDateInput').value = task.due_date || '';
+    document.getElementById('customReminderInput').value = task.reminder || '';
+    document.getElementById('taskCategory').value = task.category || '';
+    document.querySelector('input[type="checkbox"]').checked = task.flag === 1;
+
+    // Highlight the priority button
+    document.querySelectorAll('.task-priority-options button').forEach(btn => {
+        if (btn.innerText === task.priority) {
+            btn.classList.add('selected');
+        } else {
+            btn.classList.remove('selected');
+        }
+    });
+
+    // Show the modal
+    document.getElementById('taskModal').style.display = 'block';
+
+    // Update buttons
+    const createBtn = document.querySelector('.create-btn');
+    const deleteBtn = document.querySelector('.delete-btn');
+
+    createBtn.style.display = 'none'; // Hide "Create Task"
+    deleteBtn.style.display = 'inline-block'; // Show "Delete Task"
+
+    // Add event listener for updating the task
+    const updateBtn = document.createElement('button');
+    updateBtn.textContent = 'Update Task';
+    updateBtn.classList.add('update-btn');
+    deleteBtn.insertAdjacentElement('beforebegin', updateBtn);
+
+    updateBtn.addEventListener('click', function () {
+        const updatedTaskData = new URLSearchParams();
+        updatedTaskData.append('action', 'update');
+        updatedTaskData.append('id', task.id);
+        updatedTaskData.append('title', document.getElementById('des').value || '');
+        updatedTaskData.append('due_date', document.getElementById('customDateInput').value || '');
+        updatedTaskData.append('reminder', document.getElementById('customReminderInput').value || '');
+        updatedTaskData.append(
+            'priority',
+            document.querySelector('.task-priority-options .selected')?.innerText || 'Low'
+        );
+        updatedTaskData.append('category', document.getElementById('taskCategory').value || '');
+        updatedTaskData.append(
+            'flag',
+            document.querySelector('input[type="checkbox"]').checked ? 1 : 0
+        );
+
+        // Send update request
+        fetch('../Controllers/taskcontroller.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: updatedTaskData.toString(),
+        })
+            .then(response => response.text())
+            .then(text => {
+                
+                location.reload(); // Reload the page to reflect changes
+            })
+            .catch(error => console.error('Error updating task:', error));
+    });
+
+    // Add event listener for deleting the task
+    deleteBtn.addEventListener('click', function () {
+        if (confirm('Are you sure you want to delete this task?')) {
+            fetch('../Controllers/taskcontroller.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ action: 'delete', id: task.id }),
+            })
+                .then(response => response.text())
+                .then(text => {
+                    alert('Task deleted successfully!');
+                    location.reload(); // Reload the page to reflect changes
+                })
+                .catch(error => console.error('Error deleting task:', error));
+        }
+    });
+}
+
+document.querySelector('.cancel-btn').addEventListener('click', function () {
+    document.getElementById('taskModal').style.display = 'none';
+    document.querySelector('.update-btn')?.remove(); // Remove the Update button to avoid duplicates
+    document.querySelector('.delete-btn').style.display = 'none'; // Hide Delete button
+    document.querySelector('.create-btn').style.display = 'inline-block'; // Show Create button
+});
+
+
+ // Show the calendar modal when the calendar button is clicked
+ document.getElementById('calendarBtn').addEventListener('click', function() {
             document.getElementById('calendarOverlay').style.display = 'flex';
         });
 
@@ -317,34 +494,14 @@
             inline: true, // Display the calendar inline
             dateFormat: "Y-m-d", // Date format
         });
-    </script>
-<script>
+  
+
     document.getElementById('saveBtn').addEventListener('click', function() {
         // Add your save functionality here
         alert('Save button clicked!');
     });
 </script>
-</body>
+<script src="../../Public/js/users.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </html>
-
-<script>
-document.querySelector('.create-btn').addEventListener('click', function() {
-    const taskData = {
-        title: document.querySelector('.des').value,
-        due_date: document.getElementById('customDateInput').value,
-        reminder: document.getElementById('customReminderInput').value,
-        assigned_to: document.querySelector('input[placeholder="Assign"]').value,
-        priority: document.querySelector('.task-priority-options .selected').innerText,
-        category: document.getElementById('taskCategory').value,
-        flag: document.querySelector('input[type="checkbox"]').checked ? 1 : 0
-    };
-
-    fetch('../Controllers/taskcontroller.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(taskData)
-    })
-    .then(response => response.json())
-    .then(data => alert(data.message));
-});
-</script>

@@ -83,7 +83,7 @@ window.onload = function() {
     
         tasks.push(task);
         clearTaskModal();
-        displayTasks();
+       
     }
     
     // Function to clear the task modal after saving
@@ -102,42 +102,7 @@ window.onload = function() {
     }
     
     // Function to display tasks in the right-hand side
-    function displayTasks() {
-        const taskDisplay = document.getElementById('taskDisplay');
-        const taskCount = document.getElementById('taskCount'); // Get the task count span
-        taskDisplay.innerHTML = ''; // Clear previous tasks
-    
-        tasks.forEach((task, index) => {
-            const taskItem = document.createElement('div');
-            taskItem.classList.add('task-item');
-            if (task.completed) {
-                taskItem.classList.add('completed'); // Add completed class if the task is done
-            }
-            taskItem.setAttribute('data-index', index);
-    
-            // Add the task data in the grid structure
-            taskItem.innerHTML = `
-                <div class="task-desc">
-                    <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} data-index="${index}">
-                    ${task.description}
-                </div>
-                <div class="task-meta">${task.dueDate || '-'}</div>
-                <div class="task-meta">${task.reminder || '-'}</div>
-                <div class="task-meta">${task.assignedTo || '-'}</div>
-            `;
-    
-            // Append the task item to the display
-            taskDisplay.appendChild(taskItem);
-    
-            // Add event listener for editing
-            taskItem.querySelector('.task-desc').addEventListener('click', function () {
-                openTaskModalForEdit(index);
-            });
-        });
-    
-        // Update the task count
-        taskCount.textContent = tasks.length; // Update the number of tasks
-    }
+  
     
     // Function to open the task modal for editing
     function openTaskModalForEdit(taskIndex) {
@@ -185,97 +150,34 @@ window.onload = function() {
     // Function to update the task with the modified data
    // Function to update the task in the database and array
    function updateTask(taskIndex) {
-    // Update task with new data from modal
-    const description = taskDescriptionInput.value;
-    const assignedTo = taskAssignedInput.value;
-    const dueDate = Array.from(taskDateButtons).find(button => button.classList.contains('selected'))?.textContent || '-';
-    const reminder = Array.from(taskReminderButtons).find(button => button.classList.contains('selected'))?.textContent || '-';
-    const priority = Array.from(taskPriorityButtons).find(button => button.classList.contains('selected'))?.textContent || '-';
-    const flag = taskFlagInput.checked ? 'Flagged' : 'Not Flagged';
-
-    const task = {
-        id: tasks[taskIndex].id, // Keep the task's ID to update the correct task
-        description: description,
-        assignedTo: assignedTo,
-        dueDate: dueDate,
-        reminder: reminder,
-        priority: priority,
-        flag: flag
+    
     };
 
     // Send the updated task to the server to update it in the database
-    fetch('../Controllers/taskcontroller.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            action: 'update', // Action is "update"
-            task: task
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            tasks[taskIndex] = task; // Update the task in the array
-            clearTaskModal();
-            displayTasks(); // Re-display tasks
-        } else {
-            alert('Error updating task: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
+ 
 
 // Function to delete the task from the database and array
 function deleteTask(taskIndex) {
-    // Send a request to delete the task from the backend
-    fetch('../Controllers/taskcontroller.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            action: 'delete',
-            taskIndex: taskIndex
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Task deleted successfully!');
-            tasks.splice(taskIndex, 1); // Remove task from the array
-            clearTaskModal();
-            displayTasks(); // Re-display tasks
-        } else {
-            alert('Error deleting task: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+   
 }
 
     
-    // Attach delete button functionality
-    deleteBtn.addEventListener('click', function () {
-        deleteTask(taskIndexToEdit); // Delete the task at the current index
-    });
+   
     
     
     
     function toggleTaskCompletion(index) {
     tasks[index].completed = !tasks[index].completed; // Toggle the completion status
-    displayTasks(); // Re-render the tasks
+    // Re-render the tasks
     }
     
-    // When "Create Task" button is clicked
-    
+   
     
     // Show task content when "Tasks" button is clicked
     document.getElementById('tasksBtn').addEventListener('click', function() {
     hideHomeContent();
     document.getElementById('mainContent').style.display = 'none';
     document.getElementById('taskContent').style.display = 'block';
-    displayTasks(); // Display the tasks when the Tasks button is clicked
     });
     
     // Function to hide home content
@@ -299,7 +201,16 @@ function deleteTask(taskIndex) {
     const taskModal = document.getElementById('taskModal');
     taskModal.style.display = 'flex'; // Show the task modal when the button is clicked
     });
- 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     // Function to hide the homeContent
     function hideHomeContent() {
@@ -484,7 +395,7 @@ function deleteTask(taskIndex) {
             const priorityOrder = { "High": 3, "Medium": 2, "Low": 1 };
             return priorityOrder[b.priority] - priorityOrder[a.priority]; // Always sort High to Low
         });
-        displayTasks(); // Re-display tasks after sorting
+         // Re-display tasks after sorting
     }
     
     // Function to sort tasks by deadline (Latest to Earliest)
@@ -494,7 +405,7 @@ function deleteTask(taskIndex) {
             const dateB = new Date(b.dueDate);
             return dateB - dateA; // Always sort Latest to Earliest
         });
-        displayTasks(); // Re-display tasks after sorting
+        // Re-display tasks after sorting
     }
     
     
@@ -623,35 +534,3 @@ function deleteTask(taskIndex) {
             document.getElementById('customReminderBtn').textContent = dateStr;
         }
     });
-
-    document.getElementById('saveBtn').addEventListener('click', function () {
-        const task = document.getElementById('taskInput').value;
-
-        if (task.trim() === "") {
-            alert("Please enter a task before saving.");
-            return;
-        }
-
-        // Send the task to the server
-        fetch('save_task.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ task: task }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    alert("Task saved successfully!");
-                    document.getElementById('taskInput').value = ""; // Clear input field
-                } else {
-                    alert("Error saving task: " + data.error);
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert("An error occurred while saving the task.");
-            });
-    });
-

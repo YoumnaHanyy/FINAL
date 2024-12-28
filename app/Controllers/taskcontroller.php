@@ -3,127 +3,96 @@ require_once '../Model/TaskClass.php';
 require_once '../DB/db.php';
 
 class TaskController {
-    private $taskClass;
-
-    public function __construct() {
-        // Initialize database connection and TaskClass
-        $db = new Database();
-        $this->taskClass = new TaskClass($db);
-    }
 
     public function handleRequest() {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->sendResponse(false, "Invalid request method. Only POST is allowed.");
-            return;
+        if (empty($_POST)) {
+            echo "No data received.";
+            exit;
         }
 
         if (!isset($_POST['action']) || empty($_POST['action'])) {
-            $this->sendResponse(false, "Action is required.");
-            return;
+            echo "Invalid or missing action.";
+            exit;
         }
 
-        session_start(); // Ensure session is started
-        if (!isset($_SESSION['username'])) {
-            $this->sendResponse(false, "User is not logged in.");
-            return;
+        global $db; // Assuming $db is initialized in db.php
+        if (!$db) {
+            echo "Database connection failed.";
+            exit;
         }
 
-        $username = $_SESSION['username'];
+        $taskClass = new TaskClass($db);
+
         $action = $_POST['action'];
+        $result = "Unknown error occurred.";
 
-        try {
-            switch ($action) {
-                case 'create':
-                    $this->handleCreate($username);
-                    break;
+        switch ($action) {
+            case 'create':
+                $requiredFields = ['title', 'due_date', 'reminder', 'priority', 'category', 'flag'];
+                foreach ($requiredFields as $field) {
+                    if (!isset($_POST[$field]) || empty(trim($_POST[$field]))) {
+                        
+                    }
+                }
+            
+                $taskData = [
+                    'title' => $_POST['title'],
+                    'due_date' => $_POST['due_date'],
+                    'reminder' => $_POST['reminder'],
+                    'priority' => $_POST['priority'],
+                    'category' => $_POST['category'],
+                    'flag' => $_POST['flag'],
+                ];
+                $result = $taskClass->createTask($taskData);
 
-                case 'update':
-                    $this->handleUpdate();
-                    break;
+              
+                
+                break;
 
-                case 'delete':
-                    $this->handleDelete();
-                    break;
+            case 'update':
+                if (isset($_POST['id'], $_POST['title'], $_POST['due_date'], $_POST['reminder'], $_POST['priority'], $_POST['category'], $_POST['flag'])) {
+                    $taskData = [
+                        'id' => $_POST['id'],
+                        'title' => $_POST['title'],
+                        'due_date' => $_POST['due_date'],
+                        'reminder' => $_POST['reminder'],
+                        'priority' => $_POST['priority'],
+                        'category' => $_POST['category'],
+                        'flag' => $_POST['flag'],
+                    ];
+                    $result = $taskClass->updateTask($taskData);
+                } else {
+                    $result = "Task data missing.";
+                }
+                break;
 
-                case 'fetch':
-                    $this->handleFetch($username);
-                    break;
+            case 'delete':
+                if (isset($_POST['taskId'])) {
+                    $result = $taskClass->deleteTask($_POST['taskId']);
+                } else {
+                    $result = "Task ID missing.";
+                }
+                break;
 
-                default:
-                    $this->sendResponse(false, "Invalid action: $action.");
-                    break;
-            }
-        } catch (Exception $e) {
-            $this->sendResponse(false, "An error occurred: " . $e->getMessage());
-        }
-    }
+            case 'getTasks':
+                $tasks = $taskClass->getTasksByUser();
+                echo json_encode($tasks);
+                exit;
 
-    private function handleCreate($username) {
-        $requiredFields = ['title', 'due_date', 'reminder', 'priority', 'category', 'flag'];
-        foreach ($requiredFields as $field) {
-            if (!isset($_POST[$field]) || empty($_POST[$field])) {
-                $this->sendResponse(false, "Missing required field: $field.");
-                return;
-            }
-        }
-
-        $taskData = [
-            'title' => $_POST['title'],
-            'due_date' => $_POST['due_date'],
-            'reminder' => $_POST['reminder'],
-            'priority' => $_POST['priority'],
-            'category' => $_POST['category'],
-            'flag' => (int)$_POST['flag'],
-        ];
-
-        $result = $this->taskClass->createTask($taskData, $username);
-        $this->sendResponse($result['success'], $result['message']);
-    }
-
-    private function handleUpdate() {
-        if (!isset($_POST['taskData']) || empty($_POST['taskData'])) {
-            $this->sendResponse(false, "Task data is required for update.");
-            return;
-        }
-
-        $taskData = json_decode($_POST['taskData'], true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            $this->sendResponse(false, "Invalid task data format.");
-            return;
+            default:
+                $result = "Invalid action.";
+                break;
         }
 
-        $result = $this->taskClass->updateTask($taskData);
-        $this->sendResponse($result['success'], $result['message']);
-    }
-
-    private function handleDelete() {
-        if (!isset($_POST['taskIndex']) || empty($_POST['taskIndex'])) {
-            $this->sendResponse(false, "Task index is required for deletion.");
-            return;
-        }
-
-        $taskIndex = (int)$_POST['taskIndex'];
-        $result = $this->taskClass->deleteTask($taskIndex);
-        $this->sendResponse($result['success'], $result['message']);
-    }
-
-    private function handleFetch($username) {
-        $result = $this->taskClass->getUserTasks($username);
-        $this->sendResponse($result['success'], $result['message'], $result['tasks'] ?? []);
-    }
-
-    private function sendResponse($success, $message, $data = []) {
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => $success,
-            'message' => $message,
-            'data' => $data
-        ]);
+        echo $result;
         exit;
     }
 }
 
-// Instantiate and handle the request
-$controller = new TaskController();
-$controller->handleRequest();
-?>
+try {
+    $controller = new TaskController();
+    $controller->handleRequest();
+} catch (Exception $e) {
+    echo "Unhandled exception: " . $e->getMessage();
+    exit;
+}

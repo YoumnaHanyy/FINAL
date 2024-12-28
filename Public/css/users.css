@@ -536,7 +536,7 @@ border-radius: 5px;
 }
 
 /* Textarea for task description */
-.des {
+.title-input {
     padding: 5px;
     font-size: 0.85rem; /* Reduced font size */
     border: 1px solid #272727;
@@ -547,7 +547,7 @@ border-radius: 5px;
     min-height: 40px; /* Adjusted height */
 }
 
-.des:focus {
+.title-input:focus {
     outline: none;
     border-color: #28a745;
 }
@@ -1454,4 +1454,64 @@ border: 1px solid #141414;
 .btn1:focus {
     outline: 3px solid rgba(72, 239, 128, 0.5); /* Highlight for accessibility */
     outline-offset: 3px;
+}
+
+
+
+
+/* Container for the task display */
+#taskDisplay {
+   
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+/* Each individual task row */
+.task-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1a1a1a;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.task-row:hover {
+    background-color: #1a1a1a;  /* Light gray on hover */
+}
+
+/* Title column */
+.task-row span:first-child {
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+}
+
+/* Due date column */
+.task-row span:nth-child(2) {
+    color: #888;
+    font-size: 14px;
+}
+
+/* Reminder column */
+.task-row span:nth-child(3) {
+    color: #ff9800; /* Orange for reminder */
+    font-size: 14px;
+}
+
+/* Assigned to column */
+.task-row span:nth-child(4) {
+    color: #4CAF50; /* Green for assigned person */
+    font-size: 14px;
+}
+
+/* If you want to style specific parts like "No tasks found" message */
+#taskDisplay p {
+    text-align: center;
+    font-style: italic;
+    color: #666;
 }

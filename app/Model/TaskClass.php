@@ -5,6 +5,8 @@ include_once '../DB/db.php';
 class TaskClass extends LoginClass {
     protected $conn;
 
+
+    
     public function __construct() {
         $db = new Database();
         $this->conn = $db->getConnection();
@@ -14,6 +16,15 @@ class TaskClass extends LoginClass {
         }
     }
 
+
+
+    public function getUsername() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        return $_SESSION['username'] ?? null;
+    }
+    
     public function createTask($taskData) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();

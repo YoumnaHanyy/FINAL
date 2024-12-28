@@ -9,13 +9,7 @@ window.onload = function() {
     // Show the home content by default
     document.getElementById('homeContent').style.display = 'block';
     };
-    // Store tasks in an array to be displayed later
-    
-    // Store tasks in an array
-    
-    // Store tasks in an array
-   
-    
+  
     // Get references to the task fields
     const taskDescriptionInput = document.querySelector('textarea');
     const taskDateButtons = document.querySelectorAll('.task-date-options button');
@@ -68,6 +62,7 @@ window.onload = function() {
     document.getElementById('taskContent').style.display = 'block';
     });
     
+    
     // Function to hide home content
     function hideHomeContent() {
     document.getElementById('homeContent').style.display = 'none';
@@ -78,6 +73,8 @@ window.onload = function() {
     const taskModal = document.getElementById('taskModal');
     taskModal.style.display = 'flex'; // Show the task modal when the button is clicked
     });
+    
+
     
     // Hide task modal when Cancel button is clicked
     document.querySelector('.cancel-btn').addEventListener('click', function() {
@@ -289,59 +286,69 @@ window.onload = function() {
         // Re-display tasks after sorting
     }
     
-    
-    
-    
-    document.getElementById('customDateBtn').addEventListener('click', function () {
-        // Show the hidden input field for the date picker
-        document.getElementById('customDateInput').style.display = 'block';
-    
-        // Initialize the Flatpickr date picker on the input field
-        flatpickr("#customDateInput", {
-            enableTime: true, // Enable time selection if needed
-            dateFormat: "Y-m-d H:i", // Date format (Y: Year, m: Month, d: Day, H:i: Time)
-            onClose: function(selectedDates, dateStr, instance) {
-                // When the user selects a date, hide the input and fill the selected date in the button
-                document.getElementById('customDateInput').style.display = 'none';
-                document.getElementById('customDateBtn').textContent = dateStr; // Set the date in the button text
-            }
-        });
-    
-        // Automatically open the date picker when the button is clicked
-        document.getElementById('customDateInput')._flatpickr.open();
+    const customDateBtn = document.getElementById('customDateBtn');
+    const customDateInput = document.getElementById('customDateInput');
+    const customReminderBtn = document.getElementById('customReminderBtn');
+    const customReminderInput = document.getElementById('customReminderInput');
+  
+    // Toggle visibility of custom date input
+    customDateBtn.addEventListener('click', () => {
+      customDateInput.style.display = customDateInput.style.display === 'none' || customDateInput.style.display === '' ? 'block' : 'none';
     });
-    document.getElementById('customDateBtn').addEventListener('click', function() {
-        document.getElementById('customDateInput').style.display = 'block'; // Show the input field
-        document.getElementById('customDateInput').focus(); // Automatically focus the input
+  
+    // Toggle visibility of custom reminder input
+    customReminderBtn.addEventListener('click', () => {
+      customReminderInput.style.display = customReminderInput.style.display === 'none' || customReminderInput.style.display === '' ? 'block' : 'none';
     });
     
-    document.getElementById('customDateInput').addEventListener('change', function() {
-        // When the user selects a date, hide the input and fill the selected date in the button
-        document.getElementById('customDateInput').style.display = 'none';
-        document.getElementById('customDateBtn').textContent = this.value; // Set the selected date in the button text
-    });
     
-    document.getElementById('customReminderBtn').addEventListener('click', function () {
-        // Show the hidden input field for the date picker
-        document.getElementById('customReminderInput').style.display = 'block';
-    
-        // Initialize the Flatpickr date picker on the input field
-        flatpickr("#customReminderInput", {
-            enableTime: true, // Enable time selection
+   // Toggle visibility of custom date input
+customDateBtn.addEventListener('click', () => {
+    // Show the input field for date
+    customDateInput.style.display = 'block';
+    customDateInput.focus();  // Focus on the input field to make sure it's active
+
+    // Initialize the Flatpickr date picker only once
+    if (!customDateInput._flatpickr) {
+        flatpickr(customDateInput, {
+            enableTime: true,
             dateFormat: "Y-m-d H:i", // Date and time format
-            defaultDate: new Date(), // Default to current date
             onClose: function(selectedDates, dateStr, instance) {
-                // When the user selects a date, hide the input and fill the selected date in the button
-                document.getElementById('customReminderInput').style.display = 'none';
-                document.getElementById('customReminderBtn').textContent = dateStr; // Set the date in the button text
+                // Hide the input and set button text when the date is selected
+                customDateInput.style.display = 'none';
+                customDateBtn.textContent = dateStr; // Set the date in the button text
             }
         });
-    
-        // Automatically open the date picker when the button is clicked
-        document.getElementById('customReminderInput')._flatpickr.open();
-    });
-    
-    
+    }
+
+    // Open the calendar explicitly
+    customDateInput._flatpickr.open();
+});
+
+// Toggle visibility of custom reminder input
+customReminderBtn.addEventListener('click', () => {
+    // Show the input field for reminder
+    customReminderInput.style.display = 'block';
+    customReminderInput.focus(); // Focus on the input field to make sure it's active
+
+    // Initialize the Flatpickr for reminder input only once
+    if (!customReminderInput._flatpickr) {
+        flatpickr(customReminderInput, {
+            enableTime: true,
+            noCalendar: false,
+            dateFormat: "Y-m-d H:i K", // 'K' adds the AM/PM option
+            time_24hr: false, // 12-hour format with AM/PM
+            onClose: function(selectedDates, dateStr, instance) {
+                // Hide the input and update button text when the reminder is selected
+                customReminderInput.style.display = 'none';
+                customReminderBtn.textContent = dateStr;
+            }
+        });
+    }
+
+    // Open the calendar explicitly
+    customReminderInput._flatpickr.open();
+});
     // IEFE
     (() => { 
         // state variables

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../Public/css/user.css">
+    <link rel="stylesheet" href="../../Public/css/Tasks.css">
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -19,8 +19,7 @@
     <div class="profile-section">
     <div class="profile-avatar">Y</div> <!-- Default initial -->
     <div class="profile-info">
-        <p class="username">Loading...</p> <!-- Placeholder -->
-        <p class="email">Loading...</p>    <!-- Placeholder -->
+        <p class="username">Loading...</p> <!-- Placeholder for username -->
     </div>
     <div class="notifications">
         <span>&#128276;</span>
@@ -45,9 +44,9 @@
         <button class="btn" id="tasksBtn"><i class="fas fa-tasks"></i> Tasks</button>
 
             
-            <button class="btn"><i class="fas fa-file"></i> Files</button>
+            <button class="btn" id="Eventbtn><i class="fas fa-file"></i> Events</button>
             <button class="btn"><i class="fas fa-calendar"></i> Calendar</button>
-            <input type="datetime-local" id="customDateInput" style="display:none;" />
+            <input type="datetime-locall" id="customDateInputt" style="display:none;" />
             <button class="btn"><i class="fas fa-book"></i> Notebooks</button>
             <button class="btn"><i class="fas fa-tag"></i> Tags</button>
             <button class="btn"><i class="fas fa-share-alt"></i> Shared with Me</button>
@@ -106,11 +105,7 @@
             </div>
             <button id="saveBtn" class="btn1">Save</button>
         </div>
-
-   
 </div>
-
-
 <div id="calendarOverlay">
         <div id="calendarModal">
             <div id="calendar"></div> <!-- Placeholder for the calendar -->
@@ -119,9 +114,6 @@
     </div>
    
 </div>
-
-
-
     <div class="task-modal" id="taskModal">
         <div class="task-modal-content">
             <h2><i class="fa fa-check-circle"></i> Enter task</h2>
@@ -164,9 +156,9 @@
 
                 <label><i class="fa fa-folder"></i> Category</label>
     <select id="taskCategory" class="task-category-options">
-        <option value="work">Work</option>
-        <option value="school">School</option>
-        <option value="company">Personal</option>
+        <option value="Work">Work</option>
+        <option value="School">School</option>
+        <option value="Personal">Personal</option>
     </select>
                 <div class="task-actions">
                     <button class="cancel-btn">Cancel</button>
@@ -254,35 +246,27 @@
     <h2>Tasks </h2>
     <h4><span id="taskCount">0</span> tasks</h4>
     <div class="task-controls">
-        <button id="newTaskBtn" class="new-task-btn">
-            <i class="fas fa-plus-circle"></i> New Task
-        </button>
+    <button id="newTaskBtn" class="new-task-btn">
+        <i class="fas fa-plus-circle"></i> New Task
+    </button>
 
-        <div class="task-filters">
-    <label for="sortBy" class="srt">Sort by:</label>
-    <select id="sortBy" class="filter-select">
-        <option value="priority">Priority</option>
-        <option value="deadline">Deadline</option>
-    </select>
-
-  
+    <div class="task-filters">
+        <label for="sortBy" class="srt">Sort by:</label>
+        <select id="sortBy" class="filter-select">
+            <option value="priority">Priority</option>
+            <option value="deadline">Deadline</option>
+        </select>
+        <button id="applyFilterBtn">Apply</button> <!-- Filter button -->
+    </div>
+    <input type="text" id="searchTask" placeholder="Find tasks..." class="search-bar1">
 </div>
 
-
-        <!-- Search Bar -->
-        <input type="text" id="searchTask" placeholder="Find tasks..." class="search-bar1">
-    </div>
-
-    <!-- Task Tabs -->
-    <div class="task-tabs">
-        <span class="tab active">All tasks</span>
-        <span class="tab">School</span>
-        <span class="tab">Personal</span>
-        <span class="tab">Work</span>
-       
-    </div>
-
-    <!-- Table-like header for task details -->
+<div class="task-tabs">
+    <span class="tab active" data-category="all">All tasks</span>
+    <span class="tab" data-category="School">School</span>
+    <span class="tab" data-category="Personal">Personal</span>
+    <span class="tab" data-category="Work">Work</span>
+</div>
     <div class="task-table-header">
         <span class="column-header">Title</span>
         <span class="column-header">Due date</span>
@@ -290,8 +274,6 @@
         <span class="column-header">Assigned to</span>
     </div>
     <div id="taskDisplay" class="task-display">
-        <!-- Tasks will be displayed here -->
-         
     </div>
 
 <div id="mainContent1">
@@ -300,14 +282,27 @@
 
 </body>
 <script>
+ document.addEventListener("DOMContentLoaded", function () {
+    fetch('../../app/Controllers/taskcontroller.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'action=getUsername' // Send the action to get the username
+    })
+    .then(response => response.text()) // Get the plain text username
+    .then(username => {
+        // Update the profile section with the username
+        document.querySelector(".profile-avatar").textContent = username.charAt(0).toUpperCase(); // First letter of the username
+        document.querySelector(".username").textContent = `Welcome, ${username}`; // Add "Welcome" before the username
+    })
+    .catch(error => console.error("Error fetching username:", error));
+});
+
+
 
 document.querySelector('.create-btn').addEventListener('click', function () {
     const dueDate = document.getElementById('customDateInput').value;
     const reminder = document.getElementById('customReminderInput').value;
     const title=document.getElementById('des').value;
-
-
-    
     const taskData = new URLSearchParams();
     taskData.append('action', 'create'); // Action type
     taskData.append('title', title || "");
@@ -335,20 +330,170 @@ document.querySelector('.create-btn').addEventListener('click', function () {
         })
         .catch(error => console.error("Error:", error)); // Log network errors
 });
-
-
-
-
 document.addEventListener('DOMContentLoaded', function () {
+    let currentTasks = [];
+
+    // Initialize Flatpickr for the custom date input
+    const dateInput = document.getElementById('customDateInput');
+    const reminderInput = document.getElementById('customReminderInput');
+
+    function initFlatpickr(input) {
+        flatpickr(input, {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            minDate: "today"
+        });
+    }
+
+    document.getElementById('customDateBtn').addEventListener('click', function() {
+        const dateInput = document.getElementById('customDateInput');
+        if (dateInput.style.display === "none" || dateInput.style.display === "") {
+            dateInput.style.display = "block";
+            initFlatpickr(dateInput); // Initialize Flatpickr when visible
+        } else {
+            dateInput.style.display = "none";
+        }
+    });
+
+    document.getElementById('customReminderBtn').addEventListener('click', function() {
+        const reminderInput = document.getElementById('customReminderInput');
+        if (reminderInput.style.display === "none" || reminderInput.style.display === "") {
+            reminderInput.style.display = "block";
+            initFlatpickr(reminderInput); // Initialize Flatpickr when visible
+        } else {
+            reminderInput.style.display = "none";
+        }
+    });
+
+    // Fetch tasks and display
+    fetch('../../app/Controllers/taskcontroller.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ action: 'getTasks' })
+    })
+    .then(response => response.json())
+    .then(tasks => {
+        currentTasks = tasks;
+        displayTasks(currentTasks);
+    })
+    .catch(error => {
+        console.error("Error fetching tasks:", error);
+        document.getElementById('taskDisplay').innerHTML = '<p>Failed to load tasks. Please try again later.</p>';
+    });
+
+    // Function to display tasks
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', function () {
+            const selectedCategory = this.getAttribute('data-category');
+
+            // Remove "active" class from all tabs and set it for the clicked tab
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+
+            // Filter tasks based on the selected category
+            const filteredTasks =
+                selectedCategory === 'all'
+                    ? currentTasks // Show all tasks for "all"
+                    : currentTasks.filter(task => task.category === selectedCategory);
+
+            displayTasks(filteredTasks); // Render filtered tasks
+        });
+    });
+
+    // Function to display tasks
+    function displayTasks(tasks) {
+        const taskDisplay = document.getElementById('taskDisplay');
+        taskDisplay.innerHTML = '';
+
+        if (Array.isArray(tasks) && tasks.length > 0) {
+            tasks.forEach(task => {
+                const taskRow = document.createElement('div');
+                taskRow.classList.add('task-row');
+
+                taskRow.innerHTML = `
+                    <div class="task-completion">
+                        <input type="checkbox" 
+                            id="completion-${task.id}" 
+                            class="task-complete-checkbox" 
+                            ${task.completed === 1 ? 'checked' : ''}>
+                        <label for="completion-${task.id}" class="completion-circle"></label>
+                    </div>
+                    <span class="task-title ${task.completed === 1 ? 'completed' : ''}" data-id="${task.id}">
+                        ${task.title}
+                    </span>
+                    <span>${task.due_date}</span>
+                    <span>${task.reminder}</span>
+                    <span>${task.assigned_to || 'Unassigned'}</span>
+                `;
+                taskDisplay.appendChild(taskRow);
+
+                // Add checkbox and modal functionality (reuse from existing code)
+                const checkbox = taskRow.querySelector(`#completion-${task.id}`);
+                checkbox.addEventListener('change', function (e) {
+                    e.stopPropagation();
+                    updateTaskCompletion(task.id, this.checked);
+                });
+
+                const taskTitle = taskRow.querySelector('.task-title');
+                taskTitle.addEventListener('click', () => openTaskModal(task));
+            });
+        } else {
+            taskDisplay.innerHTML = '<p>No tasks found for this category.</p>';
+        }
+    }
+
+// Updated updateTaskCompletion function with better error handling and logging
+function updateTaskCompletion(taskId, completed) {
+    console.log('Updating task completion:', { taskId, completed }); // Debug log
+
+    const taskData = new URLSearchParams();
+    taskData.append('action', 'updateCompletion');
+    taskData.append('id', taskId);
+    taskData.append('completed', completed ? 1 : 0);
+
+    fetch('../../app/Controllers/taskcontroller.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: taskData.toString()
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(text => {
+        console.log('Server response:', text); // Debug log
+        
+        // Update the UI
+        const taskTitle = document.querySelector(`.task-title[data-id="${taskId}"]`);
+        if (taskTitle) {
+            if (completed) {
+                taskTitle.classList.add('completed');
+            } else {
+                taskTitle.classList.remove('completed');
+            }
+        }
+
+        // Optionally refresh the task list
+        // loadTasks(); // Uncomment if you want to refresh the entire list
+    })
+    .catch(error => {
+        console.error('Error updating task completion:', error);
+        alert('Failed to update task completion status');
+    });
+}
+    // Function to open task modal for editing
     function openTaskModal(task) {
-        // Populate the modal fields with task data
         document.getElementById('des').value = task.title || '';
         document.getElementById('customDateInput').value = task.due_date || '';
         document.getElementById('customReminderInput').value = task.reminder || '';
         document.getElementById('taskCategory').value = task.category || '';
         document.querySelector('input[type="checkbox"]').checked = task.flag === 1;
 
-        // Highlight the priority button
+        // Highlight priority
         document.querySelectorAll('.task-priority-options button').forEach(btn => {
             if (btn.innerText === task.priority) {
                 btn.classList.add('selected');
@@ -366,19 +511,13 @@ document.addEventListener('DOMContentLoaded', function () {
         createBtn.style.display = 'none';
         deleteBtn.style.display = 'inline-block';
 
-        // Remove existing update button if any
-        const existingUpdateBtn = document.querySelector('.update-btn');
-        if (existingUpdateBtn) {
-            existingUpdateBtn.remove();
-        }
-
-        // Add update button
+        // Add update button dynamically
         const updateBtn = document.createElement('button');
         updateBtn.textContent = 'Update Task';
         updateBtn.classList.add('update-btn');
         deleteBtn.insertAdjacentElement('beforebegin', updateBtn);
 
-        // Update button click handler
+        // Update task on button click
         updateBtn.addEventListener('click', function() {
             const updatedTaskData = new URLSearchParams();
             updatedTaskData.append('action', 'update');
@@ -386,41 +525,27 @@ document.addEventListener('DOMContentLoaded', function () {
             updatedTaskData.append('title', document.getElementById('des').value || '');
             updatedTaskData.append('due_date', document.getElementById('customDateInput').value || '');
             updatedTaskData.append('reminder', document.getElementById('customReminderInput').value || '');
-            updatedTaskData.append(
-                'priority',
-                document.querySelector('.task-priority-options .selected')?.innerText || 'Low'
-            );
+            updatedTaskData.append('priority', document.querySelector('.task-priority-options .selected')?.innerText || 'Low');
             updatedTaskData.append('category', document.getElementById('taskCategory').value || '');
-            updatedTaskData.append(
-                'flag',
-                document.querySelector('input[type="checkbox"]').checked ? 1 : 0
-            );
+            updatedTaskData.append('flag', document.querySelector('input[type="checkbox"]').checked ? 1 : 0);
 
-            // Send update request with correct path
             fetch('../../app/Controllers/taskcontroller.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: updatedTaskData.toString()
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
-            })
+            .then(response => response.text())
             .then(text => {
-                console.log('Update response:', text);
                 alert('Task updated successfully!');
                 document.getElementById('taskModal').style.display = 'none';
                 location.reload();
             })
             .catch(error => {
-                console.error('Error updating task:', error);
                 alert('Failed to update task: ' + error.message);
             });
         });
 
-        // Delete button click handler
+        // Delete task
         deleteBtn.addEventListener('click', function() {
             if (confirm('Are you sure you want to delete this task?')) {
                 fetch('../../app/Controllers/taskcontroller.php', {
@@ -428,132 +553,55 @@ document.addEventListener('DOMContentLoaded', function () {
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: new URLSearchParams({ action: 'delete', id: task.id })
                 })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.text();
-                })
+                .then(response => response.text())
                 .then(text => {
-                    console.log('Delete response:', text);
                     alert('Task deleted successfully!');
                     document.getElementById('taskModal').style.display = 'none';
                     location.reload();
                 })
                 .catch(error => {
-                    console.error('Error deleting task:', error);
                     alert('Failed to delete task: ' + error.message);
                 });
             }
         });
     }
 
-    // Expose openTaskModal to global scope if needed
-    window.openTaskModal = openTaskModal;
+    // Event listeners for filters and search
+    document.getElementById('applyFilterBtn').addEventListener('click', function() {
+        const sortBy = document.getElementById('sortBy').value;
+        const sortedTasks = sortTasks(currentTasks, sortBy);
+        displayTasks(sortedTasks);
+    });
+
+    document.getElementById('searchTask').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        const filteredTasks = currentTasks.filter(task => task.title.toLowerCase().includes(searchTerm));
+        displayTasks(filteredTasks);
+    });
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    fetch('../../app/Controllers/taskcontroller.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ action: 'getTasks' }),
-    })
-        .then(response => response.json())
-        .then(tasks => {
-            const taskDisplay = document.getElementById('taskDisplay');
-            taskDisplay.innerHTML = ''; // Clear the task display area
+// Sorting function for tasks
+const priorityOrder = {
+    'High': 1,
+    'Medium': 2,
+    'Low': 3
+};
 
-            if (Array.isArray(tasks) && tasks.length > 0) {
-                tasks.forEach(task => {
-                    const taskRow = document.createElement('div');
-                    taskRow.classList.add('task-row');
-                    taskRow.innerHTML = `
-                        <span class="task-title" data-id="${task.id}">${task.title}</span>
-                        <span>${task.due_date}</span>
-                        <span>${task.reminder}</span>
-                        <span>${task.assigned_to || 'Unassigned'}</span>
-                    `;
-                    taskDisplay.appendChild(taskRow);
-
-                    // Add click event to open the modal
-                    const taskTitle = taskRow.querySelector('.task-title');
-                    taskTitle.addEventListener('click', () => openTaskModal(task));
-                });
-            } else {
-                taskDisplay.innerHTML = '<p>No tasks found.</p>';
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching tasks:", error);
-            document.getElementById('taskDisplay').innerHTML = '<p>Failed to load tasks. Please try again later.</p>';
-        });
-});
-
-
-
-
-document.querySelector('.cancel-btn').addEventListener('click', function () {
-    document.getElementById('taskModal').style.display = 'none';
-    document.querySelector('.update-btn')?.remove(); // Remove the Update button to avoid duplicates
-    document.querySelector('.delete-btn').style.display = 'none'; // Hide Delete button
-    document.querySelector('.create-btn').style.display = 'inline-block'; // Show Create button
-});
-
-
- // Show the calendar modal when the calendar button is clicked
- document.getElementById('calendarBtn').addEventListener('click', function() {
-            document.getElementById('calendarOverlay').style.display = 'flex';
-        });
-
-        // Function to close the calendar modal
-        function closeCalendar() {
-            document.getElementById('calendarOverlay').style.display = 'none';
+function sortTasks(tasks, sortBy) {
+    return [...tasks].sort((a, b) => {
+        if (sortBy === 'priority') {
+            return priorityOrder[a.priority] - priorityOrder[b.priority];
+        } else if (sortBy === 'deadline') {
+            const dateA = new Date(a.due_date).getTime();
+            const dateB = new Date(b.due_date).getTime();
+            return dateA - dateB;
         }
-
-        // Initialize the calendar using flatpickr
-        flatpickr("#calendar", {
-            inline: true, // Display the calendar inline
-            dateFormat: "Y-m-d", // Date format
-        });
-  
-
-    document.getElementById('saveBtn').addEventListener('click', function() {
-        // Add your save functionality here
-        alert('Save button clicked!');
+        return 0;
     });
-
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-        // Fetch the logged-in user information
-        fetch('../Controllers/userConroller.php') // Adjust path as needed
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    console.error(data.error);
-                    alert("User not logged in.");
-                } else {
-                    // Display the username
-                    document.querySelector('.username').textContent = data.username;
-
-                    // Set the avatar to the first letter of the username
-                    document.querySelector('.profile-avatar').textContent = data.username[0].toUpperCase();
-                }
-            })
-            .catch(error => {
-                console.error("Error fetching user info:", error);
-                alert("Unable to fetch user information.");
-            });
-    });
-
-
-
+}
 
 </script>
-
-
-
-<script src="../../Public/js/users.js"></script>
+<script src="../../Public/js/user.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </html>

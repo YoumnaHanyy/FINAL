@@ -44,6 +44,36 @@ class TaskController {
                     $this->handleGetTasks($taskClass);
                     break;
 
+                    case 'updateCompletion':
+                        $taskId = $_POST['id'];
+                        $completed = $_POST['completed'];
+                    
+                        $conn = $db->getConnection(); // Retrieve the mysqli connection
+                    
+                        $stmt = $conn->prepare("UPDATE tasks SET completed = ? WHERE id = ?");
+                        if ($stmt) {
+                            $stmt->bind_param("ii", $completed, $taskId); // Bind parameters
+                            if ($stmt->execute()) {
+                                echo "Task completion status updated successfully";
+                            } else {
+                                echo "Error updating task completion status: " . $stmt->error;
+                            }
+                            $stmt->close();
+                        } else {
+                            echo "Error preparing SQL statement: " . $conn->error;
+                        }
+                        break;
+
+                        case 'getUsername':
+                            // Create an instance of TaskClass
+                            $taskClass = new TaskClass();
+                        
+                            // Get the username
+                            $username = $taskClass->getUsername();
+                        
+                            // Return the username as a response
+                            echo $username ? $username : "No user logged in";
+                            break;
                 default:
                     $this->sendResponse("Invalid action: " . $action, 400);
                     break;

@@ -1,7 +1,4 @@
 
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,22 +10,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../Public/css/users.css">
+    <link rel="stylesheet" href="../../Public/css/user.css">
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <div class="sidebar-menu">
        
-        <div class="profile-section">
-            <div class="profile-avatar">Y</div>
-            <div class="profile-info">
-                <p class="username">yomna2207085c5a5...</p>
-                <p class="email">yomna2207085@miuegy...</p>
-            </div>
-            <div class="notifications">
-                <span>&#128276;</span>
-            </div>
-        </div>
+    <div class="profile-section">
+    <div class="profile-avatar">Y</div> <!-- Default initial -->
+    <div class="profile-info">
+        <p class="username">Loading...</p> <!-- Placeholder -->
+        <p class="email">Loading...</p>    <!-- Placeholder -->
+    </div>
+    <div class="notifications">
+        <span>&#128276;</span>
+    </div>
+</div>
+
         
         <div class="search-bar">
             <input type="text" placeholder="Search">
@@ -268,10 +266,7 @@
         <option value="deadline">Deadline</option>
     </select>
 
-    <!-- Sort Button -->
-    <button id="sortBtn" class="sort-btn" title="Sort by Priority or Deadline">
-        <i class="fa-solid fa-arrow-down-wide-short"></i>
-    </button>
+  
 </div>
 
 
@@ -310,6 +305,41 @@
 
 </body>
 <script>
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Fetch the logged-in user information from the userController.php
+    fetch('../Controllers/userController.php') // Adjust path as needed
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error(data.error);
+                alert("User not logged in.");
+            } else {
+                // Display the username
+                const usernameElement = document.querySelector('.username');
+                if (usernameElement) {
+                    usernameElement.textContent = data.username;  // Display username
+                }
+
+                // Set the avatar to the first letter of the username
+                const avatarElement = document.querySelector('.profile-avatar');
+                if (avatarElement) {
+                    avatarElement.textContent = data.username[0].toUpperCase();  // Set avatar as first letter
+                }
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching user info:", error);
+            alert("Unable to fetch user information.");
+        });
+});
+
+
+
+
 document.querySelector('.create-btn').addEventListener('click', function () {
     const dueDate = document.getElementById('customDateInput').value;
     const reminder = document.getElementById('customReminderInput').value;
@@ -500,7 +530,13 @@ document.querySelector('.cancel-btn').addEventListener('click', function () {
         // Add your save functionality here
         alert('Save button clicked!');
     });
+
+
+
 </script>
+
+
+
 <script src="../../Public/js/users.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

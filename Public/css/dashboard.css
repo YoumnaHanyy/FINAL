@@ -123,7 +123,7 @@ width: 100%;
     font-size: 2rem;
     cursor: pointer;
     margin-right: 350px;
-    color: burlywood;
+    color: rgb(21, 178, 45);
 }
 
 
@@ -597,7 +597,7 @@ color: #ebb24c;
 
 .modal-content {
   
-    background-color: #1e1e1e;
+    background-color: #ddd;;
     padding: 20px;
     border-radius: 10px;
     color: white;
@@ -855,7 +855,7 @@ li a:hover .icon i {
 }
 
 .confirmation-content {
-    background-color: #e2ab49;
+    background-color: rgb(21 178 45);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

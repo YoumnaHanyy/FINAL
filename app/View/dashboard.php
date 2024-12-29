@@ -21,17 +21,8 @@ require_once __DIR__ . '/../DB/config.php';
     href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     
     <style>
-       #searchInput{
-       color:burlywood;
-        background-color:#000;
-        width: 100%;
-    height: 40px;
-    border-radius: 90px;
-    padding: 5px,18px;
-    padding-left: 35px;
-    border: 2.5px solid #1e1e1e;
-    outline: none;
-       }
+
+
     </style>
 </head>
 <body>
@@ -65,17 +56,18 @@ require_once __DIR__ . '/../DB/config.php';
         <span class="title">Users</span>
     </a>
 </li>
-                <li>
-                    <a href="#">
+<li>
+                    <a href="javascript:void(0)" onclick="toggleUsersSection4()">
                         <span class="icon"><i class="fa-solid fa-question"></i> </span>
-                        <span class="title">Help</span>
+                        <span class="title">Settings</span>
                     </a>
                 </li>
+
 
                 <li>
                     <a href="#">
                         <span class="icon"><i class="fa-solid fa-gear"></i></span>
-                        <span class="title">Settings</span>
+                        <span class="title">help</span>
                     </a>
                 </li>
 
@@ -111,15 +103,17 @@ require_once __DIR__ . '/../DB/config.php';
                         <div class="card">
                         <div class="iconn" class="icon"><i class="fa-solid fa-comment"></i> </div> 
                         <div id="info">
-                            <h4>15240</h4>
-                            <p>Comments</p>
+                        <h4>Total Users</h4>
+                        <p><?php echo htmlspecialchars($totalUsers ?? 0); ?></p>
+                            
+                            
                         </div>
                         </div>
                         <div class="card">
                             <div class="iconn" class="icon1"><i class="fa-solid fa-money-bill"></i> </div> 
                             <div id="info">
-                            <h4>9000$</h4>
-                            <p>profit</p>
+                            <h4>Total tasks$</h4>
+                            <p><?php echo htmlspecialchars($totalTasks ?? 0); ?></p>
                             </div>
                         </div>
                 
@@ -127,24 +121,124 @@ require_once __DIR__ . '/../DB/config.php';
                         <div class="card">
                             <div class="iconn" class="icon1"><i class="fa-regular fa-eye"></i></div> 
                             <div id="info">
-                            <h4>18241</h4>
-                            <p>customers</p>
+                            <h4>High priority tasks</h4>
+                            <p><?php echo htmlspecialchars($highPriorityTasks ?? 0); ?></p>
+
                             </div>
                         </div>
                 
                 
-                        <div class="card">
-                            <div class="iconn" class="icon1"><i class="fa-solid fa-cart-shopping"></i></div>
-                            <div id="info">
-                            <h4>1900$</h4>
-                            <p>Sales</p>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
+<!-- 
+            <div class="containerAAAA" id="SNNS" >
+      <div class="slider-wrapper">
+        <button id="prev-slide" class="slide-button material-symbols-rounded">
+        <
+        </button>
+        <ul class="image-list">
+            <li class="image-item">
+                <div class="image-text">Manage your profile details like name, email, and password.</div>
+              <img src="http://localhost/PROJECTFF/public/images/research.png" alt="Profile Settings">
+             
+            </li>
+            <li class="image-item">
+                <div class="image-text">Set reminders and notifications for your tasks.</div>
+              <img src="http://localhost/PROJECTFF/public/images/thoughts.png" alt="Notification Settings">
+            
+            </li>
+            <li class="image-item">
+                <div class="image-text">Customize the appearance of your to-do list interface.</div>
+              <img src="http://localhost/PROJECTFF/public/images/planner.png" alt="Theme Customization">
+            
+            </li>
+            <li class="image-item">
+                <div class="image-text">Control who can view and edit your to-do lists.</div>
+              <img src="http://localhost/PROJECTFF/public/images/meetingnotes.png" alt="Privacy Settings">
+              
+            </li>
+            <li class="image-item">
+                <div class="image-text">Organize tasks into categories for better management.</div>
+              <img src="http://localhost/PROJECTFF/public/images/find.png" alt="Task Categories">
+          
+            </li>
+            <li class="image-item">
+                <div class="image-text">Enable cloud sync to access your to-do list across devices.</div>
+
+              <img src="http://localhost/PROJECTFF/public/images/class note.png" alt="Backup and Sync">
+            </li>
+          </ul>
+          
+        <button id="next-slide" class="slide-button material-symbols-rounded">
+          >
+        </button>
+      </div>
+      <div class="slider-scrollbar">
+        <div class="scrollbar-track">
+          <div class="scrollbar-thumb"></div>
+        </div>
+      </div>
+    </div>
+     -->
+       
+     
+     <div class="settings-container" id="SNNS">
+        <div class="settings-header">
+            <h2 id="headerTitle">Settings</h2>
+            <button id="resetButton" onclick="resetSettings()">Reset to Default</button>
+        </div>
+
+        <div class="settings-section">
+            <h3 id="generalTitle">General Settings</h3>
+            <div class="settings-option">
+                <label for="darkModeToggle" id="darkModeLabel">Dark Mode</label>
+                <input type="checkbox" id="darkModeToggle" onclick="toggleDarkMode()">
+            </div>
+            <div class="settings-option">
+                <label for="languageSelect" id="languageLabel">Language</label>
+                <select id="languageSelect" onchange="updateLanguage()">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3 id="privacyTitle">Privacy Settings</h3>
+            <div class="settings-option">
+                <label for="trackUsage" id="usageLabel">Allow Usage Tracking</label>
+                <input type="checkbox" id="trackUsage" onclick="handleUsageTracking()">
+            </div>
+            <div class="settings-option">
+                <label for="notificationToggle" id="notificationLabel">Enable Notifications</label>
+                <input type="checkbox" id="notificationToggle" onclick="handleNotifications()">
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3 id="accountTitle">Account Settings</h3>
+            <div class="settings-option">
+                <label for="usernameInput" id="usernameLabel">Username</label>
+                <input type="text" id="usernameInput" value="JohnDoe">
+                <button id="saveButton" onclick="updateUsername()">Save</button>
+            </div>
+            <div class="settings-option">
+                <label for="passwordInput" id="passwordLabel">Password</label>
+                <input type="text" id="passwordInput" placeholder="********">
+                <button id="changeButton" onclick="updatePassword()">Change</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Animation elements -->
+    <div class="animation" id="trackingAnimation">🎉 Tracking Enabled! 🎉</div>
+    <div class="animation" id="notificationsAnimation">🔔 Notifications Enabled! 🔔</div>
+
 <div>
-    
+
     <div class="usersss"id="sh">
         <div class="recent">
             <div class="title">
@@ -218,9 +312,16 @@ require_once __DIR__ . '/../DB/config.php';
         <p id="deletion-message" style="display:none; margin-top: 20px;"></p> <!-- Message display -->
     </div>
 </div>
+
+
+
+
+
 <div class="scrollable-div">
+    
 <div>
     <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterTable()" />
+   
 </div>
                 <table id="users2">
                     <thead>
@@ -271,7 +372,7 @@ require_once __DIR__ . '/../DB/config.php';
             
         </div>
     </div>
- 
+   
     <div class="usersss" id="aa">
         <div class="recent">
      <div class="title">
@@ -297,6 +398,7 @@ require_once __DIR__ . '/../DB/config.php';
                     <td>
                         <?php
                         // Ensure valid numbers to prevent division errors
+
                         $totalTaskss = $data['total_taskss'] ?? 0;
                         $completedTasks = $data['completed_tasks'] ?? 0;
 
@@ -314,6 +416,7 @@ require_once __DIR__ . '/../DB/config.php';
 </div>
 
 </div>
+
 <!-- Modal for Report Generation -->
 <div id="reportModal" class="modal">
     <div class="modal-content">
@@ -339,20 +442,6 @@ require_once __DIR__ . '/../DB/config.php';
 </div>
 </div>     
 <div class="card5" id="ash">
-    <div class="metrics">
-        <div class="metric-card">
-            <h3>Total Users</h3>
-            <p><?php echo htmlspecialchars($totalUsers ?? 0); ?></p>
-        </div>
-        <div class="metric-card">
-            <h3>Total Tasks</h3>
-            <p><?php echo htmlspecialchars($totalTasks ?? 0); ?></p>
-        </div>
-        <div class="metric-card">
-            <h3>High Priority Tasks</h3>
-            <p><?php echo htmlspecialchars($highPriorityTasks ?? 0); ?></p>
-        </div>
-    </div>
     
 <div class="tablee">
 
@@ -378,6 +467,7 @@ require_once __DIR__ . '/../DB/config.php';
             <?php
             if (!empty($usersWithTasks)) {
                 foreach ($usersWithTasks as $row) {
+
                     echo "<tr>";
                     echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
                     echo "<td>" . htmlspecialchars($row["email"]) . "</td>";
@@ -407,4 +497,147 @@ require_once __DIR__ . '/../DB/config.php';
 </body>
 <script src="http://localhost/PROJECTFF/Public/js/dash.js"></script>
 <script src="http://localhost/PROJECTFF/Public/js/main.js"></script>
+
+
+
+<script>
+        const translations = {
+            en: {
+                headerTitle: "Settings",
+                generalTitle: "General Settings",
+                darkModeLabel: "Dark Mode",
+                languageLabel: "Language",
+                privacyTitle: "Privacy Settings",
+                usageLabel: "Allow Usage Tracking",
+                notificationLabel: "Enable Notifications",
+                accountTitle: "Account Settings",
+                usernameLabel: "Username",
+                passwordLabel: "Password",
+                resetButton: "Reset to Default",
+                saveButton: "Save",
+                changeButton: "Change"
+            },
+            es: {
+                headerTitle: "Configuraciones",
+                generalTitle: "Configuraciones Generales",
+                darkModeLabel: "Modo Oscuro",
+                languageLabel: "Idioma",
+                privacyTitle: "Configuraciones de Privacidad",
+                usageLabel: "Permitir Seguimiento de Uso",
+                notificationLabel: "Habilitar Notificaciones",
+                accountTitle: "Configuraciones de la Cuenta",
+                usernameLabel: "Nombre de Usuario",
+                passwordLabel: "Contraseña",
+                resetButton: "Restablecer a Predeterminado",
+                saveButton: "Guardar",
+                changeButton: "Cambiar"
+            },
+            fr: {
+                headerTitle: "Paramètres",
+                generalTitle: "Paramètres Généraux",
+                darkModeLabel: "Mode Sombre",
+                languageLabel: "Langue",
+                privacyTitle: "Paramètres de Confidentialité",
+                usageLabel: "Autoriser le Suivi d'Utilisation",
+                notificationLabel: "Activer les Notifications",
+                accountTitle: "Paramètres du Compte",
+                usernameLabel: "Nom d'utilisateur",
+                passwordLabel: "Mot de Passe",
+                resetButton: "Réinitialiser par Défaut",
+                saveButton: "Sauvegarder",
+                changeButton: "Modifier"
+            }
+        };
+    
+        // Update language function
+        function updateLanguage() {
+            const language = document.getElementById("languageSelect").value;
+            const elements = Object.keys(translations[language]);
+    
+            elements.forEach(key => {
+                document.getElementById(key).textContent = translations[language][key];
+            });
+        }
+    
+        // Toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            document.querySelector(".settings-container").classList.toggle("dark-mode");
+            document.querySelectorAll(".settings-option").forEach(option => option.classList.toggle("dark-mode"));
+        }
+    
+        // Handle usage tracking
+        function handleUsageTracking() {
+            const isChecked = document.getElementById("trackUsage").checked;
+            const animation = document.getElementById("trackingAnimation");
+    
+            if (isChecked) {
+                animation.style.display = "block";
+                animation.style.animation = "fadeOut 2s forwards";
+                setTimeout(() => {
+                    animation.style.display = "none";
+                }, 2000);
+            } else {
+                alert("Usage tracking disabled.");
+            }
+        }
+    
+        // Handle notifications
+        function handleNotifications() {
+            const isChecked = document.getElementById("notificationToggle").checked;
+            const animation = document.getElementById("notificationsAnimation");
+    
+            if (isChecked) {
+                animation.style.display = "block";
+                animation.style.animation = "fadeOut 2s forwards";
+                setTimeout(() => {
+                    animation.style.display = "none";
+                }, 2000);
+            } else {
+                alert("Notifications disabled.");
+            }
+        }
+    
+        // Update username
+        function updateUsername() {
+            const username = document.getElementById("usernameInput").value;
+            localStorage.setItem("username", username); // Save to localStorage
+            alert("Username updated to: " + username);
+        }
+    
+        // Update password
+        function updatePassword() {
+            const password = document.getElementById("passwordInput").value;
+            localStorage.setItem("password", password); // Save to localStorage
+            alert("Password updated successfully!");
+        }
+    
+        // Reset all settings
+        function resetSettings() {
+            document.getElementById("darkModeToggle").checked = false;
+            document.getElementById("trackUsage").checked = false;
+            document.getElementById("notificationToggle").checked = false;
+            document.getElementById("languageSelect").value = "en";
+            document.getElementById("usernameInput").value = "JohnDoe";
+            document.getElementById("passwordInput").value = "";
+    
+            localStorage.clear(); // Clear saved settings
+            document.body.classList.remove("dark-mode");
+            updateLanguage();
+            alert("Settings reset to default!");
+        }
+    
+        // Load saved settings on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedUsername = localStorage.getItem("username");
+            const savedPassword = localStorage.getItem("password");
+    
+            if (savedUsername) {
+                document.getElementById("usernameInput").value = savedUsername;
+            }
+            if (savedPassword) {
+                document.getElementById("passwordInput").value = savedPassword;
+            }
+        });
+    </script>
 </html>

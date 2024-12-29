@@ -350,10 +350,24 @@ function filterTable() {
          // Show or hide the row based on the match, and apply gradient color if matched
          if (match) {
             rows[i].style.display = "";
-            rows[i].style.background = "linear-gradient(to right,rgb(105, 72, 72),rgb(70, 178, 193))";
+            rows[i].style.background = "linear-gradient(to right,rgb(211, 0, 0),rgb(0, 190, 215))";
         } else {
             rows[i].style.display = "none";
             rows[i].style.background = ""; // Reset background
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

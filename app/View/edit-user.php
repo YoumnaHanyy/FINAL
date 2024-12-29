@@ -1,9 +1,7 @@
 <?php
-// edit-user.php
 require_once __DIR__ . '/../DB/config.php';
 require_once __DIR__ . '/../Controllers/UserController.php';
 require_once __DIR__ . '/../Model/UserModel.php';
-
 
 // Initialize Model and Controller
 $userModel = new UserModel($servername, $username, $password, $dbname);

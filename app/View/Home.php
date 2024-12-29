@@ -176,7 +176,266 @@
     </main>
 </div>
 
+<div class="modal" id="newYearModal">
+    <div class="modal-content">
+        <button class="close-button">&times;</button>
+        <div class="modal-left">
+            <span class="exclusive-tag">EXCLUSIVE DEAL</span>
+            <h2 class="modal-title">Special New<br>Years Offer</h2>
+            <p class="modal-description">Start the New Year with a productivity<br>boost thanks to DoneDeal's best features.</p>
+            
+            <div class="countdown-container">
+                <div class="countdown-box">
+                    <div class="countdown-value" id="days">09</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <span class="countdown-separator">:</span>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="hours">09</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <span class="countdown-separator">:</span>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="minutes">10</div>
+                    <div class="countdown-label">Min</div>
+                </div>
+                <span class="countdown-separator">:</span>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="seconds">09</div>
+                    <div class="countdown-label">Sec</div>
+                </div>
+            </div>
+            
+            <button class="save-button">Save 40% now</button>
+        </div>
+        <div class="modal-right">
+            <div class="discount-text">-40<span class="percent">%</span></div>
+            <div class="decoration-star star-top"></div>
+            <div class="decoration-star star-bottom"></div>
+            <div class="decoration-ornament"></div>
+        </div>
+    </div>
+</div>
 
+<style>
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #0A2521;
+    border-radius: 24px;
+    display: flex;
+    max-width: 800px;
+    width: 90%;
+    position: relative;
+    color: white;
+    overflow: hidden;
+}
+
+.close-button {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.modal-left {
+    padding: 48px;
+    flex: 1;
+}
+
+.exclusive-tag {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 16px;
+}
+
+.modal-title {
+    font-size: 48px;
+    margin-bottom: 24px;
+    font-family: serif;
+}
+
+.modal-description {
+    color: #ccc;
+    margin-bottom: 32px;
+    line-height: 1.5;
+}
+
+.countdown-container {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.countdown-box {
+    text-align: center;
+}
+
+.countdown-value {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 24px;
+    min-width: 40px;
+}
+
+.countdown-label {
+    font-size: 12px;
+    margin-top: 4px;
+    color: #ccc;
+}
+
+.countdown-separator {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.save-button {
+    background-color: #00A82D;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-button:hover {
+    background-color: #008f26;
+}
+
+.modal-right {
+    width: 50%;
+    position: relative;
+    background-color: #0A2521;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.discount-text {
+    font-size: 180px;
+    font-weight: bold;
+    color: #CFB87C;
+    opacity: 0.9;
+    position: relative;
+}
+
+.percent {
+    font-size: 100px;
+}
+
+.decoration-star {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: #CFB87C;
+    transform: rotate(45deg);
+}
+
+.star-top {
+    top: 32px;
+    right: 32px;
+}
+
+.star-bottom {
+    bottom: 48px;
+    left: 48px;
+    width: 24px;
+    height: 24px;
+}
+
+.decoration-ornament {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    background-image: url('/api/placeholder/40/40');
+    background-size: contain;
+}
+
+@media (max-width: 768px) {
+    .modal-right {
+        display: none;
+    }
+    
+    .modal-content {
+        width: 95%;
+    }
+    
+    .modal-left {
+        padding: 32px;
+    }
+    
+    .modal-title {
+        font-size: 36px;
+    }
+}
+</style>
+
+<script>
+// Add this to your existing JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize countdown
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 9);
+    endDate.setHours(endDate.getHours() + 9);
+    endDate.setMinutes(endDate.getMinutes() + 10);
+    endDate.setSeconds(endDate.getSeconds() + 9);
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = endDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+        if (distance < 0) {
+            clearInterval(countdownInterval);
+        }
+    }
+
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Close button functionality
+    const modal = document.getElementById('newYearModal');
+    const closeButton = modal.querySelector('.close-button');
+    
+    closeButton.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+});
+</script>
 <script>
     const header = document.querySelector('.header');
 

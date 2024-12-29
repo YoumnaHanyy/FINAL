@@ -157,14 +157,16 @@ $conn->close();
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #f9f6f2;
+    background-image: url('../../Public/Images/log.png'), url('../../Public/Images/log2.png'); /* Add as many images as needed */
+    background-size: 25% auto, 20% auto; /* Set the size of each image */
+    background-position: left top, right bottom; /* Position the first image on the left and the second one on the right */
+    background-repeat: no-repeat, no-repeat; 
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0;
 }
-
 .container {
     background-color: #fff;
     padding: 20px;
@@ -230,7 +232,7 @@ button:hover {
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f6f5f7;
+            background-color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -296,7 +298,7 @@ button:hover {
         }
 
         .overlay {
-            background: #02897A;
+            background: #28a745;
             color: #fff;
             position: absolute;
             left: -100%;
@@ -364,7 +366,7 @@ button:hover {
         form button {
             padding: 10px 30px;
             border: none;
-            background-color: #02897A;
+            background-color: #28a745;
             color: white;
             cursor: pointer;
             margin-top: 20px;
@@ -372,12 +374,14 @@ button:hover {
     </style>
 </head>
 <body>
+   
     <div class="container" id="container">
         <!-- Sign Up Form -->
         <div class="form-container sign-up-container">
             <form action="" method="POST">
-                <h1 style=" color: green;">Create Account</h1>
+                <h1 style=" color: green; margin-bottom:10px; font-size:27px;">Welcome to Evernote!</h1>
                 
+                <p style=" color: black;  margin-bottom:13px; font-size:14px;">Sign up and start taking notes.</p>
                 <?php if ($message) : ?>
                     <div class="<?php echo $messageClass; ?>"><?php echo $message; ?></div>
                 <?php endif; ?>
@@ -385,6 +389,7 @@ button:hover {
                 <input type="text" placeholder="Username" name="signup_username" required />
                 <input type="email" placeholder="Email" name="signup_email" required />
                 <input type="password" placeholder="Password" name="signup_password" required />
+                <p style=" color: black;  margin-bottom:13px; font-size:12px;">By creating an account, you are agreeing to our <span style="color:blue;">Terms of Service</span> and acknowledging receipt of our <span style="color:blue;">Privacy Policy,</span></p>
                 <button name="signup">Sign Up</button>
             </form>
         </div>
@@ -392,7 +397,8 @@ button:hover {
         <!-- Sign In Form -->
         <div class="form-container sign-in-container">
             <form action="" method="POST">
-                <h1 style=" color: green;">Sign in</h1>
+                <h1 style=" color: green;  margin-bottom:13px;">Sign in</h1>
+                <p style=" color: black;  margin-bottom:13px; font-size:14px;">to continue to your DoneDeal account.</p>
 
                 <?php if ($message) : ?>
                     <div class="<?php echo $messageClass; ?>"><?php echo $message; ?></div>
@@ -400,6 +406,8 @@ button:hover {
 
                 <input type="text" placeholder="Username" name="login_username" required />
                 <input type="password" placeholder="Password" name="login_password" required />
+                <a href="forgot_password.php" style="display: block; margin-top: 10px; color: #4A90E2; text-decoration: none;">Forgot your password?</a>
+
                 <button name="login">Sign In</button>
             </form>
         </div>
@@ -426,6 +434,7 @@ button:hover {
                 </div>
             </div>
         </div>
+        
     </div>
 
     <script>
@@ -441,5 +450,6 @@ button:hover {
             container.classList.remove("right-panel-active");
         });
     </script>
+    
 </body>
 </html>

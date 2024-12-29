@@ -13,6 +13,9 @@ class UserController {
     if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
         return json_encode(['status' => 'error', 'message' => 'Invalid email address.']);
     }
+    if (!filter_var($data['username'], FILTER_VALIDATE_EMAIL)) {
+        return json_encode(['status' => 'error', 'message' => 'Invalid username address.']);
+    }
 
     $result = $this->model->insertUser($data);
 

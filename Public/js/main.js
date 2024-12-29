@@ -33,6 +33,7 @@ document.getElementById("add_username").addEventListener("input", function () {
                 if (data.exists) {
                     nameError.textContent = "Username already exists.";
                     nameError.style.display = "block";
+                    
                 } else {
                     nameError.style.display = "none";
                 }

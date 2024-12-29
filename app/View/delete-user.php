@@ -1,46 +1,31 @@
 <?php
-header('Content-Type: application/json');
+require_once __DIR__ . '/../DB/config.php';
+require_once __DIR__ . '/../Controllers/UserController.php';
+require_once __DIR__ . '/../Model/UserModel.php';
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = ""; // Enter your MySQL password
-$dbname = "user_management";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    echo json_encode(['status' => 'error', 'message' => 'Connection failed: ' . $conn->connect_error]);
+// Check request method
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(["status" => "error", "message" => "Invalid request method."]);
     exit;
 }
 
-// Get data from the AJAX request
-$data = json_decode(file_get_contents("php://input"), true);
-$username = $data['username'];
-
-// Check if username is provided
-if (empty($username)) {
-    echo json_encode(['status' => 'error', 'message' => 'Username is missing']);
+// Parse JSON input
+$data = json_decode(file_get_contents('php://input'), true);
+if (!isset($data['username'])) {
+    echo json_encode(["status" => "error", "message" => "Username is not set."]);
     exit;
 }
 
-// SQL Delete statement
-$sql = "DELETE FROM users WHERE username = ?";
-$stmt = $conn->prepare($sql);
+// Initialize Model and Controller
+$userModel = new UserModel($servername, $username, $password, $dbname);
+$userController = new UserController($userModel);
 
-if ($stmt) {
-    $stmt->bind_param("s", $username);
+// Process deletion
+$response = $userController->deleteUser($data['username']);
 
-    if ($stmt->execute()) {
-        echo json_encode(['status' => 'success', 'message' => 'User deleted successfully']);
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Failed to delete user']);
-    }
+// Close the database connection
+$userModel->closeConnection();
 
-    $stmt->close();
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'Failed to prepare SQL statement']);
-}
-
-$conn->close();
+// Return response
+echo $response;
 ?>

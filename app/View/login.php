@@ -104,7 +104,7 @@ if (isset($_POST['login'])) {
             $_SESSION['username'] = $username; // Store admin username in session
             $message = "Admin Login successful! Welcome, " . htmlspecialchars($username) . ".";
             $messageClass = "success";
-            header("Location: admin_dashboard.php"); // Redirect to admin dashboard
+            header("Location: dashboard.php"); // Redirect to admin dashboard
             exit();
         } else {
             // Check user credentials
@@ -121,7 +121,7 @@ if (isset($_POST['login'])) {
                     $_SESSION['username'] = $username; // Store username in session
                     $message = "Login successful! Welcome back, " . htmlspecialchars($username) . ".";
                     $messageClass = "success";
-                    header("Location: user.php"); // Redirect to user dashboard
+                    header("Location: Home.php"); // Redirect to user dashboard
                     exit();
                 } else {
                     $message = "Invalid password!";

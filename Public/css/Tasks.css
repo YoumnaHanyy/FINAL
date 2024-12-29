@@ -1680,3 +1680,87 @@ border: 1px solid #141414;
 .price-text {
     color: #FFE5C9;
 }
+
+#calendarOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: none; /* Initially hidden */
+    justify-content: center;
+    align-items: center;
+
+  }
+  
+  #calendarModal {
+    background-color: #1a1a1a;
+    border: 1px solid #1a1a1a;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  #calendar {
+    /* Add your calendar styles here, for example: */
+    width: 300px; 
+ 
+  }
+  #calendarModal button {
+    background-color:red; /* Change this to your desired color */
+    color:whitesmoke; /* Change this to your desired text color */
+margin: 20px;
+width: 150px;
+margin-left: 70px;
+height: 35px;
+border-radius: 5px;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+background: linear-gradient(to right, red,#ff6347);
+border: 1px solid #141414;
+  }
+
+
+
+  .MessagesModal {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    max-width: 300px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    z-index: 1000;
+}
+
+/* Style for notifications in the MessagesModal */
+.notification {
+    background-color: #f0f8ff;
+    border: 1px solid #d1e7fd;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.notification-header {
+    font-weight: bold;
+}
+
+.notification-body {
+    font-size: 14px;
+}
+
+.close-notification {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.close-notification:hover {
+    background-color: #ff1a1a;
+}

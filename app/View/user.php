@@ -52,7 +52,7 @@
             
             <button class="btn" id="Eventbtn><i class="fas fa-file"></i> Events</button>
             <button class="btn"><i class="fas fa-calendar"></i> Calendar</button>
-            <input type="datetime-locall" id="customDateInputt" style="display:none;" />
+            <input type="datetime-local" id="customDateInput" style="display:none;" />
             <button class="btn"><i class="fas fa-book"></i> Notebooks</button>
             <button class="btn"><i class="fas fa-tag"></i> Tags</button>
             <button class="btn"><i class="fas fa-share-alt"></i> Shared with Me</button>
@@ -477,6 +477,9 @@
 </script>
 
 <script>
+
+
+
  document.addEventListener("DOMContentLoaded", function () {
     fetch('../../app/Controllers/taskcontroller.php', {
         method: 'POST',

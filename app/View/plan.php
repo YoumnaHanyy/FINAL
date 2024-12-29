@@ -14,13 +14,46 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch available plans from the database
-$plans_query = "SELECT id, plan_name FROM plans";
+$plans_query = "
+    SELECT 
+        planss.id AS plan_id,
+        planss.plan_name,
+        attributes.attribute_name,
+        eav_values.value
+    FROM 
+        planss
+    JOIN 
+        eav_values ON planss.id = eav_values.plan_id
+    JOIN 
+        attributes ON eav_values.attribute_id = attributes.id
+    ORDER BY 
+        planss.id, attributes.id
+";
+
 $result = $conn->query($plans_query);
+
+// Process the data into a structured array
+$plans = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $plan_id = $row['plan_id'];
+        $attribute_name = $row['attribute_name'];
+        $value = $row['value'];
+
+        // Organize data by plan_id
+        if (!isset($plans[$plan_id])) {
+            $plans[$plan_id] = [
+                'plan_name' => $row['plan_name'],
+                'attributes' => []
+            ];
+        }
+        $plans[$plan_id]['attributes'][$attribute_name] = $value;
+    }
+}
+
 
 // If user is logged in and plan is selected
 if (isset($_SESSION['username'])) {
-    // Handle form submission for selecting a plan
     if (isset($_POST['select_plan'])) {
         $plan_id = $_POST['plan_id']; // Get the selected plan ID
 
@@ -40,7 +73,6 @@ if (isset($_SESSION['username'])) {
         if ($update_stmt->execute()) {
             echo "Plan selected successfully!";
             header("Location: payment.php");
-
         } else {
             echo "Error updating plan: " . $update_stmt->error;
         }
@@ -62,197 +94,199 @@ $conn->close();
     <title>Pricing Plans</title>
     <style>
        /* Modern reset and base styles */
-body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #f9f9f7 0%, #f5f5f3 100%);
-    color: #2c3e50;
-    min-height: 100vh;
-    margin: 0;
-    padding: 50px 20px;
-    box-sizing: border-box;
+:root {
+    --primary: #28a745;
+    --secondary: #28a745;
+    --success: #059669;
+    --background: #f9f6f2;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --border: 
+rgb(65, 65, 65);
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --radius-md: 1rem;
+    --radius-lg: 1.5rem;
 }
 
-/* Animated heading */
+/* Core styles */
+body {
+    font-family: 'poppins', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(150deg, var(--background), #f1f5f9);
+    color: var(--text-primary);
+    min-height: 100vh;
+    margin: 0;
+    padding: 2rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Enhanced heading */
 h1 {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 5vw, 3rem);
     text-align: center;
-    margin-bottom: 3rem;
-    background: linear-gradient(45deg, #2c3e50, #3498db);
+    margin-bottom: 4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: gradientText 3s ease infinite;
     position: relative;
+    padding-bottom: 1rem;
 }
 
 h1::after {
     content: '';
     position: absolute;
-    bottom: -10px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #3498db, transparent);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    border-radius: 2px;
 }
 
-@keyframes gradientText {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* Pricing container with 3D perspective */
+/* Pricing grid */
 .pricing-container {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    gap: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 2rem;
     max-width: 1400px;
     margin: 0 auto;
+    padding: 1rem;
     perspective: 1000px;
-    padding: 20px;
 }
 
-/* Advanced plan card styling */
+/* Plan card */
 .plan {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    padding: 40px 30px;
-    flex: 1;
-    max-width: 350px;
+    background: 
+    #f9f6f2;
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 2rem;
     position: relative;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    isolation: isolate;
 }
 
-/* Hover effects */
-.plan:hover {
-    transform: translateY(-15px) rotateX(5deg);
-    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.2);
-    border-color: rgba(52, 152, 219, 0.3);
-}
-
-/* Glowing effect on hover */
 .plan::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, rgba(52, 152, 219, 0.1) 0%, transparent 70%);
+    inset: 0;
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.4) 100%
+    );
+    border-radius: inherit;
+    z-index: -1;
+    transition: opacity 0.4s ease;
     opacity: 0;
-    transition: opacity 0.5s ease;
+}
+
+.plan:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
 }
 
 .plan:hover::before {
     opacity: 1;
 }
 
-/* Plan header styling */
+/* Plan header */
 .plan h3 {
-    font-size: 2rem;
-    margin: 0 0 20px;
-    position: relative;
-    padding-bottom: 15px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
 }
 
-.plan h3::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 2px;
-    background: #3498db;
-    transition: width 0.3s ease;
-}
-
-.plan:hover h3::after {
-    width: 80px;
-}
-
-/* Price styling */
+/* Pricing */
 .plan .old-price {
-    color: #95a5a6;
-    font-size: 1.1rem;
-    position: relative;
-    display: inline-block;
+    color: var(--text-secondary);
+    text-decoration: line-through;
+    font-size: 1rem;
 }
 
 .plan .price {
-    font-size: 2.2rem;
-    color: #2ecc71;
-    font-weight: 700;
-    margin: 15px 0;
-    transition: transform 0.3s ease;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
 }
 
-.plan:hover .price {
-    transform: scale(1.1);
+.plan .price span {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: normal;
 }
 
-/* Feature list styling */
+/* Features list */
 .plan ul {
-    margin: 30px 0;
+    margin: 1.5rem 0;
     padding: 0;
     list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .plan ul li {
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(189, 195, 199, 0.2);
+    padding: 0.75rem 0;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     transition: transform 0.3s ease;
-    position: relative;
 }
 
 .plan ul li::before {
     content: '✓';
-    color: #2ecc71;
-    margin-right: 10px;
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: var(--success);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.75rem;
 }
 
-.plan:hover ul li::before {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.plan ul li:hover {
-    transform: translateX(5px);
-    color: #3498db;
-}
-
-/* Button styling */
+/* Action button */
 .plan button {
-    background: linear-gradient(45deg, #2ecc71, #27ae60);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
     border: none;
-    border-radius: 30px;
-    padding: 15px 30px;
-    font-size: 1.1rem;
+    border-radius: var(--radius-md);
+    padding: 1rem 2rem;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    width: 100%;
     position: relative;
     overflow: hidden;
+    margin-top: auto;
 }
 
 .plan button::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2));
+    inset: 0;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
     transform: translateX(-100%);
     transition: transform 0.6s ease;
 }
@@ -262,76 +296,76 @@ h1::after {
 }
 
 .plan button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
+    box-shadow: 0 8px 16px -4px rgb(37 99 235 / 0.25);
 }
 
 /* Popular plan highlight */
-.plan:nth-child(2) {
+.plan.popular {
+    background: linear-gradient(
+        135deg,
+        rgba(37, 99, 235, 0.05),
+        rgba(59, 130, 246, 0.05)
+    );
+    border: 2px solid var(--primary);
     transform: scale(1.05);
-    border: 2px solid rgba(52, 152, 219, 0.3);
-    z-index: 1;
 }
 
-.plan:nth-child(2)::after {
+.plan.popular::after {
     content: 'MOST POPULAR';
     position: absolute;
-    top: 15px;
-    right: -35px;
-    background: #3498db;
+    top: 1rem;
+    right: 1rem;
+    background: var(--primary);
     color: white;
-    padding: 5px 40px;
-    font-size: 0.8rem;
-    transform: rotate(45deg);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
 }
 
-/* Responsive design */
-@media (max-width: 1200px) {
-    .pricing-container {
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-    
-    .plan {
-        min-width: calc(50% - 20px);
-    }
-
-    .plan:nth-child(2) {
-        transform: none;
-    }
-}
-
+/* Responsive adjustments */
 @media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .plan.popular {
+        transform: scale(1);
+    }
+
     .pricing-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .plan {
-        width: 100%;
-        max-width: 400px;
-        margin-bottom: 20px;
-    }
-    
-    h1 {
-        font-size: 2rem;
+        gap: 1.5rem;
     }
 }
 
-/* Loading animation */
-@keyframes shimmer {
-    0% {
-        background-position: -200% 0;
-    }
-    100% {
-        background-position: 200% 0;
-    }
-}
-
+/* Loading state */
 .plan.loading {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
+    pointer-events: none;
+}
+
+.plan.loading > * {
+    opacity: 0.7;
+    animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 0.4; }
+}
+
+/* Focus states for accessibility */
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
 }
     </style>
 </head>

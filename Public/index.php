@@ -26,4 +26,11 @@ $dashboardController = new DashboardController();
 $dashboardController->renderDashboard();
 
 
+$controller = new TaskController();
+$controller->fetchSortedTasks();
+
+
+
+
+
 ?>

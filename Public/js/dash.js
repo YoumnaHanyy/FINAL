@@ -233,13 +233,14 @@ function toggleUsersSection() {
     const usSection = document.getElementById('aa');
     const uasSection = document.getElementById('ash');
     const SNSection = document.getElementById('SN');
-    
+    const SNNSSection = document.getElementById('SNNS');
   
     // Show the users section
     usersSection.style.display = 'grid';
     usSection.style.display = 'none';
     uasSection.style.display = 'none';
     SNSection.style.display='grid';
+    SNNSSection.style.display='none';
 }
 
 function toggleUsersSection2() {
@@ -248,7 +249,7 @@ function toggleUsersSection2() {
     const usSection = document.getElementById('aa');
     const uasSection = document.getElementById('ash');
     const SNSection = document.getElementById('SN');
-     
+    const SNNSSection = document.getElementById('SNNS');
    
     // Show the users section
     usersSection.style.display = 'none';
@@ -257,7 +258,7 @@ function toggleUsersSection2() {
     uasSection.style.marginLeft = '275px';
     uasSection.style.marginBottom = '50px';
     SNSection.style.display='none';
-
+    SNNSSection.style.display='none';
 
 }
 
@@ -268,7 +269,7 @@ function toggleUsersSection3() {
     const uasSection = document.getElementById('ash');
     const toggle1 = document.getElementById('toggleBtn');
     const SNSection = document.getElementById('SN');
-    
+    const SNNSSection = document.getElementById('SNNS');
    
 
     // Show the users section
@@ -277,7 +278,30 @@ function toggleUsersSection3() {
     uasSection.style.display = 'none';
     toggle1.style.display='flex';
     SNSection.style.display='none';
+    SNNSSection.style.display='none';
 
+}
+
+function toggleUsersSection4() {
+    // Get the users section element
+    const usersSection = document.getElementById('sh');
+    const usSection = document.getElementById('aa');
+    const uasSection = document.getElementById('ash');
+    const toggle1 = document.getElementById('toggleBtn');
+    const SNSection = document.getElementById('SN');
+    const SNNSSection = document.getElementById('SNNS');
+    
+   
+
+    // Show the users section
+    usersSection.style.display = 'none';
+    usSection.style.display = 'none';
+    uasSection.style.display = 'none';
+    toggle1.style.display='flex';
+    SNSection.style.display='none';
+    SNNSSection.style.display='grid';
+
+    
 
 }
 
@@ -333,4 +357,65 @@ function filterTable() {
         }
     }
 }
+
+
+
+document.getElementById("sortForm").addEventListener("change", function () {
+    const selectedOption = document.querySelector(".sortby").value;
+    const url = new URL(window.location.href);
+    url.searchParams.set("sortby", selectedOption);
+    window.location.href = url; // Reload page with updated sortby parameter
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const sortDropdown = document.querySelector(".sortby");
+
+    if (sortDropdown) {
+        sortDropdown.addEventListener("change", function () {
+            const sortBy = this.value;
+
+            // Fetch sorted data from the backend
+            fetch(`/app/Controllers/sortHandler.php?sortby=${sortBy}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector("#users2 tbody");
+                    tbody.innerHTML = ""; // Clear existing rows
+
+                    // Populate table with sorted data
+                    data.forEach(row => {
+                        const tr = document.createElement("tr");
+
+                        tr.innerHTML = `
+                            <td>${row.username || ''}</td>
+                            <td>${row.email || ''}</td>
+                            <td>${row.task_id || 'No tasks assigned'}</td>
+                            <td>${row.title || 'No tasks assigned'}</td>
+                            <td>${row.due_date || ''}</td>
+                            <td>${row.reminder || ''}</td>
+                            <td>${row.priority || ''}</td>
+                            <td>${row.category || ''}</td>
+                            <td>${row.completed_task || ''}</td>
+                            <td>${row.flag || ''}</td>
+                            <td>${row.task_created_at || ''}</td>
+                        `;
+
+                        tbody.appendChild(tr);
+                    });
+                })
+                .catch(error => console.error("Error fetching sorted data:", error));
+        });
+    }
+});
+
+
+
+
+
+
+
+
+
+
 

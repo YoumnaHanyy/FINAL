@@ -143,10 +143,13 @@ public function getUserTaskStatistics() {
     }
     return $data;
 }
+ 
 
 
-    public function closeConnection() {
-        $this->conn->close();
-    }
+
+
+
+
+
 
 }

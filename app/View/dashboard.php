@@ -278,35 +278,41 @@ require_once __DIR__ . '/../DB/config.php';
          <a id="generateReportBtn">Generate Report</a>
     </div>
     <div class="table-container">
-        <table>
-            <thead>
+    <h1>User Task Statistics</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Total Tasks</th>
+                <th>Completed Tasks</th>
+                <th>Stats of Tasks</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($userTaskCounts as $data): ?>
                 <tr>
-                    <th>username</th>
-                    <th>completed_task</th>
-                    <th>Completion Rate</th>
-                    <th>Due-date</th>
-                    <th>reminder</th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php
-            if (!empty($usertaskstswithtasks)) {
-                foreach ($usertaskstswithtasks as $row) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
-                    echo "<td>" . htmlspecialchars($row["completed_task"] ?? '') . "</td>";
+                    <td><?php echo htmlspecialchars($data['username']); ?></td>
+                    <td><?php echo htmlspecialchars($data['total_tasks']); ?></td>
+                    <td><?php echo htmlspecialchars($data['completed_tasks'] ?? 0); ?></td>
+                    <td>
+                        <?php
+                        // Ensure valid numbers to prevent division errors
+                        $totalTasks = $data['total_tasks'] ?? 0;
+                        $completedTasks = $data['completed_tasks'] ?? 0;
 
-                    echo "<td>" . htmlspecialchars($row["due_date"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["reminder"] ?? '') . "</td>";
-                    echo "</tr>";
-                }
-            } else {
-                echo "<tr><td colspan='10'>No users found</td></tr>";
-            }
-            ?>
-            </tbody>
-        </table>
-    </div>
+                        if ($totalTasks > 0) {
+                            echo htmlspecialchars("$completedTasks out of $totalTasks (" . round(($completedTasks / $totalTasks) * 100, 2) . "%)");
+                        } else {
+                            echo "No tasks assigned";
+                        }
+                        ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
 </div>
 <!-- Modal for Report Generation -->
 <div id="reportModal" class="modal">
@@ -347,6 +353,7 @@ require_once __DIR__ . '/../DB/config.php';
             <p><?php echo htmlspecialchars($highPriorityTasks ?? 0); ?></p>
         </div>
     </div>
+    
 <div class="tablee">
 
     <table id="users2">
@@ -381,7 +388,7 @@ require_once __DIR__ . '/../DB/config.php';
                     echo "<td>" . htmlspecialchars($row["priority"] ?? '') . "</td>";
                     echo "<td>" . htmlspecialchars($row["category"] ?? '') . "</td>";
                     echo "<td>" . htmlspecialchars($row["completed_task"] ?? '') . "</td>";
-             
+                     
                     echo "<td>" . htmlspecialchars($row["flag"] ?? '') . "</td>";
                     echo "<td>" . htmlspecialchars($row["task_created_at"] ?? '') . "</td>";
                     echo "</tr>";
@@ -395,8 +402,10 @@ require_once __DIR__ . '/../DB/config.php';
     </div>
     
 </body>
+</html>
 
+</body>
 
 <script src="http://localhost/finalproject/Final-1/Public/js/dash.js"></script>
-<script src="http://localhost/finalproject/Final-1/Public/js/main.js"></script>
+<script src="http://localhost/finalproject/Final-1/Public/Js/main.js"></script>
 </html>

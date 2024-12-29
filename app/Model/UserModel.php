@@ -104,10 +104,6 @@ class UserModel {
         $result = $this->conn->query($sql);
         return $result->fetch_assoc()["total_users"] ?? 0;
     }
-    
-
-
-
 
     public function countTasks() {
         $sql = "SELECT COUNT(*) AS total_tasks FROM tasks";
@@ -120,13 +116,33 @@ class UserModel {
         $result = $this->conn->query($sql);
         return $result->fetch_assoc()["high_priority_tasks"] ?? 0;
     }
-    
-
- 
 /////////////////////////////////////////////////
-
-
-
+public function getUserTaskStatistics() {
+    $sql = "
+    SELECT 
+        users.username,
+        COUNT(tasks.id) AS total_tasks,
+        SUM(tasks.completed_task) AS completed_tasks
+    FROM 
+        users
+    LEFT JOIN 
+        tasks 
+    ON 
+        users.username = tasks.assigned_to
+    GROUP BY 
+        users.username
+    ";
+    
+    $result = $this->conn->query($sql);
+    $data = [];
+    
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+    }
+    return $data;
+}
 
 
     public function closeConnection() {

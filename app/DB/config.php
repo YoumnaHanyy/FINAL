@@ -17,7 +17,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 $conn = getConnection();
 
 
-$sql = "
+$sql2 = "
 SELECT 
     users.username,
     users.email,
@@ -38,10 +38,10 @@ ON
     users.username = tasks.assigned_to
 ";
 
-$result = $conn->query($sql);
+$result2 = $conn->query($sql2);
 
 // Check if the query was successful
-if ($result === false) {
+if ($result2 === false) {
     die("Error fetching data: " . $conn->error);
 }
 
@@ -49,7 +49,7 @@ if ($result === false) {
 $usersWithTasks = [];
 
 // Fetch all results
-while ($row = $result->fetch_assoc()) {
+while ($row = $result2->fetch_assoc()) {
     $usersWithTasks[] = $row;
 }
 
@@ -79,6 +79,36 @@ if ($conn->connect_error) {
 $sql = "SELECT username, email, password FROM users";
 $result = $conn->query($sql);
 
+
+$sql1 = "
+SELECT 
+    users.username,
+    COUNT(tasks.id) AS total_tasks,
+    SUM(tasks.completed_task) AS completed_tasks
+FROM 
+    users
+LEFT JOIN 
+    tasks 
+ON 
+    users.username = tasks.assigned_to
+GROUP BY 
+    users.username
+";
+
+$result1 = $conn->query($sql1);
+
+// Check if the query was successful
+if ($result1 === false) {
+    die("Error fetching data: " . $conn->error);
+}
+
+// Initialize an array to hold the results
+$userTaskCounts = [];
+
+// Fetch all results
+while ($row = $result1->fetch_assoc()) {
+    $userTaskCounts[] = $row;
+}
 
 
 

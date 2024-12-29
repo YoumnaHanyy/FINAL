@@ -19,7 +19,7 @@ background-color: #6e6e6e;
 }
 .logo{
     width: auto;
-    height: 135px;
+    height:10vw;
     margin: 13px;
 }
 .navigation{
@@ -82,7 +82,7 @@ width: 100%;
 .navigation ul li a .title {
     position: relative;
     display: block;
-    padding: 0 20px;
+    padding: 0 1rem;
     height: 60px;
     line-height: 60px;
    text-align: start;
@@ -551,7 +551,6 @@ body.collapsed .usersss
 }
 /**************shadyyyyyyy*******************/
 
-
         .user-img {
             
             border-radius: 50%;
@@ -908,14 +907,6 @@ li a:hover .icon i {
 .btn-cancel:hover {
     background-color: #0056b3;
 }
-
-
-
-
-
-
-
-
 
 .tablee{
     position: relative; /* Or absolute, fixed, sticky */

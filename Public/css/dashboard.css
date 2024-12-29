@@ -11,7 +11,7 @@ scroll-behavior: smooth;
 body{
 min-height: 100vh;
 overflow-x: hidden;
-background-color: #6e6e6e; 
+background-color: #f9f6f2;
 }
 .container{
     position: relative;
@@ -26,7 +26,7 @@ background-color: #6e6e6e;
     width: 250px;
     height: 100%;
     position: fixed;
-    background-color:rgb(236 194 80);
+    background-color:rgb(21, 178, 45);
     border-left: 10px  white;
     transition: 0.5s;
     overflow: hidden;
@@ -103,7 +103,7 @@ width: 100%;
     width:calc(100%-250px) ;
     left: 250px;
     min-height: 100vh;
-    background-color: #6e6e6e;
+    background-color: #f9f6f2;
 }
 .top{
     width: 100%;
@@ -182,7 +182,7 @@ width: 100%;
   }
   .card{
       position: relative;
-      background-color: rgb(236 194 80);
+      background-color: #30ff5e;
       padding: 25px;
       box-shadow: 0 5px 25px #1e1e1e;
       border-radius: 10px;
@@ -286,7 +286,7 @@ overflow-y: scroll; }
     position: relative;
     display: grid;
     min-height: 500px;
-    background: rgb(236 194 80);
+    background: rgb(21 178 45);
     padding: 20px;
     box-shadow: 0 7px 25px #1e1e1e;
     border-radius: 50px;
@@ -998,4 +998,58 @@ animation: fadeIn 0.7s ease-in-out;
     font-size: 18px;
     font-weight: bold;
     color: #fff;
+}
+
+.settings-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+}
+
+.settings-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.settings-section h2 {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
 }

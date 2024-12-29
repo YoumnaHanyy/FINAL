@@ -66,7 +66,21 @@ class DashboardController {
     }
     
 
-
+    public function updateSettings() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $language = $_POST['language'] ?? 'en';
+            $theme = $_POST['theme'] ?? 'light';
+    
+            // Save to database or session
+            $_SESSION['language'] = $language;
+            $_SESSION['theme'] = $theme;
+    
+            echo json_encode(['status' => 'success', 'message' => 'Settings updated successfully.']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
+        }
+    }
+    
     
 }
 ?>

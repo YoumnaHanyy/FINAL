@@ -14,7 +14,7 @@ require_once __DIR__ . '/../DB/config.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DashBoard</title>
-    <link rel="stylesheet" href="http://localhost/finalproject/Final-1/Public/css/dashboard.css">
+    <link rel="stylesheet" href="http://localhost/finalproject/Final-1/Public/Css/dashboard.Css">
     <link rel="stylesheet" href="http://localhost/finalproject/Final-1/Public/css//edit-user.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet"
@@ -35,6 +35,7 @@ require_once __DIR__ . '/../DB/config.php';
     </style>
 </head>
 <body>
+
    
 <div class="container">
         <div class="navigation" id="navigation">

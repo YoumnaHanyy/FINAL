@@ -45,7 +45,9 @@
 
         <button class="btn" id="calendarBtn"><i class="fas fa-calendar"></i> Calendar</button>
         <input type="datetime-local" id="customDateInput" style="display:none;" />
-            <button class="btn"><i class="fas fa-book"></i> Notebooks</button>
+        <button class="btn" id="notebooksBtn"><i class="fas fa-book"></i> Notebooks</button>
+        
+        
             <button class="btn"><i class="fas fa-tag"></i> Tags</button>
             <button class="btn"><i class="fas fa-trash"></i> Trash</button>
         </div>
@@ -59,6 +61,7 @@
             <button class="help-btn">Need a little help?</button>
         </div>
     </div>
+    
     
     <div class="main-content" id="mainContent" style="display: none;">
         <!-- Toolbar at the top of the main content -->
@@ -112,7 +115,13 @@
             <button onclick="closeCalendar()">Close Calendar</button>
         </div>
     </div>
-   
+
+    <div id="notebookContent"class="notebooks" >
+     <h2>Your Notebooks</h2>
+      <div id="notebookEntries">
+        <!-- Tasks/Events will appear here -->
+      </div>
+    </div>
 </div>
 
 
@@ -196,6 +205,7 @@
     <div class="notes-header">
         <h3>yomna2207085c5a50bc41c3d015e's Home</h3>
     </div>
+    
     <div class="notes-section">
         <div class="note-card">
             <p>Untitled</p>
@@ -208,6 +218,7 @@
         </div>
       
     </div>
+    
     <div class="recently-captured">
         <h3>Recently Captured</h3>
         <div class="capture-options">
@@ -217,7 +228,7 @@
             <button>Audio</button>
             <button>Emails</button>
         </div>
-   
+        
 
     <section class="container">
   <div class="heading">

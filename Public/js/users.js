@@ -578,34 +578,85 @@ window.onload = function() {
         }
     });
 
+ 
     document.getElementById('saveBtn').addEventListener('click', function () {
-        const task = document.getElementById('taskInput').value;
+        // Get task/event title from editable field
+        const taskTitle = document.querySelector('.title-input').innerText.trim();
+        const taskSubtitle = document.querySelector('.subtitle').innerText.trim();
 
-        if (task.trim() === "") {
-            alert("Please enter a task before saving.");
+        // Ensure title is not empty
+        if (!taskTitle) {
+            alert("Task title cannot be empty!");
             return;
         }
 
-        // Send the task to the server
-        fetch('save_task.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ task: task }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    alert("Task saved successfully!");
-                    document.getElementById('taskInput').value = ""; // Clear input field
-                } else {
-                    alert("Error saving task: " + data.error);
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert("An error occurred while saving the task.");
-            });
+        // Create a new entry for the Notebook
+        const notebookEntries = document.getElementById('notebookEntries');
+        const newEntry = document.createElement('div');
+        newEntry.className = 'notebook-entry';
+        newEntry.style.border = "1px solid #ccc";
+        newEntry.style.padding = "10px";
+        newEntry.style.margin = "10px 0";
+
+        // Populate the new entry
+        newEntry.innerHTML = `
+            <h3>${taskTitle}</h3>
+            <p>${taskSubtitle || "No description provided."}</p>
+            <small>Saved on: ${new Date().toLocaleString()}</small>
+        `;
+
+        // Append the new entry to the Notebook section
+        notebookEntries.appendChild(newEntry);
+
+        // Show a success message
+        alert("Task saved to Notebook!");
+
+        // Clear input fields
+        document.querySelector('.title-input').innerText = '';
+        document.querySelector('.subtitle').innerText = '';
     });
+
+
+      // Get tasks from Local Storage on page load
+const storedTasks = localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')) : [];
+
+// Loop through stored tasks and create entries
+storedTasks.forEach(taskHTML => {
+  const newEntry = document.createElement('div');
+  newEntry.innerHTML = taskHTML; // Set the innerHTML with the saved HTML structure
+  document.getElementById('notebookEntries').appendChild(newEntry);
+});
+const notebooksBtn = document.getElementById('notebooksBtn');
+const homeContent = document.getElementById('homeContent');
+const taskContent = document.getElementById('taskContent');
+const notebookContent = document.getElementById('notebookContent');
+
+// Add click event listener to the Notebooks button
+notebooksBtn.addEventListener('click', function () {
+  // Hide other sections
+  homeContent.style.display = 'none';
+  taskContent.style.display = 'none';
+
+  // Show the notebook section
+  notebookContent.style.display = 'block';
+
+  // Change the background
+  document.body.style.backgroundImage = none; // Replace with your actual image URL
+  document.body.style.backgroundSize = "cover";
+  document.body.style.backgroundRepeat = "no-repeat";
+});
+
+// Initially hide the notebook section (assuming you're on a different page on load)
+notebookContent.style.display = 'none';
+    // Home button click logic
+document.getElementById('homeBtn').addEventListener('click', function () {
+    document.getElementById('homeContent').style.display = 'block';
+    document.getElementById('taskContent').style.display = 'none';
+    document.getElementById('notebookContent').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'none';
+});
+
+
+
+
 

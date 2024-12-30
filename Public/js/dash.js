@@ -60,7 +60,7 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
 event.preventDefault();
 const formData = new FormData(this);
 
-fetch('http://localhost/PROJECTFF/app/View/edit-user.php', {
+fetch('../../app/View/edit-user.php', {
     method: 'POST',
     body: formData
 })
@@ -153,7 +153,7 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
 event.preventDefault();
 const formData = new FormData(this);
 
-fetch('http://localhost/PROJECTFF/app/View/edit-user.php', {
+fetch('../../app/View/edit-user.php', {
     method: 'POST',
     body: formData
 })
@@ -204,7 +204,7 @@ function closeDeleteConfirmModal() {
 }
 
 function deleteUser(username) {
-    fetch('http://localhost/PROJECTFF/app/View/delete-user.php', {
+    fetch('../../app/View/delete-user.php', {
         method: 'POST',
         body: JSON.stringify({ username }),
         headers: {
@@ -350,61 +350,10 @@ function filterTable() {
          // Show or hide the row based on the match, and apply gradient color if matched
          if (match) {
             rows[i].style.display = "";
-            rows[i].style.background = "linear-gradient(to right,rgb(105, 72, 72),rgb(70, 178, 193))";
+            rows[i].style.background = "linear-gradient(to right,rgb(106, 106, 106),rgb(117, 117, 117))";
         } else {
             rows[i].style.display = "none";
             rows[i].style.background = ""; // Reset background
         }
     }
 }
-
-
-
-document.getElementById("sortForm").addEventListener("change", function () {
-    const selectedOption = document.querySelector(".sortby").value;
-    const url = new URL(window.location.href);
-    url.searchParams.set("sortby", selectedOption);
-    window.location.href = url; // Reload page with updated sortby parameter
-});
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const sortDropdown = document.querySelector(".sortby");
-
-    if (sortDropdown) {
-        sortDropdown.addEventListener("change", function () {
-            const sortBy = this.value;
-
-            // Fetch sorted data from the backend
-            fetch(`/app/Controllers/sortHandler.php?sortby=${sortBy}`)
-                .then(response => response.json())
-                .then(data => {
-                    const tbody = document.querySelector("#users2 tbody");
-                    tbody.innerHTML = ""; // Clear existing rows
-
-                    // Populate table with sorted data
-                    data.forEach(row => {
-                        const tr = document.createElement("tr");
-
-                        tr.innerHTML = `
-                            <td>${row.username || ''}</td>
-                            <td>${row.email || ''}</td>
-                            <td>${row.task_id || 'No tasks assigned'}</td>
-                            <td>${row.title || 'No tasks assigned'}</td>
-                            <td>${row.due_date || ''}</td>
-                            <td>${row.reminder || ''}</td>
-                            <td>${row.priority || ''}</td>
-                            <td>${row.category || ''}</td>
-                            <td>${row.completed || ''}</td>
-                            <td>${row.flag || ''}</td>
-                            <td>${row.task_created_at || ''}</td>
-                        `;
-
-                        tbody.appendChild(tr);
-                    });
-                })
-                .catch(error => console.error("Error fetching sorted data:", error));
-        });
-    }
-});

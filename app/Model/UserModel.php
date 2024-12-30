@@ -143,13 +143,24 @@ public function getUserTaskStatistics() {
     }
     return $data;
 }
- 
+
+
+public function updateAssignedTo($oldUsername, $newUsername) {
+    $query = "UPDATE tasks SET assigned_to = ? WHERE assigned_to = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ss", $newUsername, $oldUsername);
+
+    if ($stmt->execute()) {
+        return ["status" => "success", "message" => "Tasks updated successfully."];
+    } else {
+        return ["status" => "error", "message" => "Failed to update tasks. Error: " . $stmt->error];
+    }
+}
 
 
 
-
-
-
-
+    public function closeConnection() {
+        $this->conn->close();
+    }
 
 }

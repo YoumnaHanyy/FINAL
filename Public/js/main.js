@@ -27,12 +27,13 @@ document.getElementById("add_username").addEventListener("input", function () {
     const namePattern = /^[a-zA-Z]{3,15}$/;
 
     if (namePattern.test(username)) {
-        fetch(`http://localhost/PROJECTFF/app/Controllers/check-username.php?username=${username}`)
+        fetch(`../../app/Controllers/check-username.php?username=${username}`)
             .then(response => response.json())
             .then(data => {
                 if (data.exists) {
                     nameError.textContent = "Username already exists.";
                     nameError.style.display = "block";
+                    
                 } else {
                     nameError.style.display = "none";
                 }
@@ -50,7 +51,7 @@ document.getElementById("add_email").addEventListener("input", function () {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (emailPattern.test(email)) {
-        fetch(`http://localhost/PROJECTFF/app/Controllers/check-email.php?email=${email}`)
+        fetch(`../../app/Controllers/check-email.php?email=${email}`)
             .then(response => response.json())
             .then(data => {
                 if (data.exists) {
@@ -98,7 +99,7 @@ document.getElementById("add-form").addEventListener("submit", function (event) 
 
     const formData = new FormData(this);
 
-    fetch("http://localhost/PROJECTFF/app/View/add-user.php", {
+    fetch("../../app/View/add-user.php", {
         method: "POST",
         body: formData,
     })

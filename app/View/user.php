@@ -52,7 +52,7 @@
             
             <button class="btn" id="Eventbtn><i class="fas fa-file"></i> Events</button>
             <button class="btn"><i class="fas fa-calendar"></i> Calendar</button>
-            <input type="datetime-local" id="customDateInput" style="display:none;" />
+            <input type="datetime-locall" id="customDateInputt" style="display:none;" />
             <button class="btn"><i class="fas fa-book"></i> Notebooks</button>
             <button class="btn"><i class="fas fa-tag"></i> Tags</button>
             <button class="btn"><i class="fas fa-share-alt"></i> Shared with Me</button>
@@ -136,7 +136,7 @@
                     <button>Tomorrow</button>
                     <button id="customDateBtn">Custom</button>
                     <input type="datetime-local" id="customDateInput" style="display:none;" />
-                    <button>Repeat</button>
+                    
                 </div>
 
                 <label><i class="fa fa-bell"></i> Reminder</label>
@@ -148,7 +148,7 @@
                 </div>
 
                 <label><i class="fa fa-user"></i> Assigned to</label>
-                <input type="text" placeholder="Assign">
+                <textarea class="assign" type="text" placeholder="Assign"></textarea>
 
                 <label><i class="fa fa-exclamation-triangle"></i> Priority</label>
                 <div class="task-priority-options">
@@ -249,6 +249,15 @@
   </div>
 </div>
 </section>
+</div>
+<div id="confirmationModal" class="modal hidden">
+    <div class="modal-content">
+        <p>Are you sure you want to delete this task?</p>
+        <div class="modal-actions">
+            <button id="confirmDelete" class="btn btn-danger">Delete</button>
+            <button id="cancelDelete" class="btn btn-secondary">Cancel</button>
+        </div>
+    </div>
 </div>
 
 <div class="main-content1" id="taskContent" style="display: none;">
@@ -477,9 +486,6 @@
 </script>
 
 <script>
-
-
-
  document.addEventListener("DOMContentLoaded", function () {
     fetch('../../app/Controllers/taskcontroller.php', {
         method: 'POST',
@@ -728,40 +734,85 @@ function updateTaskCompletion(taskId, completed) {
             updatedTaskData.append('flag', document.querySelector('input[type="checkbox"]').checked ? 1 : 0);
 
             fetch('../../app/Controllers/taskcontroller.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: updatedTaskData.toString()
-            })
-            .then(response => response.text())
-            .then(text => {
-                alert('Task updated successfully!');
-                document.getElementById('taskModal').style.display = 'none';
-                location.reload();
-            })
-            .catch(error => {
-                alert('Failed to update task: ' + error.message);
-            });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: updatedTaskData.toString()
+})
+.then(response => response.text())
+.then(text => {
+    displayMessage('Task updated successfully!', 'success'); // Inline success message
+    document.getElementById('taskModal').style.display = 'none';
+    setTimeout(() => location.reload(), 1000); // Reload after 1 second
+})
+.catch(error => {
+    displayMessage('Failed to update task.', 'error'); // Inline error message
+});
         });
 
         // Delete task
-        deleteBtn.addEventListener('click', function() {
-            if (confirm('Are you sure you want to delete this task?')) {
-                fetch('../../app/Controllers/taskcontroller.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({ action: 'delete', id: task.id })
-                })
-                .then(response => response.text())
-                .then(text => {
-                    alert('Task deleted successfully!');
-                    document.getElementById('taskModal').style.display = 'none';
-                    location.reload();
-                })
-                .catch(error => {
-                    alert('Failed to delete task: ' + error.message);
-                });
-            }
+        deleteBtn.addEventListener('click', function () {
+    // Show the confirmation modal
+    const modal = document.getElementById('confirmationModal');
+    modal.classList.remove('hidden');
+
+    // Handle Confirm action
+    document.getElementById('confirmDelete').addEventListener('click', function () {
+        fetch('../../app/Controllers/taskcontroller.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ action: 'delete', id: task.id })
+        })
+        .then(response => response.text())
+        .then(text => {
+            displayMessage('Task deleted successfully!', 'success');
+            modal.classList.add('hidden'); // Hide the modal
+            document.getElementById('taskModal').style.display = 'none';
+            setTimeout(() => location.reload(), 1000); // Reload after 1 second
+        })
+        .catch(error => {
+            displayMessage('Failed to delete task.', 'error');
+            modal.classList.add('hidden'); // Hide the modal
         });
+    });
+
+    // Handle Cancel action
+    document.getElementById('cancelDelete').addEventListener('click', function () {
+        modal.classList.add('hidden'); // Hide the modal
+    });
+});
+
+// Function to display messages
+function displayMessage(message, type) {
+    const messageContainer = document.getElementById('messageContainer');
+
+    if (!messageContainer) {
+        const container = document.createElement('div');
+        container.id = 'messageContainer';
+        container.style.position = 'fixed';
+        container.style.bottom = '20px';
+        container.style.left = '50%';
+        container.style.transform = 'translateX(-50%)';
+        container.style.zIndex = '1000';
+        container.style.width = '80%';
+        container.style.textAlign = 'center';
+        document.body.appendChild(container);
+    }
+
+    const messageDiv = document.createElement('div');
+    messageDiv.innerText = message;
+    messageDiv.style.padding = '10px';
+    messageDiv.style.margin = '10px 0';
+    messageDiv.style.borderRadius = '5px';
+    messageDiv.style.color = '#fff';
+    messageDiv.style.fontSize = '14px';
+    messageDiv.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+    messageDiv.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
+
+    document.getElementById('messageContainer').appendChild(messageDiv);
+
+    setTimeout(() => messageDiv.remove(), 3000);
+}
+
     }
 
     // Event listeners for filters and search

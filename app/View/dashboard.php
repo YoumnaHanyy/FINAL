@@ -1,4 +1,3 @@
-
 <?php
 require_once __DIR__ . '/../Controllers/UserController.php';
 require_once('../Model/UserModel.php');
@@ -8,260 +7,23 @@ require_once __DIR__ . '/../Model/UserModel.php';
 require_once '../Controllers/UserController.php';
 // Database connection parameters
 require_once __DIR__ . '/../DB/config.php';
-
 ?>
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DashBoard</title>
-    <link rel="stylesheet" href="http://localhost/PROJECTFF/Public/Css/dashboard.css">
+    <link rel="stylesheet" href="http://localhost/PROJECTFF/Public/css/dashboard.css">
     <link rel="stylesheet" href="http://localhost/PROJECTFF/Public/css/edit-user.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     
     <style>
-       #searchInput{
-       color:burlywood;
-        background-color:#000;
-        width: 100%;
-    height: 40px;
-    border-radius: 90px;
-    padding: 5px,18px;
-    padding-left: 35px;
-    border: 2.5px solid #1e1e1e;
-    outline: none;
-       }
-
-/* Apply styles to the form */
-.shady8poula {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
- }
-
-/* Style the select dropdown */
-.shady8poula select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    background-color: rgb(237, 201, 103);
-    font-size: 14px;
-   
-}
-
-/* Style the hidden input */
-.shady8poula input[type="hidden"] {
-    display: none;
-}
-
-.filter{
-    display: flex;
-    justify-content: space-between;
-    z-index: 9;
-}
 
 
-     
-.containerAAAA {
-    max-width: 1200px;
-    width: 95%;
-  }
-  
-  .slider-wrapper {
-    position: relative;
-  }
-  
-  .slider-wrapper .slide-button {
-    position: absolute;
-    top: 50%;
-    outline: none;
-    border: none;
-    height: 50px;
-    width: 50px;
-    z-index: 5;
-    color: #fff;
-    display: flex;
-    cursor: pointer;
-    font-size: 2.2rem;
-    background: #000;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transform: translateY(-50%);
-  }
-  
-  .slider-wrapper .slide-button:hover {
-    background: #404040;
-  }
-  
-  .slider-wrapper .slide-button#prev-slide {
-    left: -25px;
-    display: none;
-  }
-  
-  .slider-wrapper .slide-button#next-slide {
-    right: -25px;
-  }
-  
-  .slider-wrapper .image-list {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    gap: 18px;
-    font-size: 0;
-    list-style: none;
-    margin-bottom: 30px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  
-  .slider-wrapper .image-list::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .slider-wrapper .image-list .image-item {
-    width: 225px;
-    height: 300px;
-    object-fit: cover;
-  }
-  
-  .containerAAAA .slider-scrollbar {
-    height: 24px;
-    width: 80%;
-    display: flex;
-    align-items: center;
-    background-color:black ;
-    margin-left: 325px;
-  }
-  
-  .slider-scrollbar .scrollbar-track {
-    background: #ccc;
-    width: 100%;
-    height: 2px;
-    display: flex;
-    align-items: center;
-    border-radius: 4px;
-    position: relative;
-  }
-  
-  .slider-scrollbar:hover .scrollbar-track {
-    height: 4px;
-  }
-  
-  .slider-scrollbar .scrollbar-thumb {
-    position: absolute;
-    background: #000;
-    top: 0;
-    bottom: 0;
-    width: 50%;
-    height: 100%;
-    cursor: grab;
-    border-radius: inherit;
-  }
-  
-  .slider-scrollbar .scrollbar-thumb:active {
-    cursor: grabbing;
-    height: 8px;
-    top: -2px;
-  }
-  
-  .slider-scrollbar .scrollbar-thumb::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: -10px;
-    bottom: -10px;
-  }
-  
-  /* Styles for mobile and tablets */
-  @media only screen and (max-width: 1023px) {
-    .slider-wrapper .slide-button {
-      display: none !important;
-    }
-  
-    .slider-wrapper .image-list {
-      gap: 10px;
-      margin-bottom: 15px;
-      scroll-snap-type: x mandatory;
-    }
-  
-    .slider-wrapper .image-list .image-item {
-      width: 280px;
-      height: 380px;
-    }
-  
-    .slider-scrollbar .scrollbar-thumb {
-      width: 20%;
-    }
-  }
-
-
-
-  .slider-wrapper .image-item {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 50rem;
-    height: 50rem;
-    object-fit: cover;
-    transition: 0.7s ease;
-  }
-  
-  .slider-wrapper .image-item:hover {
-    background: #dfb16d;
-    opacity: .6;
-    transform: translateY(30%);/*100%*/
-
-  }
-  
-  .slider-wrapper .image-item img {
-    width: 100%;
-    height: auto;
-  }
-  
-  .slider-wrapper .image-item .image-text {
-    margin-top: 10px;
-    text-align: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  .section-slider
-  {
-    margin: 50px;
-    padding-top: 90px;
-    display: block;
-  }
-  #ghjkl{
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
-
-
-
-  .slider-wrapper .image-item .image-text {
-  margin-top: 15px;
-  text-align: center;
-  font-size: 1rem; /* Adjust size for readability */
-  font-weight: normal;
-  color: #555; /* Subtle text color */
-  max-width: 90%; /* Ensures text doesn't overflow the image width */
-  word-wrap: break-word; /* Handles long words gracefully */
-  line-height: 1.4;
-}
-
-.slider-wrapper .image-item:hover .image-text {
-  color: #000; /* Highlights the text on hover */
-}
- </style>
+    </style>
 </head>
 <body>
    
@@ -294,22 +56,23 @@ require_once __DIR__ . '/../DB/config.php';
         <span class="title">Users</span>
     </a>
 </li>
-                <li>
+<li>
                     <a href="javascript:void(0)" onclick="toggleUsersSection4()">
                         <span class="icon"><i class="fa-solid fa-question"></i> </span>
-                        <span class="title">Help</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <span class="icon"><i class="fa-solid fa-gear"></i></span>
                         <span class="title">Settings</span>
                     </a>
                 </li>
 
+
                 <li>
                     <a href="#">
+                        <span class="icon"><i class="fa-solid fa-gear"></i></span>
+                        <span class="title">help</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="login.php">
                         <span class="icon"><i class="fa-solid fa-right-from-bracket"></i></span>
                         <span class="title">Sign out</span>
                     </a>
@@ -340,15 +103,17 @@ require_once __DIR__ . '/../DB/config.php';
                         <div class="card">
                         <div class="iconn" class="icon"><i class="fa-solid fa-comment"></i> </div> 
                         <div id="info">
-                            <h4>15240</h4>
-                            <p>Comments</p>
+                        <h4>Total Users</h4>
+                        <p><?php echo htmlspecialchars($totalUsers ?? 0); ?></p>
+                            
+                            
                         </div>
                         </div>
                         <div class="card">
                             <div class="iconn" class="icon1"><i class="fa-solid fa-money-bill"></i> </div> 
                             <div id="info">
-                            <h4>9000$</h4>
-                            <p>profit</p>
+                            <h4>Total tasks$</h4>
+                            <p><?php echo htmlspecialchars($totalTasks ?? 0); ?></p>
                             </div>
                         </div>
                 
@@ -356,29 +121,22 @@ require_once __DIR__ . '/../DB/config.php';
                         <div class="card">
                             <div class="iconn" class="icon1"><i class="fa-regular fa-eye"></i></div> 
                             <div id="info">
-                            <h4>18241</h4>
-                            <p>customers</p>
+                            <h4>High priority tasks</h4>
+                            <p><?php echo htmlspecialchars($highPriorityTasks ?? 0); ?></p>
+
                             </div>
                         </div>
                 
                 
-                        <div class="card">
-                            <div class="iconn" class="icon1"><i class="fa-solid fa-cart-shopping"></i></div>
-                            <div id="info">
-                            <h4>1900$</h4>
-                            <p>Sales</p>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
-                
             </div>
-
-
-            <div class="containerAAAA" id="SNNS">
+<!-- 
+            <div class="containerAAAA" id="SNNS" >
       <div class="slider-wrapper">
         <button id="prev-slide" class="slide-button material-symbols-rounded">
-         <
+        <
         </button>
         <ul class="image-list">
             <li class="image-item">
@@ -423,9 +181,64 @@ require_once __DIR__ . '/../DB/config.php';
         </div>
       </div>
     </div>
+     -->
+       
+     
+     <div class="settings-container" id="SNNS">
+        <div class="settings-header">
+            <h2 id="headerTitle">Settings</h2>
+            <button id="resetButton" onclick="resetSettings()">Reset to Default</button>
+        </div>
+
+        <div class="settings-section">
+            <h3 id="generalTitle">General Settings</h3>
+            <div class="settings-option">
+                <label for="darkModeToggle" id="darkModeLabel">Dark Mode</label>
+                <input type="checkbox" id="darkModeToggle" onclick="toggleDarkMode()">
+            </div>
+            <div class="settings-option">
+                <label for="languageSelect" id="languageLabel">Language</label>
+                <select id="languageSelect" onchange="updateLanguage()">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3 id="privacyTitle">Privacy Settings</h3>
+            <div class="settings-option">
+                <label for="trackUsage" id="usageLabel">Allow Usage Tracking</label>
+                <input type="checkbox" id="trackUsage" onclick="handleUsageTracking()">
+            </div>
+            <div class="settings-option">
+                <label for="notificationToggle" id="notificationLabel">Enable Notifications</label>
+                <input type="checkbox" id="notificationToggle" onclick="handleNotifications()">
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3 id="accountTitle">Account Settings</h3>
+            <div class="settings-option">
+                <label for="usernameInput" id="usernameLabel">Username</label>
+                <input type="text" id="usernameInput" value="JohnDoe">
+                <button id="saveButton" onclick="updateUsername()">Save</button>
+            </div>
+            <div class="settings-option">
+                <label for="passwordInput" id="passwordLabel">Password</label>
+                <input type="text" id="passwordInput" placeholder="********">
+                <button id="changeButton" onclick="updatePassword()">Change</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Animation elements -->
+    <div class="animation" id="trackingAnimation">🎉 Tracking Enabled! 🎉</div>
+    <div class="animation" id="notificationsAnimation">🔔 Notifications Enabled! 🔔</div>
 
 <div>
-    
+
     <div class="usersss"id="sh">
         <div class="recent">
             <div class="title">
@@ -499,9 +312,16 @@ require_once __DIR__ . '/../DB/config.php';
         <p id="deletion-message" style="display:none; margin-top: 20px;"></p> <!-- Message display -->
     </div>
 </div>
+
+
+
+
+
 <div class="scrollable-div">
+    
 <div>
     <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterTable()" />
+   
 </div>
                 <table id="users2">
                     <thead>
@@ -552,7 +372,7 @@ require_once __DIR__ . '/../DB/config.php';
             
         </div>
     </div>
- 
+   
     <div class="usersss" id="aa">
         <div class="recent">
      <div class="title">
@@ -578,6 +398,7 @@ require_once __DIR__ . '/../DB/config.php';
                     <td>
                         <?php
                         // Ensure valid numbers to prevent division errors
+
                         $totalTaskss = $data['total_taskss'] ?? 0;
                         $completedTasks = $data['completed'] ?? 0;
 
@@ -595,6 +416,7 @@ require_once __DIR__ . '/../DB/config.php';
 </div>
 
 </div>
+
 <!-- Modal for Report Generation -->
 <div id="reportModal" class="modal">
     <div class="modal-content">
@@ -620,34 +442,8 @@ require_once __DIR__ . '/../DB/config.php';
 </div>
 </div>     
 <div class="card5" id="ash">
-    <div class="metrics">
-        <div class="metric-card">
-            <h3>Total Users</h3>
-            <p><?php echo htmlspecialchars($totalUsers ?? 0); ?></p>
-        </div>
-        <div class="metric-card">
-            <h3>Total Tasks</h3>
-            <p><?php echo htmlspecialchars($totalTasks ?? 0); ?></p>
-        </div>
-        <div class="metric-card">
-            <h3>High Priority Tasks</h3>
-            <p><?php echo htmlspecialchars($highPriorityTasks ?? 0); ?></p>
-        </div>
-    </div>
-   
-<div class="tablee"> 
-<div class="sorting">
-    <h1>ALL ITEMS:</h1>
-    <form id="sortForm" class="shady">
-        <select name="sortby" class="sortby">
-            <option value="prioritylow" <?= ($_GET['sortby'] ?? '') === 'prioritylow' ? 'selected' : '' ?>>Sort by lowest priority</option>
-            <option value="priorityhigh" <?= ($_GET['sortby'] ?? '') === 'priorityhigh' ? 'selected' : '' ?>>Sort by highest priority</option>
-            <option value="prioritymed" <?= ($_GET['sortby'] ?? '') === 'prioritymed' ? 'selected' : '' ?>>Sort by medium</option>
-        </select>
-    </form>
-</div>
-
-
+    
+<div class="tablee">
 
     <table id="users2">
         <thead>
@@ -671,6 +467,7 @@ require_once __DIR__ . '/../DB/config.php';
             <?php
             if (!empty($usersWithTasks)) {
                 foreach ($usersWithTasks as $row) {
+
                     echo "<tr>";
                     echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
                     echo "<td>" . htmlspecialchars($row["email"]) . "</td>";
@@ -689,7 +486,6 @@ require_once __DIR__ . '/../DB/config.php';
             } else {
                 echo "<tr><td colspan='10'>No users found</td></tr>";
             }
-            
             ?>
         </tbody>
     </table>
@@ -700,76 +496,148 @@ require_once __DIR__ . '/../DB/config.php';
 
 </body>
 <script src="../../Public/js/dash.js"></script>
-<script src="../../Public/Js/main.js"></script>
+<script src="../../Public/js/main.js"></script>
+
+
+
 <script>
-     const initSlider = () => {
-    const imageList = document.querySelector(".slider-wrapper .image-list");
-    const slideButtons = document.querySelectorAll(".slider-wrapper .slide-button");
-    const sliderScrollbar = document.querySelector(".containerAAAA .slider-scrollbar");
-    const scrollbarThumb = sliderScrollbar.querySelector(".scrollbar-thumb");
-    const maxScrollLeft = imageList.scrollWidth - imageList.clientWidth;
+        const translations = {
+            en: {
+                headerTitle: "Settings",
+                generalTitle: "General Settings",
+                darkModeLabel: "Dark Mode",
+                languageLabel: "Language",
+                privacyTitle: "Privacy Settings",
+                usageLabel: "Allow Usage Tracking",
+                notificationLabel: "Enable Notifications",
+                accountTitle: "Account Settings",
+                usernameLabel: "Username",
+                passwordLabel: "Password",
+                resetButton: "Reset to Default",
+                saveButton: "Save",
+                changeButton: "Change"
+            },
+            es: {
+                headerTitle: "Configuraciones",
+                generalTitle: "Configuraciones Generales",
+                darkModeLabel: "Modo Oscuro",
+                languageLabel: "Idioma",
+                privacyTitle: "Configuraciones de Privacidad",
+                usageLabel: "Permitir Seguimiento de Uso",
+                notificationLabel: "Habilitar Notificaciones",
+                accountTitle: "Configuraciones de la Cuenta",
+                usernameLabel: "Nombre de Usuario",
+                passwordLabel: "Contraseña",
+                resetButton: "Restablecer a Predeterminado",
+                saveButton: "Guardar",
+                changeButton: "Cambiar"
+            },
+            fr: {
+                headerTitle: "Paramètres",
+                generalTitle: "Paramètres Généraux",
+                darkModeLabel: "Mode Sombre",
+                languageLabel: "Langue",
+                privacyTitle: "Paramètres de Confidentialité",
+                usageLabel: "Autoriser le Suivi d'Utilisation",
+                notificationLabel: "Activer les Notifications",
+                accountTitle: "Paramètres du Compte",
+                usernameLabel: "Nom d'utilisateur",
+                passwordLabel: "Mot de Passe",
+                resetButton: "Réinitialiser par Défaut",
+                saveButton: "Sauvegarder",
+                changeButton: "Modifier"
+            }
+        };
     
-    // Handle scrollbar thumb drag
-    scrollbarThumb.addEventListener("mousedown", (e) => {
-        const startX = e.clientX;
-        const thumbPosition = scrollbarThumb.offsetLeft;
-        const maxThumbPosition = sliderScrollbar.getBoundingClientRect().width - scrollbarThumb.offsetWidth;
-        
-        // Update thumb position on mouse move
-        const handleMouseMove = (e) => {
-            const deltaX = e.clientX - startX;
-            const newThumbPosition = thumbPosition + deltaX;
-
-            // Ensure the scrollbar thumb stays within bounds
-            const boundedPosition = Math.max(0, Math.min(maxThumbPosition, newThumbPosition));
-            const scrollPosition = (boundedPosition / maxThumbPosition) * maxScrollLeft;
-            
-            scrollbarThumb.style.left = `${boundedPosition}px`;
-            imageList.scrollLeft = scrollPosition;
+        // Update language function
+        function updateLanguage() {
+            const language = document.getElementById("languageSelect").value;
+            const elements = Object.keys(translations[language]);
+    
+            elements.forEach(key => {
+                document.getElementById(key).textContent = translations[language][key];
+            });
         }
-
-        // Remove event listeners on mouse up
-        const handleMouseUp = () => {
-            document.removeEventListener("mousemove", handleMouseMove);
-            document.removeEventListener("mouseup", handleMouseUp);
+    
+        // Toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            document.querySelector(".settings-container").classList.toggle("dark-mode");
+            document.querySelectorAll(".settings-option").forEach(option => option.classList.toggle("dark-mode"));
         }
-
-        // Add event listeners for drag interaction
-        document.addEventListener("mousemove", handleMouseMove);
-        document.addEventListener("mouseup", handleMouseUp);
-    });
-
-    // Slide images according to the slide button clicks
-    slideButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            const direction = button.id === "prev-slide" ? -1 : 1;
-            const scrollAmount = imageList.clientWidth * direction;
-            imageList.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    
+        // Handle usage tracking
+        function handleUsageTracking() {
+            const isChecked = document.getElementById("trackUsage").checked;
+            const animation = document.getElementById("trackingAnimation");
+    
+            if (isChecked) {
+                animation.style.display = "block";
+                animation.style.animation = "fadeOut 2s forwards";
+                setTimeout(() => {
+                    animation.style.display = "none";
+                }, 2000);
+            } else {
+                alert("Usage tracking disabled.");
+            }
+        }
+    
+        // Handle notifications
+        function handleNotifications() {
+            const isChecked = document.getElementById("notificationToggle").checked;
+            const animation = document.getElementById("notificationsAnimation");
+    
+            if (isChecked) {
+                animation.style.display = "block";
+                animation.style.animation = "fadeOut 2s forwards";
+                setTimeout(() => {
+                    animation.style.display = "none";
+                }, 2000);
+            } else {
+                alert("Notifications disabled.");
+            }
+        }
+    
+        // Update username
+        function updateUsername() {
+            const username = document.getElementById("usernameInput").value;
+            localStorage.setItem("username", username); // Save to localStorage
+            alert("Username updated to: " + username);
+        }
+    
+        // Update password
+        function updatePassword() {
+            const password = document.getElementById("passwordInput").value;
+            localStorage.setItem("password", password); // Save to localStorage
+            alert("Password updated successfully!");
+        }
+    
+        // Reset all settings
+        function resetSettings() {
+            document.getElementById("darkModeToggle").checked = false;
+            document.getElementById("trackUsage").checked = false;
+            document.getElementById("notificationToggle").checked = false;
+            document.getElementById("languageSelect").value = "en";
+            document.getElementById("usernameInput").value = "JohnDoe";
+            document.getElementById("passwordInput").value = "";
+    
+            localStorage.clear(); // Clear saved settings
+            document.body.classList.remove("dark-mode");
+            updateLanguage();
+            alert("Settings reset to default!");
+        }
+    
+        // Load saved settings on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedUsername = localStorage.getItem("username");
+            const savedPassword = localStorage.getItem("password");
+    
+            if (savedUsername) {
+                document.getElementById("usernameInput").value = savedUsername;
+            }
+            if (savedPassword) {
+                document.getElementById("passwordInput").value = savedPassword;
+            }
         });
-    });
-
-     // Show or hide slide buttons based on scroll position
-    const handleSlideButtons = () => {
-        slideButtons[0].style.display = imageList.scrollLeft <= 0 ? "none" : "flex";
-        slideButtons[1].style.display = imageList.scrollLeft >= maxScrollLeft ? "none" : "flex";
-    }
-
-    // Update scrollbar thumb position based on image scroll
-    const updateScrollThumbPosition = () => {
-        const scrollPosition = imageList.scrollLeft;
-        const thumbPosition = (scrollPosition / maxScrollLeft) * (sliderScrollbar.clientWidth - scrollbarThumb.offsetWidth);
-        scrollbarThumb.style.left = `${thumbPosition}px`;
-    }
-
-    // Call these two functions when image list scrolls
-    imageList.addEventListener("scroll", () => {
-        updateScrollThumbPosition();
-        handleSlideButtons();
-    });
-}
-
-window.addEventListener("resize", initSlider);
-window.addEventListener("load", initSlider);
-</script>
- 
+    </script>
 </html>

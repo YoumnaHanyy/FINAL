@@ -20,7 +20,7 @@
     <h2 style="text-align: center;">Payment</h2>
     <p style="text-align: center;">Plan: <?php echo $plan; ?></p>
 
-    <form action="user.php" method="POST">
+    <form action="user.php" method="POST" id="payment-form">
         <input type="hidden" name="plan" value="<?php echo $plan; ?>">
 
         <label>Card Number</label>
@@ -41,112 +41,114 @@
             <option value="United States">United States</option>
         </select>
 
-        <button type="submit">Continue</button>
+        <button type="submit" id="submit-button">Continue</button>
     </form>
 </div>
 
 <script>
-    document.querySelector('form').addEventListener('submit', function(event) {
-    let isValid = true;
-    const cardNumber = document.querySelector('input[name="card_number"]');
-    const expiryDate = document.querySelector('input[name="expiry_date"]');
-    const cvv = document.querySelector('input[name="cvv"]');
-    const cardholderName = document.querySelector('input[name="cardholder_name"]');
-    const country = document.querySelector('select[name="country"]');
+    document.getElementById('payment-form').addEventListener('submit', function(event) {
+        let isValid = true;
 
-    // Clear previous error styles and messages
-    clearValidationErrors([cardNumber, expiryDate, cvv, cardholderName, country]);
+        // Select form fields
+        const cardNumber = document.getElementById('card_number');
+        const expiryDate = document.getElementById('expiry_date');
+        const cvv = document.getElementById('cvv');
+        const cardholderName = document.getElementById('cardholder_name');
 
-    // Card Number Validation (16 digits and starts with '4')
-    if (!/^\d{16}$/.test(cardNumber.value.replace(/\s/g, ''))) {
-        setValidationError(cardNumber, "Card number must be 16 digits.");
-        isValid = false;
-    }
+        // Clear any previous validation messages
+        clearValidationErrors([cardNumber, expiryDate, cvv, cardholderName]);
 
-    // Expiry Date Validation (must be MM/YY format and valid future date)
-    const expiryDateParts = expiryDate.value.split('/');
-    if (!/^\d{2}\/\d{2}$/.test(expiryDate.value) || !isValidExpiryDate(expiryDateParts[0], expiryDateParts[1])) {
-        setValidationError(expiryDate, "Expiry date must be in MM/YY format and must be a future date.");
-        isValid = false;
-    }
+        // Validate card number (16 digits)
+        if (!/^\d{16}$/.test(cardNumber.value.replace(/\s/g, ''))) {
+            setValidationError(cardNumber, "Card number must be 16 digits.");
+            isValid = false;
+        }
 
-    // CVV Validation (must be 3 digits)
-    if (!/^\d{3}$/.test(cvv.value)) {
-        setValidationError(cvv, "CVV must be 3 digits.");
-        isValid = false;
-    }
+        // Validate expiry date (MM/YY and future date)
+        const expiryParts = expiryDate.value.split('/');
+        if (!/^\d{2}\/\d{2}$/.test(expiryDate.value)) {
+            setValidationError(expiryDate, "Expiry date must be in MM/YY format.");
+            isValid = false;
+        } else if (!isValidExpiryDate(expiryParts[0], expiryParts[1])) {
+            setValidationError(expiryDate, "This card has expired. Please use a valid card.");
+            isValid = false;
+        }
 
-    // Cardholder Name Validation (only alphabetic characters and spaces allowed)
-    if (!/^[a-zA-Z\s]+$/.test(cardholderName.value.trim())) {
-        setValidationError(cardholderName, "Cardholder name is required and should only contain letters and spaces.");
-        isValid = false;
-    }
+        // Validate CVV (3 digits)
+        if (!/^\d{3}$/.test(cvv.value)) {
+            setValidationError(cvv, "CVV must be exactly 3 digits.");
+            isValid = false;
+        }
 
-    // If there are any invalid fields, prevent form submission
-    if (!isValid) {
-        event.preventDefault();
-    }
-});
+        // Validate cardholder name (alphabetic characters only)
+        if (!/^[a-zA-Z\s]+$/.test(cardholderName.value.trim())) {
+            setValidationError(cardholderName, "Cardholder name should contain only letters and spaces.");
+            isValid = false;
+        }
 
-// Prevent numerical input for the cardholder name
-document.getElementById('cardholder_name').addEventListener('input', function(event) {
-    this.value = this.value.replace(/[0-9]/g, ''); // Replace any numbers with empty string
-});
-
-function setValidationError(field, message) {
-    field.classList.add('invalid');
-    let errorMessage = document.createElement('div');
-    errorMessage.classList.add('error-message');
-    errorMessage.innerText = message;
-    field.parentNode.insertBefore(errorMessage, field.nextSibling);
-}
-
-function clearValidationErrors(fields) {
-    fields.forEach(field => {
-        field.classList.remove('invalid');
-        if (field.nextSibling && field.nextSibling.classList.contains('error-message')) {
-            field.nextSibling.remove();
+        // Prevent form submission if validation fails
+        if (!isValid) {
+            event.preventDefault();
         }
     });
-}
 
-// Format the card number input with spaces every 4 digits and limit to 16 digits
-const cardNumberInput = document.getElementById('card_number');
-cardNumberInput.addEventListener('input', function(event) {
-    let value = cardNumberInput.value.replace(/\D/g, ''); // Remove non-digit characters
-    if (value.length > 16) {
-        value = value.slice(0, 16); // Limit to 16 digits
-    }
-    if (value.length > 4) {
-        value = value.replace(/(\d{4})(?=\d)/g, '$1 '); // Add space after every 4 digits
-    }
-    cardNumberInput.value = value; // Update the input field
-});
+    // Helper function: Validate expiry date
+    function isValidExpiryDate(month, year) {
+        const currentDate = new Date();
+        const inputMonth = parseInt(month, 10);
+        const inputYear = parseInt(`20${year}`, 10); // Convert YY to YYYY
 
-// Expiry Date format (MM/YY), limit to exactly 5 characters (2 digits + '/' + 2 digits)
-const expiryDateInput = document.getElementById('expiry_date');
-expiryDateInput.addEventListener('input', function(event) {
-    let value = expiryDateInput.value.replace(/\D/g, ''); // Remove non-digit characters
-    if (value.length > 4) {
-        value = value.slice(0, 4); // Limit to 4 digits
-    }
-    if (value.length > 2) {
-        value = value.slice(0, 2) + '/' + value.slice(2); // Add slash after first 2 digits
-    }
-    expiryDateInput.value = value; // Update the input field
-});
+        if (isNaN(inputMonth) || isNaN(inputYear)) return false;
+        if (inputMonth < 1 || inputMonth > 12) return false;
 
-// CVV format (exactly 3 digits)
-const cvvInput = document.getElementById('cvv');
-cvvInput.addEventListener('input', function(event) {
-    let value = cvvInput.value.replace(/\D/g, ''); // Remove non-digit characters
-    if (value.length > 3) {
-        value = value.slice(0, 3); // Limit to 3 digits
+        const expiryDate = new Date(inputYear, inputMonth - 1); // Month is 0-indexed
+        return expiryDate >= new Date(currentDate.getFullYear(), currentDate.getMonth());
     }
-    cvvInput.value = value; // Update the input field
-});
 
+    // Helper function: Clear validation errors
+    function clearValidationErrors(fields) {
+        fields.forEach(field => {
+            field.classList.remove('invalid');
+            const errorMessage = field.nextElementSibling;
+            if (errorMessage && errorMessage.classList.contains('error-message')) {
+                errorMessage.remove();
+            }
+        });
+    }
+
+    // Helper function: Set validation error
+    function setValidationError(field, message) {
+        field.classList.add('invalid');
+        const errorMessage = document.createElement('div');
+        errorMessage.classList.add('error-message');
+        errorMessage.innerText = message;
+        field.parentNode.insertBefore(errorMessage, field.nextSibling);
+    }
+
+    // Real-time formatting for card number
+    document.getElementById('card_number').addEventListener('input', function() {
+        let value = this.value.replace(/\D/g, '').slice(0, 16);
+        this.value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+    });
+
+    // Real-time formatting for expiry date
+    document.getElementById('expiry_date').addEventListener('input', function() {
+        let value = this.value.replace(/\D/g, '').slice(0, 4);
+        if (value.length > 2) {
+            value = `${value.slice(0, 2)}/${value.slice(2)}`;
+        }
+        this.value = value;
+    });
+
+    // CVV formatting
+    document.getElementById('cvv').addEventListener('input', function() {
+        this.value = this.value.replace(/\D/g, '').slice(0, 3);
+    });
+
+    // Prevent numbers in cardholder name
+    document.getElementById('cardholder_name').addEventListener('input', function() {
+        this.value = this.value.replace(/[0-9]/g, '');
+    });
 </script>
-
 </body>
 </html>

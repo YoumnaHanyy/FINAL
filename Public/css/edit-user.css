@@ -5,8 +5,8 @@ form {
 label {
     display: block;
     margin-bottom: 8px;
-    font-weight: bold;
-    color: #ebb24c;
+     
+      color: rgb(21 178 45);;
 }
 
 input[type="text"],
@@ -38,7 +38,7 @@ input:required:valid {
 }
 
 button[type="submit"] {
-    background-color: #ebb24c;
+    background-color: rgb(21 178 45);
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -51,6 +51,9 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background-color: #0056b3;
+}
+h2{
+    color: rgb(21, 178, 45);
 }
 
 /* Responsive styles */

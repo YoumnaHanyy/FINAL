@@ -305,6 +305,31 @@ function toggleUsersSection4() {
 
 }
 
+function toggleUsersSection5() {
+    // Get the users section element
+    const usersSection = document.getElementById('sh');
+    const usSection = document.getElementById('aa');
+    const uasSection = document.getElementById('ash');
+    const toggle1 = document.getElementById('toggleBtn');
+    const SNSection = document.getElementById('SN');
+    const SNNSSection = document.getElementById('SNNS');
+    const SSNNSection = document.getElementById('SSNN');
+    
+   
+
+    // Show the users section
+    usersSection.style.display = 'none';
+    usSection.style.display = 'none';
+    uasSection.style.display = 'none';
+    toggle1.style.display='flex';
+    SNSection.style.display='none';
+    SNNSSection.style.display='none';
+    SSNNSection.style.display='grid';
+
+    
+
+}
+
 
 if (data.status === 'success') {
     document.getElementById('add-success-message').style.display = 'block';

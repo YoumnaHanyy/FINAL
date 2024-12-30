@@ -14,7 +14,7 @@ require_once __DIR__ . '/../DB/config.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DashBoard</title>
-    <link rel="stylesheet" href="http://localhost/PROJECTFF/Public/css/dashboard.css">
+    <link rel="stylesheet" href="http://localhost/PROJECTFF/Public/Css/dashboard.css">
     <link rel="stylesheet" href="http://localhost/PROJECTFF/Public/css/edit-user.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet"
@@ -65,7 +65,7 @@ require_once __DIR__ . '/../DB/config.php';
 
 
                 <li>
-                    <a href="#">
+                <a href="javascript:void(0)" onclick="toggleUsersSection5()">
                         <span class="icon"><i class="fa-solid fa-gear"></i></span>
                         <span class="title">help</span>
                     </a>
@@ -132,57 +132,81 @@ require_once __DIR__ . '/../DB/config.php';
                     </div>
                 </div>
             </div>
-<!-- 
-            <div class="containerAAAA" id="SNNS" >
-      <div class="slider-wrapper">
-        <button id="prev-slide" class="slide-button material-symbols-rounded">
-        <
-        </button>
-        <ul class="image-list">
-            <li class="image-item">
-                <div class="image-text">Manage your profile details like name, email, and password.</div>
-              <img src="http://localhost/PROJECTFF/public/images/research.png" alt="Profile Settings">
-             
-            </li>
-            <li class="image-item">
-                <div class="image-text">Set reminders and notifications for your tasks.</div>
-              <img src="http://localhost/PROJECTFF/public/images/thoughts.png" alt="Notification Settings">
-            
-            </li>
-            <li class="image-item">
-                <div class="image-text">Customize the appearance of your to-do list interface.</div>
-              <img src="http://localhost/PROJECTFF/public/images/planner.png" alt="Theme Customization">
-            
-            </li>
-            <li class="image-item">
-                <div class="image-text">Control who can view and edit your to-do lists.</div>
-              <img src="http://localhost/PROJECTFF/public/images/meetingnotes.png" alt="Privacy Settings">
-              
-            </li>
-            <li class="image-item">
-                <div class="image-text">Organize tasks into categories for better management.</div>
-              <img src="http://localhost/PROJECTFF/public/images/find.png" alt="Task Categories">
-          
-            </li>
-            <li class="image-item">
-                <div class="image-text">Enable cloud sync to access your to-do list across devices.</div>
-
-              <img src="http://localhost/PROJECTFF/public/images/class note.png" alt="Backup and Sync">
-            </li>
-          </ul>
-          
-        <button id="next-slide" class="slide-button material-symbols-rounded">
-          >
-        </button>
-      </div>
-      <div class="slider-scrollbar">
-        <div class="scrollbar-track">
-          <div class="scrollbar-thumb"></div>
+            <div class="container5" id="SSNN">
+        <header class="header5">
+            <h1>Help Center</h1>
+            <p>Your one-stop solution for all queries and support.</p>
+        </header>
+        <nav class="breadcrumb">
+            <a href="#">Dashboard</a> &gt; <a href="#">Help</a>
+        </nav>
+        <main class="main-content">
+            <section class="faq">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-item">
+                    <button class="faq-question">How do I reset my password? <span>&#9654;</span></button>
+                    <div class="faq-answer">Go to the settings page and select 'Reset Password'. Follow the prompts.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">How can I add a new user? <span>&#9654;</span></button>
+                    <div class="faq-answer">Navigate to 'User Management' and click 'Add New User'. Fill in the required fields and save.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Where can I find system updates? <span>&#9654;</span></button>
+                    <div class="faq-answer">Go to the 'Updates' section under 'Settings' to check for the latest updates.</div>
+                </div>
+            </section>
+            <section class="contact5">
+                <h2>Contact Support</h2>
+                <p>If you need further assistance, please fill out the form below or contact our live support.</p>
+                <form id="contact-form">
+                    <label for="issue-type">Select Issue Type:</label>
+                    <select id="issue-type" name="issue-type">
+                        <option value="general">General</option>
+                        <option value="technical">Technical</option>
+                        <option value="billing">Billing</option>
+                    </select>
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" placeholder="Describe your issue here..."></textarea>
+                    <button class="buttonn" type="submit">Submit</button>
+                </form>
+            </section>
+        </main>
+        <footer class="footer">
+            <p>&copy; 2024 Admin Dashboard</p>
+            <p>
+                <a href="#" id="terms-link">Terms of Service</a> | 
+                <a href="#" id="privacy-link">Privacy Policy</a>
+            </p>
+        </footer>
+        <div class="modalyyn-overlay" id="modal-overlay"></div>
+        <div class="modalyyn" id="terms-modal">
+            <div class="modalyyn-header">
+                <h2>Terms of Service</h2>
+                <button class="modalyyn-close" id="terms-close">&times;</button>
+            </div>
+            <div class="modalyyn-content">
+                <p><strong>Acceptance of Terms:</strong> By accessing or using our services, you agree to be bound by these Terms of Service. If you do not agree, you may not access the services.</p>
+                <p><strong>User Responsibilities:</strong> Users must ensure the security of their accounts and refrain from any misuse, such as unauthorized access, distribution of harmful content, or violation of laws.</p>
+                <p><strong>Service Modifications:</strong> We reserve the right to modify or discontinue the services temporarily or permanently without prior notice.</p>
+                <p><strong>Liability Limitation:</strong> We shall not be held liable for any damages arising from the use or inability to use the services.</p>
+                <p><strong>Governing Law:</strong> These terms are governed by the laws of the applicable jurisdiction, and disputes will be resolved in accordance with these laws.</p>
+            </div>
         </div>
-      </div>
+        <div class="modalyyn" id="privacy-modal">
+            <div class="modalyyn-header">
+                <h2>Privacy Policy</h2>
+                <button class="modalyyn-close" id="privacy-close">&times;</button>
+            </div>
+            <div class="modalyyn-content">
+                <p><strong>Data Collection:</strong> We collect personal information such as your name, email address, and usage details to enhance our services.</p>
+                <p><strong>Data Usage:</strong> The collected data is used for service improvement, communication, and compliance with legal obligations.</p>
+                <p><strong>Data Sharing:</strong> Your data will not be sold. It may be shared with trusted partners solely for service delivery purposes.</p>
+                <p><strong>Data Security:</strong> We implement advanced measures to protect your personal data from unauthorized access.</p>
+                <p><strong>Your Rights:</strong> You have the right to access, update, and delete your personal data. Contact support for any data-related concerns.</p>
+            </div>
+        </div>
     </div>
-     -->
-       
      
      <div class="settings-container" id="SNNS">
         <div class="settings-header">
@@ -638,6 +662,41 @@ require_once __DIR__ . '/../DB/config.php';
             if (savedPassword) {
                 document.getElementById("passwordInput").value = savedPassword;
             }
+        });
+    </script>
+
+
+
+<script>
+        document.querySelectorAll('.faq-question').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const answer = btn.nextElementSibling;
+                const isVisible = answer.style.display === 'block';
+                document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
+                answer.style.display = isVisible ? 'none' : 'block';
+            });
+        });
+
+        const modalOverlay = document.getElementById('modalyyn-overlay');
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            modalOverlay.style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            modalOverlay.style.display = 'none';
+        }
+
+        document.getElementById('terms-link').addEventListener('click', () => openModal('terms-modal'));
+        document.getElementById('privacy-link').addEventListener('click', () => openModal('privacy-modal'));
+        document.getElementById('terms-close').addEventListener('click', () => closeModal('terms-modal'));
+        document.getElementById('privacy-close').addEventListener('click', () => closeModal('privacy-modal'));
+
+        modalOverlay.addEventListener('click', () => {
+            closeModal('terms-modal');
+            closeModal('privacy-modal');
         });
     </script>
 </html>

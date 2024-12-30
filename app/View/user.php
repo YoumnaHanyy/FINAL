@@ -1,4 +1,16 @@
 
+<?php
+// Start the session at the beginning of the page
+session_start();
+
+// Check if the user is logged in by verifying the session variable
+if (!isset($_SESSION['username'])) {
+    // If not logged in, redirect to the login page
+    header("Location: login.php");
+    exit(); // Stop the script execution after the redirect
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

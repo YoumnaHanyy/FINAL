@@ -48,11 +48,18 @@
                 <a href="plan.php">Plans</a>
             </nav>
             <div class="left-buttons">
-                <a href="login.php">
-                <button class="login-btn" >Log in</button>
-    </a>
-                <button class="signup-btn">Sign up</button>
-            </div>
+            <?php
+            // Check if the user is logged in by checking the session
+            if (isset($_SESSION['username'])) {
+                // If logged in, hide login and signup buttons
+                echo '<span>Welcome, ' . htmlspecialchars($_SESSION['username']) . '</span>';
+            } else {
+                // If not logged in, show login and signup buttons
+                echo '<a href="login.php"><button class="login-btn">Log in</button></a>';
+                echo '<button class="signup-btn">Sign up</button>';
+            }
+            ?>
+        </div>
         </header>
 
     <main class="main-content">

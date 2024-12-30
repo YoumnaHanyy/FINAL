@@ -9,9 +9,17 @@
 <body>
 
 <?php
-    $plan = isset($_GET['plan']) ? htmlspecialchars($_GET['plan']) : 'No Plan Selected';
-?>
+session_start(); // Start the session
 
+// Check if the user is logged in
+if (!isset($_SESSION['username'])) {
+    // Redirect to login page if the user is not logged in
+    header("Location: login.php"); 
+    exit(); // Ensure no further code is executed
+}
+
+$plan = isset($_GET['plan']) ? htmlspecialchars($_GET['plan']) : 'No Plan Selected';
+?>
 <div class="payment-container">
     <div class="visa-logo">Visa</div>
     <div class="chip"></div>

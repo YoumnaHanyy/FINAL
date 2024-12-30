@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php"); // Redirect to your login page
+    exit(); // Stop further execution of the script
+}
 
 // Database connection details
 $servername = "localhost";

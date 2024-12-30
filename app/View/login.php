@@ -136,8 +136,16 @@ if (isset($_POST['login'])) {
     }
 }
 
+// Check if the user is logged in
+if (isset($_SESSION['username'])) {
+    // Redirect to the appropriate page if already logged in
+    header("Location: Home.php"); // Or dashboard.php for admin users
+    exit();
+}
+
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
